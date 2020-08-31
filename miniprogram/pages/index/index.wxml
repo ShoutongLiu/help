@@ -7,5 +7,10 @@
                 <text class="tab-val">{{item.text}}</text>
             </block>
         </view>
+        <view class="content">
+            <block wx:for="{{helpData}}" wx:key="name">
+                <item item="{{item}}" />
+            </block>
+        </view>
     </view>
 </view>

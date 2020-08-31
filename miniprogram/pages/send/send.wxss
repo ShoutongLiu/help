@@ -1,22 +1,35 @@
 /* pages/send/send.wxss */
 .form {
-	padding: 20rpx;
+	padding: 40rpx 20rpx 0rpx 20rpx;
 }
 
-.form .need {
+.form .comm {
+    display: flex;
+    align-items: center;
+    margin-top: 40rpx;
+}
+
+.form .help-type {
 	display: flex;
-	align-content: center;
+	align-items: center;
 }
 
 .form .title {
+    min-width: 100rpx;
 	font-size: 30rpx;
-	line-height: 50rpx;
+	line-height: 60rpx;
 }
 
-.form .need .picker {
+.form .help-type .picker,
+.form .help-city .city, 
+.form .help-address .address,
+.form .help-date .date,
+.form .help-time .time,
+.form .help-name .name,
+.form .help-phone .phone{
 	flex: 1;
-	height: 50rpx;
-	line-height: 50rpx;
+	height: 60rpx;
+	line-height: 60rpx;
 	border: 1rpx solid #ccc;
 	border-radius: 6rpx;
 	padding-left: 10rpx;
@@ -24,8 +37,37 @@
 	position: relative;
 }
 
-.form .need .icon-down {
+.form .help-type .icon-down,
+.form .help-city .icon-down,
+.form .help-date .icon-down,
+.form .help-time .icon-down {
 	position: absolute;
 	top: 0;
 	right: 20rpx;
+}
+
+
+.form .help-content .content {
+    flex: 1;
+    border: 1rpx solid #ccc;
+    height: 200rpx;
+    padding: 10rpx;
+    font-size: 30rpx;
+}
+
+.form .help-city .city , .icon-right{
+    font-size: 30rpx;
+}
+
+
+.form .submit {
+    width: 400rpx;
+    height: 72rpx;
+    line-height: 72rpx;
+    margin: 60rpx auto;
+    text-align: center;
+    background-color: #00BFFF;
+    color: #fff;
+    font-size: 32rpx;
+    border-radius: 40rpx;
 }

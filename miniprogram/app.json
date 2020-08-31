@@ -33,7 +33,7 @@
                 "pagePath": "pages/send/send",
                 "iconPath": "imgs/send.png",
                 "selectedIconPath": "imgs/send-s.png",
-                "text": "发送"
+                "text": "发布"
             },
             {
                 "pagePath": "pages/message/message",

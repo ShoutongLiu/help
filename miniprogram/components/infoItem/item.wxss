@@ -1,0 +1,44 @@
+@import '../../assets/iconfont.wxss';
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    padding: 20rpx 0;
+    border-bottom: 1rpx solid #f0f0f0;
+}
+
+.item-info {
+    display: flex;
+    align-items: center;
+}
+
+.item-info .avatar {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+    margin-right: 30rpx;
+}
+
+.item-info .need-info .hard {
+    margin: 4rpx 0;
+}
+
+.item .integral, .item .start, .item .type-item {
+    margin-left: 30rpx;
+    color: #00BFFF;
+    font-size: 28rpx;
+}
+
+
+.item .contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.item .contact .icon-phone {
+    font-size: 50rpx;
+    font-weight: bold;
+    color: #00BFFF;
+}
