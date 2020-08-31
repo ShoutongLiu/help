@@ -1,0 +1,11 @@
+<!-- index.wxml -->
+<view class="home-container">
+    <header bind:search="onSearch" bind:location="onChoose" location="{{location}}" />
+    <view class="help-content">
+        <view class="tab">
+            <block wx:for="{{tabVal}}" wx:key="val">
+                <text class="tab-val">{{item.text}}</text>
+            </block>
+        </view>
+    </view>
+</view>

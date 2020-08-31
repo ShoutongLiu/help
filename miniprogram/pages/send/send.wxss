@@ -1,0 +1,31 @@
+/* pages/send/send.wxss */
+.form {
+	padding: 20rpx;
+}
+
+.form .need {
+	display: flex;
+	align-content: center;
+}
+
+.form .title {
+	font-size: 30rpx;
+	line-height: 50rpx;
+}
+
+.form .need .picker {
+	flex: 1;
+	height: 50rpx;
+	line-height: 50rpx;
+	border: 1rpx solid #ccc;
+	border-radius: 6rpx;
+	padding-left: 10rpx;
+	font-size: 30rpx;
+	position: relative;
+}
+
+.form .need .icon-down {
+	position: absolute;
+	top: 0;
+	right: 20rpx;
+}

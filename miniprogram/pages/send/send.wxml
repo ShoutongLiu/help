@@ -1,0 +1,9 @@
+<view class="form">
+    <view class="need">
+        <text class="title">需求选择：</text>
+        <picker class="picker" bindchange="bindPickerChange" value="{{index}}" range="{{typeArr}}">
+            <view class="picker-val">{{typeArr[index]}}</view>
+            <text class="iconfont icon-down"></text>
+        </picker>
+    </view>
+</view>

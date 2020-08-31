@@ -1,0 +1,58 @@
+@import '../../assets/iconfont.wxss';
+
+.header .location {
+	display: flex;
+	align-content: center;
+	margin-right: 20rpx;
+	margin-bottom: 10rpx;
+	line-height: 56rpx;
+}
+
+.header .location .icon-lbs {
+	color: #00bfff;
+	font-size: 32rpx;
+}
+
+.header .location .city {
+	font-size: 28rpx;
+	color: #666;
+}
+
+.header .location .icon-right {
+	font-size: 30rpx;
+	color: #666;
+	margin-top: 2rpx;
+}
+
+.header {
+	width: 100%;
+	margin-top: 10rpx;
+}
+
+.header .search-container {
+	position: relative;
+}
+.header .input {
+	height: 56rpx;
+	font-size: 28rpx;
+	color: #666;
+	border: 2rpx solid #00bfff;
+	border-radius: 28rpx;
+	padding-left: 50rpx;
+}
+
+.search-container .icon-search {
+	position: absolute;
+	left: 20rpx;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 32rpx;
+	font-weight: bold;
+	color: #00bfff;
+}
+
+.search-container .input-placeholder {
+	color: #ddd;
+	font-size: 28rpx;
+	padding-left: 40rpx;
+}

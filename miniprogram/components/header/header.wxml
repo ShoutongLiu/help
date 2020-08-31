@@ -1,0 +1,11 @@
+<view class="header">
+    <view class="location" bindtap="chooseLocation">
+        <text class="iconfont icon-lbs"></text>
+        <text class="city">{{location}}</text>
+        <text class="iconfont icon-right" wx:if="{{location !== '位置获取失败'}}"></text>
+    </view>
+    <view class="search-container">
+        <input type="text" bindconfirm="onSearch" class="input" placeholder="搜索" confirm-type="search"></input>
+        <text class="iconfont icon-search"></text>
+    </view>
+</view>

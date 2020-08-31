@@ -1,0 +1,9 @@
+
+/* #00BFFF 主题色*/
+/* page {
+    background-color: #f5f5f5;
+} */
+@import './assets/iconfont.wxss';
+view {
+    box-sizing: border-box;
+}
