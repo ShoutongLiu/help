@@ -34,7 +34,7 @@
         <!-- 服务选项卡 -->
         <view class="card">
             <block wx:for="{{cardArr}}" wx:key="id">
-                <view class="item-card">
+                <view class="item-card" bindtap="handleSelect" data-id="{{item.id}}">
                     <text class="card-title">{{item.text}}</text>
                     <text class="iconfont icon-right"></text>
                 </view>

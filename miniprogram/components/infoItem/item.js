@@ -19,7 +19,7 @@ Component({
      */
     methods: {
         goToDetail (e) {
-            const { item } = e.target.dataset
+            const { item } = e.currentTarget.dataset
             wx.navigateTo({
                 url: `../../pages/detail/detail`,
                 success: (res) => {
@@ -27,6 +27,12 @@ Component({
                     res.eventChannel.emit('item', { data: item })
                 }
             });
+        },
+        callPhone (e) {
+            const { phone } = e.currentTarget.dataset
+            wx.makePhoneCall({
+                phoneNumber: phone
+            })
         }
     }
 })

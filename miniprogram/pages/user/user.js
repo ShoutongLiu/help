@@ -80,6 +80,18 @@ Page({
         this.setData({ nickName: info.nickName, avatar: info.avatarUrl })
     },
 
+    handleSelect (e) {
+        console.log(e);
+        const { id } = e.currentTarget.dataset
+        switch (id) {
+            case '2':
+                wx.navigateTo({
+                    url: `../../pages/realName/realname`,
+                })
+                break
+        }
+    },
+
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

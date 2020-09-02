@@ -5,7 +5,8 @@
     "pages/send/send",
     "pages/user/user",
     "components/header/header",
-    "pages/detail/detail"
+    "pages/detail/detail",
+    "pages/realName/realname"
   ],
   "permission": {
     "scope.userLocation": {

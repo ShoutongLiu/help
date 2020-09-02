@@ -1,0 +1,17 @@
+<view class="real-name">
+    <view class="card-font">
+        <view class="img-box">
+            <image class="img" src="{{cardFont}}" mode="aspectFill"></image>
+        </view>
+        <view class="upload-text">请上传身份证（国徽面）</view>
+        <button class="upload-btn">上 传</button>
+    </view>
+    <view class="card-back">
+        <view class="img-box">
+            <image class="img" src="{{cardBack}}" mode="aspectFill"></image>
+        </view>
+        <view class="upload-text">请上传身份证（头像面）</view>
+        <button class="upload-btn">上 传</button>
+    </view>
+    <button class="upload-submit">提 交</button>
+</view>

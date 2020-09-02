@@ -5,12 +5,8 @@
     </view>
     <view class="read">全部标记已读</view>
     <view class="msg-content">
-        <msg-item />
-        <msg-item />
-        <msg-item />
-        <msg-item />
-        <msg-item />
-        <msg-item />
-        <msg-item />
+        <block wx:for="{{helpData}}" wx:key="name">
+            <msg-item item="{{item}}" />
+        </block>
     </view>
 </view>
