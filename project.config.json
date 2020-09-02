@@ -2,7 +2,7 @@
   "miniprogramRoot": "miniprogram/",
   "cloudfunctionRoot": "cloudfunctions/",
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": true,
     "enhance": true,
     "postcss": true,
@@ -19,7 +19,7 @@
     "checkSiteMap": true,
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
-    "useMultiFrameRuntime": false,
+    "useMultiFrameRuntime": true,
     "useApiHook": false,
     "babelSetting": {
       "ignore": [],
@@ -32,11 +32,12 @@
     "packNpmManually": false,
     "packNpmRelationList": []
   },
-  "appid": "wxd5f831f53c4cc72b",
+  "appid": "wxa3a65a7c6c164c52",
   "projectname": "help",
   "libVersion": "2.8.1",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
   "condition": {
     "search": {
       "current": -1,

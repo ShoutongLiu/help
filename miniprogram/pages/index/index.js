@@ -87,5 +87,6 @@ Page({
                 this.setData({ location: res.name })
             }
         })
-    }
+    },
+
 })
