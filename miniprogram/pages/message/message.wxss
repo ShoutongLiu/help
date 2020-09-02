@@ -1,1 +1,41 @@
-/* pages/message/message.wxss */
+.msg-container {
+    padding: 20rpx;
+}
+
+.header {
+    position: relative;
+}
+
+.header .input {
+    height: 56rpx;
+	font-size: 28rpx;
+	color: #666;
+	border: 2rpx solid #00bfff;
+	border-radius: 28rpx;
+	padding-left: 50rpx;
+}
+
+
+.header .input-placeholder {
+	color: #ddd;
+	font-size: 28rpx;
+	padding-left: 40rpx;
+}
+
+
+.header .icon-search {
+	position: absolute;
+	left: 20rpx;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 32rpx;
+	font-weight: bold;
+	color: #00bfff;
+}
+
+.msg-container .read {
+    font-size: 28rpx;
+    color: #666;
+    text-align: right;
+    padding: 20rpx 0;
+}

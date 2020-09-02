@@ -24,9 +24,7 @@ Page({
         ]
     },
     onLoad () {
-        console.log(this.data.helpData);
         this.authLocation()
-        wx.startLocationUpdate()
     },
 
     onSearch (e) {

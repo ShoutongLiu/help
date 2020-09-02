@@ -70,6 +70,20 @@
           "id": -1,
           "name": "pages/send/send",
           "pathName": "pages/send/send",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/message/message",
+          "pathName": "pages/message/message",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/user/user",
+          "pathName": "pages/user/user",
           "scene": null
         }
       ]

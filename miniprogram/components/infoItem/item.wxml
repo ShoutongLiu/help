@@ -1,4 +1,4 @@
-<view class="item">
+<view class="item" bindtap="goToDetail" data-item="{{item}}">
     <view class="item-info">
         <image class="avatar" src="{{item.avatar}}" mode="aspectFill" lazy-load="true"></image>
         <view class="need-info">

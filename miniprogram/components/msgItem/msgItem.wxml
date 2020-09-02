@@ -1,0 +1,13 @@
+<view class="msg-item">
+    <view class="msg-info">
+        <image class="avatar" src="../../imgs/tom.jpg" mode="aspectFill"></image>
+        <view class="info">
+            <view class="title">
+                <text class="info-type">求助需求</text>
+                <text>未读</text>
+                <text class="time">09-01 12:00</text>
+            </view>
+            <view class="detail">用户tom距离你100米，需要帮助</view>
+        </view>
+    </view>
+</view>

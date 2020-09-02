@@ -1,5 +1,10 @@
 @import '../../assets/iconfont.wxss';
 
+.header {
+    width: 100%;
+    margin-top: 20rpx;
+}
+
 .header .location {
 	display: flex;
 	align-content: center;
@@ -24,10 +29,6 @@
 	margin-top: 2rpx;
 }
 
-.header {
-	width: 100%;
-	margin-top: 10rpx;
-}
 
 .header .search-container {
 	position: relative;
@@ -54,5 +55,5 @@
 .search-container .input-placeholder {
 	color: #ddd;
 	font-size: 28rpx;
-	padding-left: 40rpx;
+    padding-left: 40rpx;
 }

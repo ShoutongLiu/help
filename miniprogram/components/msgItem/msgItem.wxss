@@ -1,0 +1,53 @@
+.msg-item {
+    padding: 30rpx 0;
+    border-bottom: 1rpx solid #f0f0f0;
+}
+
+
+.msg-info {
+    display: flex;
+    align-items: center;
+}
+
+
+.msg-info .avatar {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+}
+
+.msg-info .info {
+    flex: 1;
+    margin-left: 20rpx;
+}
+
+.msg-info .info-type {
+    font-weight: bold;
+    font-size: 30rpx;
+    color: #333;
+    padding-right: 40rpx;
+}
+
+
+.msg-info .title {
+    font-size: 24rpx;
+    color: #ccc;
+    margin-bottom: 4rpx;
+    position: relative;
+}
+
+.msg-info .detail {
+    font-size: 28rpx;
+    color: #333;
+    margin-top: 4rpx;
+}
+
+.msg-info .time {
+    font-size: 30rpx;
+    color: #333;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
