@@ -1,0 +1,37 @@
+.real-name {
+    padding: 20rpx;
+}
+
+.real-name .card-font {
+    margin-bottom: 40rpx;
+}
+
+
+.real-name .img {
+    display: block;
+    width: 448rpx;
+    height: 336rpx;
+    margin: 0 auto;
+}
+
+.real-name .upload-text {
+    font-size: 28rpx;
+    color: #ccc;
+    text-align: center;
+}
+
+.real-name .upload-btn {
+    width: 400rpx;
+    height: 78rpx;
+    background-color: #00BFFF;
+    color: #fff;
+    font-size: 30rpx;
+    margin: 20rpx auto;
+}
+
+.real-name .upload-submit {
+    background-color: #00BFFF;
+    color: #fff;
+    margin-top: 60rpx;
+    border-radius: 40rpx;
+}

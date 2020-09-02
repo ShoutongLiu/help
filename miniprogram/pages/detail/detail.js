@@ -1,18 +1,36 @@
-import data from '../../utils/data'
+// miniprogram/pages/detail/detail.js
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        helpData: data
+        item_detail: {}
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
+    onLoad: function () {
+        const eventChannel = this.getOpenerEventChannel()
+        eventChannel.on('item', (res) => {
+            this.setData({ item_detail: res.data })
+        })
+    },
 
+    handleAccept () {
+        wx.showModal({
+            title: '接受成功',
+            content: '需求已接受，赶紧联系求助人，前往帮助吧！',
+            showCancel: false
+        })
+    },
+    // 拨打电话
+    callPhone (e) {
+        const { phone } = e.currentTarget.dataset
+        wx.makePhoneCall({
+            phoneNumber: phone
+        })
     },
 
     /**

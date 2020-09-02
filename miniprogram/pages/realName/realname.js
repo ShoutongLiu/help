@@ -1,18 +1,18 @@
-import data from '../../utils/data'
+// miniprogram/pages/realName/realname.js
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        helpData: data
+        cardFont: '../../imgs/back.png',
+        cardBack: '../../imgs/font.png',
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
     },
 
     /**

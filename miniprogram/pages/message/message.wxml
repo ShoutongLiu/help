@@ -1,2 +1,12 @@
-<!--pages/message/message.wxml-->
-<text>pages/message/message.wxml</text>
+<view class="msg-container">
+    <view class="header">
+        <input type="text" class="input" bindinput="bindInput" placeholder="需求搜索" confirm-type="search" />
+        <text class="iconfont icon-search"></text>
+    </view>
+    <view class="read">全部标记已读</view>
+    <view class="msg-content">
+        <block wx:for="{{helpData}}" wx:key="name">
+            <msg-item item="{{item}}" />
+        </block>
+    </view>
+</view>

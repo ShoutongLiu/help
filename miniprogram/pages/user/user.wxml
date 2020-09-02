@@ -1,2 +1,44 @@
-<!--pages/user/user.wxml-->
-<text>pages/user/user.wxml</text>
+<view class="user-container">
+    <view class="header">
+        <image class="avatar" src="{{avatar}}" mode="aspectFill"></image>
+        <button class="login-btn" wx:if="{{!nickName}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+            点击登录
+        </button>
+        <view class="center" wx:if="{{nickName}}">
+            <view class="user-name">{{nickName}}</view>
+            <view class="person">
+                <text>个人中心</text>
+                <text class="iconfont icon-right"></text>
+            </view>
+        </view>
+    </view>
+    <view class="main">
+        <!-- 需求单 -->
+        <view class="order">
+            <view class="my-order">
+                <text class="order-title">我的需求单</text>
+                <view class="all">
+                    <text>查看全部需求单</text>
+                    <text class="iconfont icon-right"></text>
+                </view>
+            </view>
+            <view class="tab">
+                <block wx:for="{{tabArr}}" wx:key="text">
+                    <view class="tab-item">
+                        <text class="iconfont icon-{{item.icon}}"></text>
+                        <view class="item-text">{{item.text}}</view>
+                    </view>
+                </block>
+            </view>
+        </view>
+        <!-- 服务选项卡 -->
+        <view class="card">
+            <block wx:for="{{cardArr}}" wx:key="id">
+                <view class="item-card" bindtap="handleSelect" data-id="{{item.id}}">
+                    <text class="card-title">{{item.text}}</text>
+                    <text class="iconfont icon-right"></text>
+                </view>
+            </block>
+        </view>
+    </view>
+</view>
