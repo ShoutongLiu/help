@@ -5,9 +5,9 @@ const cloud = require('wx-server-sdk')
 
 // 初始化 cloud
 cloud.init({
-  // API 调用都保持和云函数当前所在环境一致
-  env: cloud.DYNAMIC_CURRENT_ENV,
-  // throwOnNotFound: false  //以下设置将 doc.get 的行为改为：如果获取不到记录，不抛出异常，而是返回空。
+    // API 调用都保持和云函数当前所在环境一致
+    env: cloud.DYNAMIC_CURRENT_ENV,
+    // throwOnNotFound: false  //以下设置将 doc.get 的行为改为：如果获取不到记录，不抛出异常，而是返回空。
 })
 
 const DB = cloud.database()
@@ -21,31 +21,31 @@ const UserCollection = DB.collection('users')
  * 
  */
 exports.main = async (event, context) => {
-  
-  // 可执行其他自定义逻辑
-  // console.log 的内容可以在云开发云函数调用日志查看
 
-  // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）等信息
+    // 可执行其他自定义逻辑
+    // console.log 的内容可以在云开发云函数调用日志查看
 
-  const wxContext = cloud.getWXContext()
-  let result=UserCollection.where(_.and([
-    {
-      _openid: wxContext.OPENID
-    },
-    {
-      usertype: event.usertype
-    }])).get().then(function(res){
-      if(res.data.length!=0)return "合法用户!"
-      return "不合法用户!"
-    })
-    
+    // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）等信息
+
+    const wxContext = cloud.getWXContext()
+    let result = UserCollection.where(_.and([
+        {
+            _openid: wxContext.OPENID
+        },
+        {
+            usertype: event.usertype
+        }])).get().then(function (res) {
+            if (res.data.length != 0) return "合法用户!"
+            return "不合法用户!"
+        })
+
     return result
-  // return {
-  //   event,
-  //   openid: wxContext.OPENID,
-  //   appid: wxContext.APPID,
-  //   unionid: wxContext.UNIONID,
-  //   env: wxContext.ENV,
-  // }
+    // return {
+    //   event,
+    //   openid: wxContext.OPENID,
+    //   appid: wxContext.APPID,
+    //   unionid: wxContext.UNIONID,
+    //   env: wxContext.ENV,
+    // }
 }
 
