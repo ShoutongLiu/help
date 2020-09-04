@@ -92,6 +92,13 @@
           "id": -1,
           "name": "pages/realName/realname",
           "pathName": "pages/realName/realname",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/disabled/disabled",
+          "pathName": "pages/disabled/disabled",
           "scene": null
         }
       ]

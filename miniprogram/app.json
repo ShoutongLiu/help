@@ -1,12 +1,14 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/message/message",
+    "pages/store/store",
     "pages/send/send",
     "pages/user/user",
     "components/header/header",
     "pages/detail/detail",
-    "pages/realName/realname"
+    "pages/realName/realname",
+    "pages/disabled/disabled",
+    "pages/volunteer/volunteer"
   ],
   "permission": {
     "scope.userLocation": {
@@ -38,10 +40,10 @@
         "text": "发布"
       },
       {
-        "pagePath": "pages/message/message",
-        "iconPath": "imgs/message.png",
-        "selectedIconPath": "imgs/message-s.png",
-        "text": "消息"
+        "pagePath": "pages/store/store",
+        "iconPath": "imgs/store.png",
+        "selectedIconPath": "imgs/store-s.png",
+        "text": "商城"
       },
       {
         "pagePath": "pages/user/user",

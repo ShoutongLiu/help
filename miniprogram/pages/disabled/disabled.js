@@ -1,14 +1,12 @@
-// miniprogram/pages/realName/realname.js
+// miniprogram/pages/disabled/disabled.js
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        cardFont: '../../imgs/back.png',
-        cardBack: '../../imgs/font.png',
-        region: ['广东省', '深圳市', '南山区'],
-        address: ''
+        cardFont: '',
+        cardBack: ''
     },
     onChooseFont () {
         wx.chooseImage({
@@ -36,18 +34,8 @@ Page({
             },
         });
     },
-    // 地区选择
-    bindRegionChange: function (e) {
-        this.setData({
-            region: e.detail.value
-        })
-    },
-    handleGetAddress (e) {
-        this.setData({ address: e.detail.value })
-    },
     onSubmit () {
-        let reg = RegExp(/http/)
-        if (!reg.exec(this.data.cardFont) || !reg.exec(this.data.cardBack)) {
+        if (!this.data.cardFont || !this.data.cardBack) {
             wx.showToast({
                 title: '请上传图片',
                 icon: 'none'
@@ -116,10 +104,12 @@ Page({
         //     })
         // })
     },
+
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+
     },
 
     /**

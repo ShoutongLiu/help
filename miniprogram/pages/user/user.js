@@ -31,24 +31,20 @@ Page({
         ],
         cardArr: [
             {
-                text: '积分商城',
+                text: '实名认证',
                 id: '1'
             },
             {
-                text: '实名认证',
+                text: '残疾人认证',
                 id: '2'
             },
             {
-                text: '残疾人认证',
+                text: '志愿者认证',
                 id: '3'
             },
             {
-                text: '志愿者认证',
-                id: '4'
-            },
-            {
                 text: '关于我们',
-                id: '5'
+                id: '4'
             },
         ]
     },
@@ -81,12 +77,21 @@ Page({
     },
 
     handleSelect (e) {
-        console.log(e);
         const { id } = e.currentTarget.dataset
         switch (id) {
-            case '2':
+            case '1':
                 wx.navigateTo({
                     url: `../../pages/realName/realname`,
+                })
+                break
+            case '2':
+                wx.navigateTo({
+                    url: `../../pages/disabled/disabled`,
+                })
+                break
+            case '3':
+                wx.navigateTo({
+                    url: `../../pages/volunteer/volunteer`,
                 })
                 break
         }
