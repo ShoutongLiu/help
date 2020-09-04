@@ -1,4 +1,4 @@
-
+const app = getApp()
 Page({
 
     /**
@@ -64,6 +64,8 @@ Page({
                     // 已经授权，可以直接调用 getUserInfo 获取头像昵称
                     wx.getUserInfo({
                         success: (res) => {
+                            this.login()
+                            app.globalData.avatar = res.userInfo.avatarUrl
                             this.setData({ nickName: res.userInfo.nickName, avatar: res.userInfo.avatarUrl })
                         }
                     })
@@ -72,7 +74,9 @@ Page({
         })
     },
     bindGetUserInfo (e) {
+        this.login()
         const info = e.detail.userInfo
+        app.globalData.avatar = info.avatarUrl
         this.setData({ nickName: info.nickName, avatar: info.avatarUrl })
     },
 
@@ -100,6 +104,15 @@ Page({
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
+    login () {
+        wx.cloud.callFunction({
+            name: 'login'
+        }).then(res => {
+            console.log(res);
+            app.globalData.openid = res.result.openid
+            app.globalData.userType = res.result.usertype
+        })
+    },
     onReady: function () {
 
     },

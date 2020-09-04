@@ -1,17 +1,28 @@
-// components/infoItem/item.js
+import typeData from '../../utils/typeData'
 Component({
     /**
      * 组件的属性列表
      */
     properties: {
-        item: Object
+        item: {
+            type: Object,
+        }
+    },
+    // 监听器
+    observers: {
+        ['item.demType'] (demType) {
+            this.setData({
+                type: this.tranType(demType)
+            })
+        }
     },
 
     /**
      * 组件的初始数据
      */
     data: {
-
+        type: '',
+        typeData,
     },
 
     /**
@@ -33,6 +44,12 @@ Component({
             wx.makePhoneCall({
                 phoneNumber: phone
             })
+        },
+        tranType (demType) {
+            let currentType = this.data.typeData.find(v => {
+                return v.val === demType
+            })
+            return currentType.text
         }
     }
 })

@@ -1,25 +1,25 @@
 <view class="item">
     <view class="item-info" bindtap="goToDetail" data-item="{{item}}">
-        <image class="avatar" src="{{item.avatar}}" mode="aspectFill" lazy-load="true"></image>
+        <image class="avatar" src="{{item.authorAvatarUrl}}" mode="aspectFill" lazy-load="true"></image>
         <view class="need-info">
             <view class="name">
-                <text>{{item.name}}</text>
-                <text class="integral">{{item.integral}}积分</text>
+                <text>{{item.doneName}}</text>
+                <text class="integral">{{item.price}}积分</text>
             </view>
             <view class="hard">
                 <text>难度</text>
                 <text class="start">
-                    <text wx:for="{{item.start}}" wx:key="index" class="iconfont icon-start"></text>
+                    <text wx:for="{{item.Difficulty}}" wx:key="index" class="iconfont icon-start"></text>
                 </text>
             </view>
             <view class="type">
                 <text>类型</text>
-                <text class="type-item">{{item.type}}</text>
+                <text class="type-item">{{type}}</text>
             </view>
         </view>
     </view>
     <view class="contact" bindtap="callPhone" data-phone="{{item.phone}}">
         <text class="iconfont icon-phone"></text>
-        <view class="distance">{{item.distance}}m</view>
+        <view class="distance">{{item.dis === null ? '0' : item.dis}}m</view>
     </view>
 </view>

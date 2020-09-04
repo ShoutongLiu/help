@@ -1,13 +1,14 @@
 //index.js
 //获取应用实例
+const app = getApp()
 let QQMapWX = require('../../assets/map/qqmap-wx-jssdk.js');
-import data from '../../utils/data'
+// import data from '../../utils/data'
 let keyWord = ''
 Page({
     data: {
         value: '',
         address: '',
-        helpData: data,
+        helpData: [],
         location: {},
         area: '',
         tabVal: [
@@ -23,11 +24,33 @@ Page({
                 text: '任务最难',
                 val: 'hard'
             }
+        ],
+        typeData: [
+            {
+                val: 1,
+                text: '物资需求'
+            },
+            {
+                val: 2,
+                text: '出行需求'
+            },
+            {
+                val: 3,
+                text: '房屋修理'
+            },
+            {
+                val: 4,
+                text: '个人护理'
+            },
+            {
+                val: 5,
+                text: '其他'
+            },
         ]
     },
     onLoad () {
         this.authLocation()
-        this.getDemand()
+
     },
 
     // 获取附近的需求
@@ -40,7 +63,14 @@ Page({
                 location: this.data.location
             }
         }).then(res => {
-            console.log(res);
+            this.setData({ helpData: res.result })
+            this.data.helpData.forEach(v => {
+                this.data.typeData.forEach(i => {
+                    if (v.demType === i.val) {
+                        v.demType = i.text
+                    }
+                })
+            })
         })
     },
 
@@ -64,7 +94,7 @@ Page({
                                 content: '请点击右上角的三个点到设置打开获取位置服务，并重新进入小程序',
                                 showCancel: false
                             })
-                            this.setData({ location: '位置获取失败' })
+                            this.setData({ address: '位置获取失败' })
                         }
                     })
                 } else {
@@ -83,15 +113,16 @@ Page({
         wx.getLocation({
             success: (res) => {
                 const location = { latitude: res.latitude, longitude: res.longitude }
+                app.globalData.location = location
                 this.setData({ location })
                 qqmapsdk.reverseGeocoder({
                     location,
                     success: (res) => {
-                        console.log(res);
                         const { recommend } = res.result.formatted_addresses
                         const { province, city } = res.result.address_component
-                        let area = province + city
+                        let area = province === city ? province : province + city
                         this.setData({ address: recommend, area })
+                        this.getDemand()        // 调用函数获取数据
                     },
                     fail: (res) => {
                         console.log(res);

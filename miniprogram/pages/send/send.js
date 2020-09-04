@@ -1,4 +1,5 @@
-// pages/send/send.js
+const app = getApp()
+import typeData from '../../utils/typeData'
 Page({
 
     /**
@@ -20,6 +21,7 @@ Page({
 
     // 获取需求类型
     bindPickerTypeChange: function (e) {
+
         this.setData({
             index: e.detail.value
         })
@@ -85,18 +87,34 @@ Page({
             return
         }
         const type = typeArr[index]
-        const serve_address = region[0] + region[1] + region[2] + address
+        const item = typeData.find(v => {
+            return v.text === type
+        })
+        const area = region[0] + region[1]
+        const serve_address = region[2] + address
         const serve_time = date + ' ' + time
-        const obj = {
-            type,
-            content,
-            serve_address,
-            serve_time,
-            name,
-            phone
+        const submitObj = {
+            demType: item.val,
+            area,
+            demContext: content,
+            Addrerss: serve_address,
+            ServiceDateTime: serve_time,
+            authorName: name,
+            phone,
+            authorAvatarUrl: app.globalData.avatar,
+            location: app.globalData.location,
+            usertype: app.globalData.userType
         }
-        this.setData({ submitObj: obj })
-        console.log(this.data.submitObj);
+        console.log(submitObj);
+        wx.cloud.callFunction({
+            name: 'router',
+            data: {
+                $url: 'addMission',
+                data: submitObj
+            }
+        }).then(res => {
+            console.log(res);
+        })
     },
     /**
      * 生命周期函数--监听页面初次渲染完成
