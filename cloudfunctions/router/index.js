@@ -51,41 +51,46 @@ exports.main = async (event, context) => {
   });
   //残疾人发布需求
   app.router('addMission',async(ctx) => {
-    await MissionCollection.add({
-      data: {
-        description: "learn cloud database",
-        due: new Date("2018-09-01"),
-        done: false
-      }
-    }).then(res=>{
-      if(res.errMsg=='collection.add:ok'){
-        ctx.data.addmission = "发布成功"
-      }else{
-        ctx.data.addmission = "发布失败"
-      }
-    })
-    ctx.body={code: 0, data: ctx.data}
+    if(event.usertype!=1){
+      ctx.body={errMsg: "只有注册后的残疾人才能发布需求！"}
+      
+    }else{
+      await MissionCollection.add({
+        data: {
+          _openid:wxContext.OPENID,
+          description: "learn cloud database",
+          due: new Date("2018-09-01"),
+          done: false
+        }
+      }).then(res=>{
+        if(res.errMsg=='collection.add:ok'){
+          ctx.data.addmission = "发布成功"
+        }else{
+          ctx.data.addmission = "发布失败"
+        }
+      })
+      ctx.body={code: 0, data: ctx.data}
+    }
   })
 
   //根据用户的位置，计算到残疾人需要的服务位置的距离
   app.router('submitCoordinate',async(ctx) => {
     await MissionCollection.where(_.and([
       {
-        check: true
+        check: true //通过管理员的审核
       },
       {
-        done: false
+        accept: false  //但是没有被接单
+      },{
+        area:event.area  //地区，省和市
       }])).get().then(function(res){
         let missionArr = []
         let dataArr = res.data
         dataArr.forEach((el,i)=>{
           //距离单位：km
           let dis = util.getDistance(event.location,el.location)
-          if(dis<=20){
-            el.dis = dis
-            missionArr.push(el)
-          } 
-          
+          el.dis = dis
+          missionArr.push(el)
         })
         ctx.body = missionArr
       })

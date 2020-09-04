@@ -27,25 +27,27 @@ exports.main = async (event, context) => {
 
   // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）等信息
 
+  let usertype = ""
   const wxContext = cloud.getWXContext()
-  let result=UserCollection.where(_.and([
-    {
+  await UserCollection.where({
       _openid: wxContext.OPENID
-    },
-    {
-      usertype: event.usertype
-    }])).get().then(function(res){
-      if(res.data.length!=0)return "合法用户!"
-      return "不合法用户!"
+    }).get().then(function(res){
+      if(res.data.length!=0){
+        usertype = res.data[0].usertype
+      }
+      else{
+        usertype=0
+      }
     })
     
-    return result
-  // return {
-  //   event,
-  //   openid: wxContext.OPENID,
-  //   appid: wxContext.APPID,
-  //   unionid: wxContext.UNIONID,
-  //   env: wxContext.ENV,
-  // }
+  //   return result
+  return {
+    // event,
+    openid: wxContext.OPENID,
+    usertype:usertype
+    // appid: wxContext.APPID,
+    // unionid: wxContext.UNIONID,
+    // env: wxContext.ENV,
+  }
 }
 
