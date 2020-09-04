@@ -6,8 +6,10 @@ let keyWord = ''
 Page({
     data: {
         value: '',
-        location: '',
+        address: '',
         helpData: data,
+        location: {},
+        area: '',
         tabVal: [
             {
                 text: '离我最近',
@@ -25,6 +27,21 @@ Page({
     },
     onLoad () {
         this.authLocation()
+        this.getDemand()
+    },
+
+    // 获取附近的需求
+    getDemand () {
+        wx.cloud.callFunction({
+            name: 'router',
+            data: {
+                $url: 'submitCoordinate',
+                area: this.data.area,
+                location: this.data.location
+            }
+        }).then(res => {
+            console.log(res);
+        })
     },
 
     onSearch (e) {
@@ -66,11 +83,15 @@ Page({
         wx.getLocation({
             success: (res) => {
                 const location = { latitude: res.latitude, longitude: res.longitude }
+                this.setData({ location })
                 qqmapsdk.reverseGeocoder({
                     location,
                     success: (res) => {
+                        console.log(res);
                         const { recommend } = res.result.formatted_addresses
-                        this.setData({ location: recommend })
+                        const { province, city } = res.result.address_component
+                        let area = province + city
+                        this.setData({ address: recommend, area })
                     },
                     fail: (res) => {
                         console.log(res);
@@ -83,14 +104,14 @@ Page({
                     content: '请检查手机定位是否打开',
                     showCancel: false
                 })
-                this.setData({ location: '位置获取失败' })
+                this.setData({ address: '位置获取失败' })
             }
         })
     },
     onChoose () {
         wx.chooseLocation({
             success: (res) => {
-                this.setData({ location: res.name })
+                this.setData({ address: res.name })
             }
         })
     },
