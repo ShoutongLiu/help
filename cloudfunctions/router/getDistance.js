@@ -2,7 +2,7 @@
   
 
 const getDistance= function (location1, location2){
-  
+
   var radLat1 = location1.lat * Math.PI / 180.0
   var radLat2 = location2.lat * Math.PI / 180.0
   var a = radLat1 - radLat2
