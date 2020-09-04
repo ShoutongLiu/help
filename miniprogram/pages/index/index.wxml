@@ -1,6 +1,6 @@
 <!-- index.wxml -->
 <view class="home-container">
-    <header bind:search="onSearch" bind:location="onChoose" location="{{location}}" />
+    <header bind:search="onSearch" bind:location="onChoose" location="{{address}}" />
     <view class="help-content">
         <view class="tab">
             <block wx:for="{{tabVal}}" wx:key="val">
