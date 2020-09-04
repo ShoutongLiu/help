@@ -1,12 +1,55 @@
 <view class="msg-container">
     <view class="header">
-        <input type="text" class="input" bindinput="bindInput" placeholder="需求搜索" confirm-type="search" />
-        <text class="iconfont icon-search"></text>
+        <image class="avatar" src="{{avatar}}" mode="aspectFill"></image>
     </view>
-    <view class="read">全部标记已读</view>
+    <view class="count">
+        <view class="total">
+            <text class="text">总积分</text>
+            <view class="jifen">
+                <text class="num">500</text>
+                <text>分</text>
+            </view>
+        </view>
+        <view class="total">
+            <text class="text">已兑换</text>
+            <view class="jifen">
+                <text class="num">100</text>
+                <text>分</text>
+            </view>
+        </view>
+        <view class="total">
+            <text class="text">可兑换</text>
+            <view class="jifen">
+                <text class="num">400</text>
+                <text>分</text>
+            </view>
+        </view>
+    </view>
     <view class="msg-content">
-        <block wx:for="{{helpData}}" wx:key="name">
-            <msg-item item="{{item}}" />
-        </block>
+        <view class="title">兑换奖品</view>
+        <view class="goods">
+            <block wx:for="{{6}}" wx:key="index">
+                <view class="good-item">
+                    <image class="img" src="../../imgs/pikaqiu.jpg" mode="aspectFill"></image>
+                    <view class="good-name">皮卡丘抱枕 200分</view>
+                </view>
+            </block>
+        </view>
+        <view class="top">
+            <text class="title">积分排行榜</text>
+            <text class="city">
+                <text class="city-name">广东省深圳市</text>
+                <text class="iconfont icon-right"></text>
+            </text>
+        </view>
+        <view class="top-content">
+            <block wx:for="{{6}}" wx:key="index">
+                <view class="top-item">
+                    <text class="name item">Tom</text>
+                    <text class="phone item">137****1277</text>
+                    <text class="jifen item">2000分</text>
+                </view>
+            </block>
+        </view>
     </view>
 </view>

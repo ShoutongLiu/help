@@ -5,9 +5,9 @@ const cloud = require('wx-server-sdk')
 
 // 初始化 cloud
 cloud.init({
-  // API 调用都保持和云函数当前所在环境一致
-  env: cloud.DYNAMIC_CURRENT_ENV,
-  // throwOnNotFound: false  //以下设置将 doc.get 的行为改为：如果获取不到记录，不抛出异常，而是返回空。
+    // API 调用都保持和云函数当前所在环境一致
+    env: cloud.DYNAMIC_CURRENT_ENV,
+    // throwOnNotFound: false  //以下设置将 doc.get 的行为改为：如果获取不到记录，不抛出异常，而是返回空。
 })
 
 const DB = cloud.database()
