@@ -36,8 +36,8 @@ Page({
             name: 'router',
             data: {
                 $url: 'submitCoordinate',
-                area: this.data.area,
-                location: this.data.location
+                area: "广东省深圳市",
+                location: {lat: 22.53332, lng: 113.93041}
             }
         }).then(res => {
             console.log(res);
