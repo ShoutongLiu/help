@@ -23,23 +23,23 @@ exports.main = async (event, context) => {
     })
 
     //校验用户是否合法
-    app.router('checkUser', async (ctx) => {
-        await UserCollection.where(_.and([
-            {
-                _openid: wxContext.OPENID
-            },
-            {
-                usertype: event.usertype
-            }])).get().then(function (res) {
-                if (res.data.length != 0) {
-                    ctx.data.checkResult = "合法用户!"
-                }
-                else {
-                    ctx.data.checkResult = "用户未注册!"
-                }
-            })
-        ctx.body = { code: 0, data: ctx.data }
-    })
+    // app.router('checkUser', async (ctx) => {
+    //     await UserCollection.where(_.and([
+    //         {
+    //             _openid: wxContext.OPENID
+    //         },
+    //         {
+    //             usertype: event.usertype
+    //         }])).get().then(function (res) {
+    //             if (res.data.length != 0) {
+    //                 ctx.data.checkResult = "合法用户!"
+    //             }
+    //             else {
+    //                 ctx.data.checkResult = "用户未注册!"
+    //             }
+    //         })
+    //     ctx.body = { code: 0, data: ctx.data }
+    // })
     app.router('admin/kind/delete', async (ctx) => {
         try {
             return await db.collection('kind').doc(event.kind._id).remove()
@@ -50,13 +50,15 @@ exports.main = async (event, context) => {
     });
     //残疾人发布需求
     app.router('addMission', async (ctx) => {
-        if(!event.usertype){
+        event = event.data
+        if(event.usertype==0){
           ctx.body = { errMsg: "用户未登陆!" }
         }
         else if (event.usertype != 1) {
-            ctx.body = { errMsg: "只有注册后的残疾人才能发布需求！" }
-
-        } else {
+            ctx.body = { errMsg: "只有注册后的残疾人才能发布需求！",usertype:event.usertype}
+        }
+      
+         else {
             await MissionCollection.add({
                 data: {
                     f_openid:wxContext.OPENID,
