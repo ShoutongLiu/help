@@ -50,16 +50,32 @@ exports.main = async (event, context) => {
     });
     //残疾人发布需求
     app.router('addMission', async (ctx) => {
-        if (event.usertype != 1) {
+        if(!event.usertype){
+          ctx.body = { errMsg: "用户未登陆!" }
+        }
+        else if (event.usertype != 1) {
             ctx.body = { errMsg: "只有注册后的残疾人才能发布需求！" }
 
         } else {
             await MissionCollection.add({
                 data: {
-                    _openid: wxContext.OPENID,
-                    description: "learn cloud database",
-                    due: new Date("2018-09-01"),
-                    done: false
+                    f_openid:wxContext.OPENID,
+                    Address: event.Address,
+                    Difficulty:0, //难度系数默认0
+                    ServiceDateTime: event.ServiceDateTime,
+                    accept:false, //默认没有人接单
+                    area: event.area,
+                    authorAvatarUrl:event.authorAvatarUrl,
+                    authorName:event.authorName,
+                    check:false, //默认没有通过管理员审核
+                    demContext:event.demContext,
+                    demType:event.demType,
+                    done:false,  //默认此单未完成
+                    doneName:"",//默认处理人的微信昵称为空
+                    location:event.location,
+                    phone:event.phone,
+                    price:"",  //默认积分为空,管理员打分
+                    t_openid:""  //默认处理人的openid为空
                 }
             }).then(res => {
                 if (res.errMsg == 'collection.add:ok') {
