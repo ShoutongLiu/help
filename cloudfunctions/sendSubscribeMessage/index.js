@@ -5,8 +5,6 @@ cloud.init()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-    // const wxContext = cloud.getWXContext()
-
     try {
         const result = await cloud.openapi.subscribeMessage.send({
             templateId: '2hpkO7Ngbs1RkKG6n1FtNYVPDuB-vfwJjQhvm75Y_zw',
@@ -15,10 +13,10 @@ exports.main = async (event, context) => {
             lang: 'zh_CN',
             data: {
                 thing1: {
-                    value: event.authorName
+                    value: event.doneName
                 },
                 thing2: {
-                    value: '爱心帮益提醒'
+                    value: '您有一项任务待完成'
                 },
                 date3: {
                     value: event.date

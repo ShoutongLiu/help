@@ -37,9 +37,6 @@ Page({
             _id: this.data.item_detail._id,
             usertype: userType
         }
-        wx.showLoading({
-            title: '接受中...',
-        })
         wx.requestSubscribeMessage({
             tmplIds: [tmplId],
             complete: (res) => {

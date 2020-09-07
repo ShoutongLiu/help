@@ -91,7 +91,7 @@ exports.main = async (event, context) => {
     })
     //志愿者接受需求
     app.router('acceptMission', async (ctx) => {
-        if (event.usertype != 2) {
+        if (event.usertype != 1) {
             ctx.body = { errMsg: "只有注册后的志愿者才能接需求！", usertype: event.usertype }
         } else {
             await MissionCollection.doc(event._id).update({
@@ -106,25 +106,50 @@ exports.main = async (event, context) => {
                 .then(res => {
                     if (res.stats.updated == 1) {
                         ctx.body = { code: 0, Msg: "接单成功!" }
-                        //订阅消息触发器 ,触发两次
-                        MissionCollection.doc(event._id).get().then(res => {
-                            let openid = [res.data.f_openid, res.data.t_openid]
-                            openid.forEach((item, i) => {
-                                cloud.callFunction({
-                                    name: 'sendSubscribeMessage',
-                                    data: {
-                                        openid: item,
-                                    }
-                                })
-                            })
-                        })
+
                     } else {
-                        ctx.body = { errMsg: "接单失败!" }
+                        ctx.body = { Msg: "接单失败!" }
                     }
                 })
                 .catch(console.error)
+            console.log("志愿者推送消息")
+            await MissionCollection.doc(event._id).get().then(res => {
+                let openid = [res.data.f_openid, res.data.t_openid]
+                let doneName = res.data.doneName
+                let date = res.data.ServiceDateTime
+                let demContext = res.data.demContext
+                let message = []
+                openid.forEach((item, i) => {
+                    cloud.callFunction({
+                        name: 'sendSubscribeMessage',
+                        data: {
+                            openid: item,
+                            doneName: doneName,
+                            date: date,
+                            demContext: demContext
+                        }
+                    })
+                    message.push({
+                        openid: item,
+                        doneName: res.data.doneName,
+                        date: res.data.ServiceDateTime,
+                        demContext: res.data.demContext
+                    })
+                })
+                ctx.body = { Msg: message }
+            })
 
         }
+
+        // if(ctx.body.Msg="接单成功"){
+        //     console.log("开始触发消息推送")
+        //     //订阅消息触发器 ,触发两次
+        //     await MissionCollection.doc(event._id).get().then(res=>{
+        //         ctx.body = { code:0,Msg: res}
+        //         
+        //     })
+        // }
+
 
     })
     //根据用户的位置，计算到残疾人需要的服务位置的距离
