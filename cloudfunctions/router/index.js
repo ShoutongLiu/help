@@ -91,7 +91,7 @@ exports.main = async (event, context) => {
     })
     //志愿者接受需求
     app.router('acceptMission', async (ctx) => {
-        if (event.usertype != 1) {
+        if (event.usertype != 2) {
             ctx.body = { errMsg: "只有注册后的志愿者才能接需求！", usertype: event.usertype }
         } else {
             await MissionCollection.doc(event._id).update({
@@ -136,11 +136,7 @@ exports.main = async (event, context) => {
                         demContext: res.data.demContext
                     })
                 })
-<<<<<<< HEAD
                 ctx.body = { code:0,Msg: message}
-=======
-                ctx.body = { Msg: message }
->>>>>>> c8d384652c9dacf4bc93ec4a3d1b9862ef1d4b44
             })
 
         }
