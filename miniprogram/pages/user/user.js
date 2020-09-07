@@ -66,6 +66,7 @@ Page({
                         success: (res) => {
                             this.login()
                             app.globalData.avatar = res.userInfo.avatarUrl
+                            app.globalData.nickname = res.userInfo.nickName
                             this.setData({ nickName: res.userInfo.nickName, avatar: res.userInfo.avatarUrl })
                         }
                     })
@@ -77,6 +78,7 @@ Page({
         this.login()
         const info = e.detail.userInfo
         app.globalData.avatar = info.avatarUrl
+        app.globalData.nickname = info.nickName
         this.setData({ nickName: info.nickName, avatar: info.avatarUrl })
     },
 

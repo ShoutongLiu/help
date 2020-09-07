@@ -5,6 +5,7 @@ App({
         userType: 0,
         openid: '',
         avatar: '',
+        nickname: '',
         location: {}
     },
     onLaunch: function () {
