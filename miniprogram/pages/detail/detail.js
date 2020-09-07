@@ -1,5 +1,7 @@
 // miniprogram/pages/detail/detail.js
 import typeData from '../../utils/typeData'
+import format from '../../utils/format'
+const app = getApp()
 Page({
 
     /**
@@ -22,16 +24,40 @@ Page({
             })
             console.log(target);
             data.demType = target.text
-            data.ServiceDateTime = data.ServiceDateTime
+            data.ServiceDateTime = format(new Date(data.ServiceDateTime))
             this.setData({ item_detail: data })
         })
     },
 
     handleAccept () {
-        wx.showModal({
-            title: '接受成功',
-            content: '需求已接受，赶紧联系求助人，前往帮助吧！',
-            showCancel: false
+        const tmplId = '2hpkO7Ngbs1RkKG6n1FtNYVPDuB-vfwJjQhvm75Y_zw'
+        const { nickname, userType } = app.globalData
+        const dataObj = {
+            doneName: nickname,
+            _id: this.data.item_detail._id,
+            usertype: userType
+        }
+        wx.requestSubscribeMessage({
+            tmplIds: [tmplId],
+            complete: (res) => {
+                console.log(res);
+                if (res.errMsg === 'requestSubscribeMessage:ok') {
+                    wx.cloud.callFunction({
+                        name: 'router',
+                        data: {
+                            $url: 'acceptMission',
+                            ...dataObj
+                        }
+                    }).then(res => {
+                        console.log(res);
+                        wx.showModal({
+                            title: '接受成功',
+                            content: '需求已接受，赶紧联系求助人，前往帮助吧！',
+                            showCancel: false
+                        })
+                    })
+                }
+            }
         })
     },
     // 拨打电话
