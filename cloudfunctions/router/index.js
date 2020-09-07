@@ -134,7 +134,7 @@ exports.main = async (event, context) => {
                         date:res.data.ServiceDateTime,
                         demContext:res.data.demContext})
                 })
-                ctx.body = { Msg: message}
+                ctx.body = { code:0,Msg: message}
             })
             
         }
