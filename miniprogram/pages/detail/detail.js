@@ -1,4 +1,5 @@
 // miniprogram/pages/detail/detail.js
+import typeData from '../../utils/typeData'
 Page({
 
     /**
@@ -14,7 +15,15 @@ Page({
     onLoad: function () {
         const eventChannel = this.getOpenerEventChannel()
         eventChannel.on('item', (res) => {
-            this.setData({ item_detail: res.data })
+            console.log(res);
+            const data = res.data
+            const target = typeData.find(v => {
+                return v.val === data.demType
+            })
+            console.log(target);
+            data.demType = target.text
+            data.ServiceDateTime = data.ServiceDateTime
+            this.setData({ item_detail: data })
         })
     },
 
