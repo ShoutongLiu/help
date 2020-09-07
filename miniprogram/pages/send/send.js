@@ -105,7 +105,7 @@ Page({
             demType: item.val,
             area,
             demContext: content,
-            Addrerss: serve_address,
+            Address: serve_address,
             ServiceDateTime: serve_time,
             authorName: name,
             phone,
