@@ -91,32 +91,41 @@ exports.main = async (event, context) => {
     })
     //志愿者接受需求
     app.router('acceptMission',async(ctx)=>{
-        await MissionCollection.doc(event._id).update({
-            // data 传入需要局部更新的数据
-            data: {
-                // 表示将 done 字段置为 true
-                accept: true,
-                doneName:event.doneName,
-                t_openid:wxContext.OPENID
-            }
-        })
-        .then(stats=>{console.log(stats)})
-        .catch(console.error)
-        //订阅消息触发器 ,触发两次
-        await MissionCollection.doc(event._id).get().then(res=>{
-            let openid = [res.data.f_openid,res.data.t_openid]
-            openid.forEach((item,i)=>{
-                await cloud.callFunction({
-                    name:'sendSubscribeMessage',
-                    data:{
-                        openid:item,
-                        index,i
-                    }
-                })
+        if(event.usertype != 2){
+            ctx.body = { errMsg: "只有注册后的志愿者才能接需求！",usertype:event.usertype}
+        }else{
+            await MissionCollection.doc(event._id).update({
+                // data 传入需要局部更新的数据
+                data: {
+                    // 表示将 done 字段置为 true
+                    accept: true,
+                    doneName:event.doneName,
+                    t_openid:wxContext.OPENID
+                }
             })
+            .then(res=>{
+                if(res.stats.updated ==1){
+                    ctx.body = { code:0,Msg: "接单成功!"}
+                    //订阅消息触发器 ,触发两次
+                        MissionCollection.doc(event._id).get().then(res=>{
+                        let openid = [res.data.f_openid,res.data.t_openid]
+                        openid.forEach((item,i)=>{
+                                cloud.callFunction({
+                                name:'sendSubscribeMessage',
+                                data:{
+                                    openid:item,
+                                    index,i
+                                }
+                            })
+                        })
+                    })
+                }else{
+                    ctx.body = { errMsg: "接单失败!"}
+                }
+            })
+            .catch(console.error)
             
-        })
-
+        }
         
     })
     //根据用户的位置，计算到残疾人需要的服务位置的距离

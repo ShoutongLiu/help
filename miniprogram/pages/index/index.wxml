@@ -13,4 +13,7 @@
             </block>
         </view>
     </view>
+    <button bindtap="test">
+        接单测试
+    </button>
 </view>
