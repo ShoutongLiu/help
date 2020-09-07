@@ -51,33 +51,33 @@ exports.main = async (event, context) => {
     //残疾人发布需求
     app.router('addMission', async (ctx) => {
         event = event.data
-        if(event.usertype==0){
-          ctx.body = { errMsg: "用户未登陆!" }
+        if (event.usertype == 0) {
+            ctx.body = { errMsg: "用户未登陆!" }
         }
         else if (event.usertype != 1) {
-            ctx.body = { errMsg: "只有注册后的残疾人才能发布需求！",usertype:event.usertype}
+            ctx.body = { errMsg: "只有注册后的残疾人才能发布需求！", usertype: event.usertype }
         }
-      
-         else {
+
+        else {
             await MissionCollection.add({
                 data: {
-                    f_openid:wxContext.OPENID,
+                    f_openid: wxContext.OPENID,
                     Address: event.Address,
-                    Difficulty:0, //难度系数默认0
+                    Difficulty: 0, //难度系数默认0
                     ServiceDateTime: event.ServiceDateTime,
-                    accept:false, //默认没有人接单
+                    accept: false, //默认没有人接单
                     area: event.area,
-                    authorAvatarUrl:event.authorAvatarUrl,
-                    authorName:event.authorName,
-                    check:false, //默认没有通过管理员审核
-                    demContext:event.demContext,
-                    demType:event.demType,
-                    done:false,  //默认此单未完成
-                    doneName:"",//默认处理人的微信昵称为空
-                    location:event.location,
-                    phone:event.phone,
-                    price:"",  //默认积分为空,管理员打分
-                    t_openid:""  //默认处理人的openid为空
+                    authorAvatarUrl: event.authorAvatarUrl,
+                    authorName: event.authorName,
+                    check: false, //默认没有通过管理员审核
+                    demContext: event.demContext,
+                    demType: event.demType,
+                    done: false,  //默认此单未完成
+                    doneName: "",//默认处理人的微信昵称为空
+                    location: event.location,
+                    phone: event.phone,
+                    price: "",  //默认积分为空,管理员打分
+                    t_openid: ""  //默认处理人的openid为空
                 }
             }).then(res => {
                 if (res.errMsg == 'collection.add:ok') {
@@ -90,55 +90,61 @@ exports.main = async (event, context) => {
         }
     })
     //志愿者接受需求
-    app.router('acceptMission',async(ctx)=>{
-        if(event.usertype != 1){
-            ctx.body = { errMsg: "只有注册后的志愿者才能接需求！",usertype:event.usertype}
-        }else{
+    app.router('acceptMission', async (ctx) => {
+        if (event.usertype != 1) {
+            ctx.body = { errMsg: "只有注册后的志愿者才能接需求！", usertype: event.usertype }
+        } else {
             await MissionCollection.doc(event._id).update({
                 // data 传入需要局部更新的数据
                 data: {
                     // 表示将 done 字段置为 true
                     accept: true,
-                    doneName:event.doneName,
-                    t_openid:wxContext.OPENID
+                    doneName: event.doneName,
+                    t_openid: wxContext.OPENID
                 }
             })
-            .then(res=>{
-                if(res.stats.updated ==1){
-                    ctx.body = { code:0,Msg: "接单成功!"}
-                    
-                }else{
-                    ctx.body = { Msg: "接单失败!"}
-                }
-            })
-            .catch(console.error)
+                .then(res => {
+                    if (res.stats.updated == 1) {
+                        ctx.body = { code: 0, Msg: "接单成功!" }
+
+                    } else {
+                        ctx.body = { Msg: "接单失败!" }
+                    }
+                })
+                .catch(console.error)
             console.log("志愿者推送消息")
-            await MissionCollection.doc(event._id).get().then(res=>{
-                let openid = [res.data.f_openid,res.data.t_openid]
+            await MissionCollection.doc(event._id).get().then(res => {
+                let openid = [res.data.f_openid, res.data.t_openid]
                 let doneName = res.data.doneName
                 let date = res.data.ServiceDateTime
                 let demContext = res.data.demContext
-                let message=[]
-                openid.forEach((item,i)=>{
+                let message = []
+                openid.forEach((item, i) => {
                     cloud.callFunction({
-                        name:'sendSubscribeMessage',
-                        data:{
-                            openid:item,
-                            doneName:doneName,
-                            date:date,
-                            demContext:demContext
+                        name: 'sendSubscribeMessage',
+                        data: {
+                            openid: item,
+                            doneName: doneName,
+                            date: date,
+                            demContext: demContext
                         }
                     })
-                    message.push({openid:item,
-                        doneName:res.data.doneName,
-                        date:res.data.ServiceDateTime,
-                        demContext:res.data.demContext})
+                    message.push({
+                        openid: item,
+                        doneName: res.data.doneName,
+                        date: res.data.ServiceDateTime,
+                        demContext: res.data.demContext
+                    })
                 })
+<<<<<<< HEAD
                 ctx.body = { code:0,Msg: message}
+=======
+                ctx.body = { Msg: message }
+>>>>>>> c8d384652c9dacf4bc93ec4a3d1b9862ef1d4b44
             })
-            
+
         }
-        
+
         // if(ctx.body.Msg="接单成功"){
         //     console.log("开始触发消息推送")
         //     //订阅消息触发器 ,触发两次
@@ -147,8 +153,8 @@ exports.main = async (event, context) => {
         //         
         //     })
         // }
-        
-        
+
+
     })
     //根据用户的位置，计算到残疾人需要的服务位置的距离
     app.router('submitCoordinate', async (ctx) => {

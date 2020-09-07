@@ -37,20 +37,6 @@ Page({
             _id: this.data.item_detail._id,
             usertype: userType
         }
-        // wx.cloud.callFunction({
-        //     name: 'router',
-        //     data: {
-        //         $url: 'acceptMission',
-        //         ...dataObj
-        //     }
-        // }).then(res => {
-        //     console.log(res);
-        //     wx.showModal({
-        //         title: '接受成功',
-        //         content: '需求已接受，赶紧联系求助人，前往帮助吧！',
-        //         showCancel: false
-        //     })
-        // })
         wx.requestSubscribeMessage({
             tmplIds: [tmplId],
             complete: (res) => {
@@ -63,12 +49,18 @@ Page({
                             ...dataObj
                         }
                     }).then(res => {
-                        console.log(res);
-                        wx.showModal({
-                            title: '接受成功',
-                            content: '需求已接受，赶紧联系求助人，前往帮助吧！',
-                            showCancel: false
-                        })
+                        console.log(res, 'result');
+                        if (res.result.code === 0) {
+                            wx.showModal({
+                                title: '接受成功',
+                                content: '需求已接受，赶紧联系求助人，前往帮助吧！',
+                                showCancel: false
+                            })
+                            wx.hideLoading()
+                            wx.navigateTo({
+                                url: '../pages/index/index',
+                            })
+                        }
                     })
                 }
             }

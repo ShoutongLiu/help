@@ -48,19 +48,21 @@ Page({
             },
         ]
     },
-    onLoad () {
+    onShow () {
         this.authLocation()
-
     },
 
     // 获取附近的需求
     getDemand () {
+        wx.showLoading({
+            title: '加载中...'
+        })
         wx.cloud.callFunction({
             name: 'router',
             data: {
                 $url: 'submitCoordinate',
-                area: "广东省深圳市",
-                location: {lat: 22.53332, lng: 113.93041}
+                area: this.data.area,
+                location: this.data.location
             }
         }).then(res => {
             this.setData({ helpData: res.result })
@@ -71,6 +73,7 @@ Page({
                     }
                 })
             })
+            wx.hideLoading()
         })
     },
 
@@ -142,7 +145,10 @@ Page({
     onChoose () {
         wx.chooseLocation({
             success: (res) => {
-                this.setData({ address: res.name })
+                const location = { latitude: res.latitude, longitude: res.longitude }
+                this.setData({ address: res.name, location })
+                console.log(this.data.location);
+                this.getDemand()
             }
         })
     },
