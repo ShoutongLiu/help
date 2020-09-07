@@ -1,5 +1,6 @@
 const app = getApp()
 import typeData from '../../utils/typeData'
+const reg = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/
 Page({
 
     /**
@@ -86,6 +87,13 @@ Page({
             })
             return
         }
+        if (!reg.test(phone)) {
+            wx.showModal({
+                title: '请输入正确的电话号码',
+                showCancel: false
+            })
+            return
+        }
         const type = typeArr[index]
         const item = typeData.find(v => {
             return v.text === type
@@ -114,6 +122,18 @@ Page({
             }
         }).then(res => {
             console.log(res);
+            if (!res.result.code === 0) {
+                wx.showModal({
+                    content: '发布是败',
+                    showCancel: false
+                })
+            }
+            wx.showModal({
+                title: '需求提交成功',
+                content: '24小时内即可审核完成',
+                showCancel: false
+            })
+            this.setData({ name: '', phone: '', address: '', content: '' })
         })
     },
     /**
