@@ -40,14 +40,14 @@ exports.main = async (event, context) => {
     //         })
     //     ctx.body = { code: 0, data: ctx.data }
     // })
-    app.router('admin/kind/delete', async (ctx) => {
-        try {
-            return await db.collection('kind').doc(event.kind._id).remove()
-        }
-        catch (e) {
-            console.error(e)
-        }
-    });
+    // app.router('admin/kind/delete', async (ctx) => {
+    //     try {
+    //         return await db.collection('kind').doc(event.kind._id).remove()
+    //     }
+    //     catch (e) {
+    //         console.error(e)
+    //     }
+    // });
     //残疾人发布需求
     app.router('addMission', async (ctx) => {
         event = event.data
@@ -89,7 +89,36 @@ exports.main = async (event, context) => {
             ctx.body = { code: 0, data: ctx.data }
         }
     })
+    //志愿者接受需求
+    app.router('acceptMission',async(ctx)=>{
+        await MissionCollection.doc(event._id).update({
+            // data 传入需要局部更新的数据
+            data: {
+                // 表示将 done 字段置为 true
+                accept: true,
+                doneName:event.doneName,
+                t_openid:wxContext.OPENID
+            }
+        })
+        .then(stats=>{console.log(stats)})
+        .catch(console.error)
+        //订阅消息触发器 ,触发两次
+        await MissionCollection.doc(event._id).get().then(res=>{
+            let openid = [res.data.f_openid,res.data.t_openid]
+            openid.forEach((item,i)=>{
+                await cloud.callFunction({
+                    name:'sendSubscribeMessage',
+                    data:{
+                        openid:item,
+                        index,i
+                    }
+                })
+            })
+            
+        })
 
+        
+    })
     //根据用户的位置，计算到残疾人需要的服务位置的距离
     app.router('submitCoordinate', async (ctx) => {
         await MissionCollection.where(_.and([
