@@ -114,7 +114,7 @@ exports.main = async (event, context) => {
                                 name:'sendSubscribeMessage',
                                 data:{
                                     openid:item,
-                                    index,i
+            
                                 }
                             })
                         })

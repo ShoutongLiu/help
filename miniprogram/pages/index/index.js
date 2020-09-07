@@ -146,18 +146,4 @@ Page({
             }
         })
     },
-    test(){
-        wx.cloud.callFunction({
-            name:'router',
-            data:{
-                $url:'acceptMission',
-                usertype:2,
-                _id:'a64f68025f51e2fc00c2af57579622c4',
-                doneName:'建新爸爸'
-            },
-            success(res){
-                console.log(res)
-            }
-        })
-    }
 })
