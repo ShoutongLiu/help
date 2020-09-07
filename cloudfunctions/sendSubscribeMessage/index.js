@@ -9,7 +9,7 @@ exports.main = async (event, context) => {
         const result = await cloud.openapi.subscribeMessage.send({
             templateId: '2hpkO7Ngbs1RkKG6n1FtNYVPDuB-vfwJjQhvm75Y_zw',
             touser: event.openid,
-            page: '/pages/detail/detail?_id=' + event._id,
+            page: `/pages/detail/detail?_id=${event._id}`,
             lang: 'zh_CN',
             data: {
                 thing1: {
