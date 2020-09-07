@@ -1,7 +1,7 @@
 <view class="detail">
     <view class="item">
         <text class="title">联系人姓名：</text>
-        <text class="name">{{item_detail.doneName}}</text>
+        <text class="name">{{item_detail.authorName}}</text>
     </view>
     <view class="item">
         <text class="title">帮助类型：</text>

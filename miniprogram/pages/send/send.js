@@ -113,7 +113,9 @@ Page({
             location: app.globalData.location,
             usertype: app.globalData.userType
         }
-        console.log(submitObj);
+        wx.showLoading({
+            title: '提交中...',
+        })
         wx.cloud.callFunction({
             name: 'router',
             data: {
@@ -133,6 +135,7 @@ Page({
                 content: '24小时内即可审核完成',
                 showCancel: false
             })
+            wx.hideLoading()
         })
     },
     /**

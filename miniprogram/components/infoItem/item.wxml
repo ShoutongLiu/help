@@ -1,9 +1,9 @@
-<view class="item">
+<view class="item" wx:if="{{!item.accept}}">
     <view class="item-info" bindtap="goToDetail" data-item="{{item}}">
         <image class="avatar" src="{{item.authorAvatarUrl}}" mode="aspectFill" lazy-load="true"></image>
         <view class="need-info">
             <view class="name">
-                <text>{{item.doneName}}</text>
+                <text>{{item.authorName}}</text>
                 <text class="integral">{{item.price}}积分</text>
             </view>
             <view class="hard">
