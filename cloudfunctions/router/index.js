@@ -130,6 +130,7 @@ exports.main = async (event, context) => {
                         }
                     })
                     message.push({
+                        _id:event._id,
                         openid: item,
                         doneName: res.data.doneName,
                         date: res.data.ServiceDateTime,
