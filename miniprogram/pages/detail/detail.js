@@ -1,6 +1,5 @@
 // miniprogram/pages/detail/detail.js
 import typeData from '../../utils/typeData'
-import format from '../../utils/format'
 const app = getApp()
 Page({
 
@@ -8,28 +7,38 @@ Page({
      * 页面的初始数据
      */
     data: {
-        item_detail: {}
+        item_detail: {},
+        _id: ''
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function () {
+    onLoad: function (options) {
+        console.log(options);
         const eventChannel = this.getOpenerEventChannel()
         eventChannel.on('item', (res) => {
-            console.log(res);
             const data = res.data
             const target = typeData.find(v => {
                 return v.val === data.demType
             })
-            console.log(target);
             data.demType = target.text
-            data.ServiceDateTime = format(new Date(data.ServiceDateTime))
             this.setData({ item_detail: data })
         })
     },
 
     handleAccept () {
+        if (app.globalData.userType !== 2) {
+            wx.showModal({
+                title: '提示',
+                content: '请先登录并注册志愿者',
+                showCancel: false,
+                success: () => {
+                    wx.navigateBack()
+                }
+            })
+            return
+        }
         const tmplId = '2hpkO7Ngbs1RkKG6n1FtNYVPDuB-vfwJjQhvm75Y_zw'
         const { nickname, userType } = app.globalData
         const dataObj = {
@@ -51,14 +60,14 @@ Page({
                     }).then(res => {
                         console.log(res, 'result');
                         if (res.result.code === 0) {
+                            wx.hideLoading()
                             wx.showModal({
                                 title: '接受成功',
                                 content: '需求已接受，赶紧联系求助人，前往帮助吧！',
-                                showCancel: false
-                            })
-                            wx.hideLoading()
-                            wx.navigateTo({
-                                url: '../pages/index/index',
+                                showCancel: false,
+                                success: () => {
+                                    wx.navigateBack()
+                                }
                             })
                         }
                     })
@@ -84,8 +93,8 @@ Page({
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function () {
-
+    onShow: function (options) {
+        console.log(options);
     },
 
     /**
