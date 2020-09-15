@@ -1,6 +1,6 @@
 /* pages/send/send.wxss */
 .form {
-	padding: 40rpx 20rpx 0rpx 20rpx;
+    padding: 40rpx 20rpx 0rpx 20rpx;
 }
 
 .form .comm {
@@ -10,40 +10,40 @@
 }
 
 .form .help-type {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .form .title {
     min-width: 100rpx;
-	font-size: 30rpx;
-	line-height: 60rpx;
+    font-size: 30rpx;
+    line-height: 60rpx;
 }
 
 .form .help-type .picker,
-.form .help-city .city, 
+.form .help-city .city,
 .form .help-address .address,
 .form .help-date .date,
 .form .help-time .time,
 .form .help-name .name,
-.form .help-phone .phone{
-	flex: 1;
-	height: 60rpx;
-	line-height: 60rpx;
-	border: 1rpx solid #ccc;
-	border-radius: 6rpx;
-	padding-left: 10rpx;
-	font-size: 30rpx;
-	position: relative;
+.form .help-phone .phone {
+    flex: 1;
+    height: 60rpx;
+    line-height: 60rpx;
+    border: 1rpx solid #ccc;
+    border-radius: 6rpx;
+    padding-left: 10rpx;
+    font-size: 30rpx;
+    position: relative;
 }
 
 .form .help-type .icon-down,
 .form .help-city .icon-down,
 .form .help-date .icon-down,
 .form .help-time .icon-down {
-	position: absolute;
-	top: 0;
-	right: 20rpx;
+    position: absolute;
+    top: 0;
+    right: 20rpx;
 }
 
 
@@ -55,7 +55,8 @@
     font-size: 30rpx;
 }
 
-.form .help-city .city , .icon-right{
+.form .help-city .city,
+.icon-right {
     font-size: 30rpx;
 }
 
@@ -70,4 +71,11 @@
     color: #fff;
     font-size: 32rpx;
     border-radius: 40rpx;
+}
+
+.no-health {
+    font-size: 36rpx;
+    color: #ccc;
+    text-align: center;
+    margin: 200rpx 0;
 }

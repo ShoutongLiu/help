@@ -9,7 +9,7 @@ Page({
         value: '',
         address: '',
         helpData: [],
-        location: {},
+        ajaxLocation: {},
         area: '',
         tabVal: [
             {
@@ -62,7 +62,7 @@ Page({
             data: {
                 $url: 'submitCoordinate',
                 area: this.data.area,
-                location: this.data.location
+                location: this.data.ajaxLocation
             }
         }).then(res => {
             this.setData({ helpData: res.result })
@@ -116,8 +116,9 @@ Page({
         wx.getLocation({
             success: (res) => {
                 const location = { latitude: res.latitude, longitude: res.longitude }
+                const ajaxLocation = { lat: res.latitude, lng: res.longitude }
                 app.globalData.location = location
-                this.setData({ location })
+                this.setData({ ajaxLocation })
                 qqmapsdk.reverseGeocoder({
                     location,
                     success: (res) => {
@@ -145,12 +146,12 @@ Page({
     onChoose () {
         wx.chooseLocation({
             success: (res) => {
-                const location = { latitude: res.latitude, longitude: res.longitude }
-                this.setData({ address: res.name, location })
+                const ajaxLocation = { lat: res.latitude, lng: res.longitude }
+                this.setData({ address: res.name, ajaxLocation })
                 console.log(this.data.location);
                 this.getDemand()
             }
         })
     },
-    
+
 })

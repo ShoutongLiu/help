@@ -1,6 +1,5 @@
-
 .home-container {
-    padding: 0 20rpx;
+    padding: 0 30rpx;
 }
 
 .help-content {
