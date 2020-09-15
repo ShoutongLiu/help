@@ -13,7 +13,8 @@ Page({
         region: ['广东省', '深圳市', '南山区'],
         customItem: '全部',
         date: '',
-        time: '',
+        startTime: '',
+        endTime: '',
         address: '',
         name: '',
         phone: '',
@@ -38,9 +39,14 @@ Page({
             date: e.detail.value
         })
     },
-    bindTimeChange: function (e) {
+    bindStartTime: function (e) {
         this.setData({
-            time: e.detail.value
+            startTime: e.detail.value
+        })
+    },
+    bindEndTime: function (e) {
+        this.setData({
+            endTime: e.detail.value
         })
     },
     // 需求描述
@@ -87,7 +93,7 @@ Page({
     // 判断身份
     handleIsHealth () {
         const { userType } = app.globalData
-        this.setData({ isHealth: userType === 1 ? true : false })
+        this.setData({ isHealth: userType === 2 ? true : false })
     },
 
     handleGetDate () {
@@ -100,11 +106,14 @@ Page({
         const date = new Date()
         const min = date.getMinutes().toString().length === 1 ? '0' + date.getMinutes() : date.getMinutes()
         const currenTime = date.getHours() + ':' + min
-        this.setData({ time: currenTime })
+        // 默认时间段是2小时
+        const endDate = new Date(date.getTime() + 1000 * 60 * 60 * 2)
+        const endHours = endDate.getHours()
+        this.setData({ startTime: currenTime, endTime: endHours + ':' + min })
     },
     // 提交表单
     handleSubmit () {
-        const { index, typeArr, content, region, address, date, time, name, phone } = this.data
+        const { index, typeArr, content, region, address, date, startTime, endTime, name, phone } = this.data
         if (!content || !address || !name || !phone) {
             wx.showModal({
                 title: '请把信息填写完整',
@@ -112,7 +121,7 @@ Page({
             })
             return
         }
-        if (app.globalData.userType !== 1) {
+        if (app.globalData.userType === 0) {
             wx.showModal({
                 title: '请先登录',
                 showCancel: false
@@ -132,13 +141,15 @@ Page({
         })
         const area = region[0] + region[1]
         const serve_address = region[2] + address
-        const serve_time = date + ' ' + time
+        const start = date + ' ' + startTime
+        const end = date + ' ' + endTime
         const submitObj = {
             demType: item.val,
             area,
             demContext: content,
             Address: serve_address,
-            ServiceDateTime: serve_time,
+            startTime: start,
+            endTime: end,
             authorName: name,
             phone,
             authorAvatarUrl: app.globalData.avatar,

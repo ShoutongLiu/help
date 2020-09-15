@@ -60,6 +60,10 @@
     font-size: 30rpx;
 }
 
+.form .help-time .line {
+    padding: 0 10rpx;
+}
+
 
 .form .submit {
     width: 100%;

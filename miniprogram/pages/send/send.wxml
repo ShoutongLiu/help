@@ -37,8 +37,13 @@
         </view>
         <view class="help-time comm">
             <text class="title">服务时间：</text>
-            <picker class="time" mode="time" value="{{time}}" bindchange="bindTimeChange">
-                <view class="picker">{{time}}</view>
+            <picker class="time" mode="time" value="{{startTime}}" bindchange="bindStartTime">
+                <view class="picker">{{startTime}}</view>
+                <text class="iconfont icon-down"></text>
+            </picker>
+            <text class="line">至</text>
+            <picker class="time" mode="time" value="{{endTime}}" bindchange="bindEndTime">
+                <view class="picker">{{endTime}}</view>
                 <text class="iconfont icon-down"></text>
             </picker>
         </view>

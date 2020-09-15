@@ -65,6 +65,7 @@ Page({
                 location: this.data.ajaxLocation
             }
         }).then(res => {
+            console.log(res.result);
             this.setData({ helpData: res.result })
             this.data.helpData.forEach(v => {
                 this.data.typeData.forEach(i => {

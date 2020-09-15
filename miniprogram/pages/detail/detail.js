@@ -39,7 +39,7 @@ Page({
             })
             return
         }
-        const tmplId = '2hpkO7Ngbs1RkKG6n1FtNYVPDuB-vfwJjQhvm75Y_zw'
+        const tmplId = '35lJ7F4Ryes7-5lMzrq3gyn6HRGEsRHJCF62jQaSJSA'
         const { nickname, userType } = app.globalData
         const dataObj = {
             doneName: nickname,
