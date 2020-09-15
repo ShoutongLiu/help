@@ -9,7 +9,7 @@ const UserCollection = DB.collection('users')
 const MissionCollection = DB.collection('mission')
 
 //计算距离的函数
-const util = require('getDistance.js')
+const util = require('util.js')
 
 
 // 云函数入口函数
@@ -168,12 +168,13 @@ exports.main = async (event, context) => {
                 let dataArr = res.data
                 dataArr.forEach((el, i) => {
                     //距离单位：km
-                    console.log(event.location)
-                    console.log(el.location)
                     let dis = util.getDistance(event.location, el.location)
                     el.dis = dis
                     missionArr.push(el)
                 })
+                //排序处理数据，根据距离由近到远
+                missionArr=util.bubbleSort(missionArr)
+                
                 ctx.body = missionArr
             })
     })

@@ -1,49 +1,52 @@
-<view class="form">
-    <view class="help-type">
-        <text class="title">需求选择：</text>
-        <picker class="picker" bindchange="bindPickerTypeChange" value="{{index}}" range="{{typeArr}}">
-            <view class="picker-val">{{typeArr[index]}}</view>
-            <text class="iconfont icon-down"></text>
-        </picker>
-    </view>
-    <view class="help-content comm">
-        <text class="title">需求内容：</text>
-        <textarea placeholder="请描述你的需求" class="content" bindinput="handleInputContent" />
-    </view>
-    <view class="help-city comm">
-        <text class="title">地区选择：</text>
-        <picker class="city" mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
-            <view class="picker">
-                {{region[0]}}{{region[1]}}{{region[2]}}
+<view class="send-container">
+    <view class="no-health" wx:if="{{!isHealth}}">您的身份不能发布需求</view>
+    <view class="form" wx:if="{{isHealth}}">
+        <view class="help-type">
+            <text class="title">需求选择：</text>
+            <picker class="picker" bindchange="bindPickerTypeChange" value="{{index}}" range="{{typeArr}}">
+                <view class="picker-val">{{typeArr[index]}}</view>
                 <text class="iconfont icon-down"></text>
-            </view>
-        </picker>
+            </picker>
+        </view>
+        <view class="help-content comm">
+            <text class="title">需求内容：</text>
+            <textarea placeholder="请描述你的需求" class="content" bindinput="handleInputContent" />
+        </view>
+        <view class="help-city comm">
+            <text class="title">地区选择：</text>
+            <picker class="city" mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+                <view class="picker">
+                    {{region[0]}}{{region[1]}}{{region[2]}}
+                    <text class="iconfont icon-down"></text>
+                </view>
+            </picker>
+        </view>
+        <view class="help-address comm">
+            <text class="title">详细地址：</text>
+            <input type="text" class="address" bindinput="handleGetAddress" />
+        </view>
+        <view class="help-date comm">
+            <text class="title">服务日期：</text>
+            <picker class="date" mode="date" value="{{date}}" bindchange="bindDateChange">
+                <view class="picker">{{date}}</view>
+                <text class="iconfont icon-down"></text>
+            </picker>
+        </view>
+        <view class="help-time comm">
+            <text class="title">服务时间：</text>
+            <picker class="time" mode="time" value="{{time}}" bindchange="bindTimeChange">
+                <view class="picker">{{time}}</view>
+                <text class="iconfont icon-down"></text>
+            </picker>
+        </view>
+        <view class="help-name comm">
+            <text class="title">联系人姓名：</text>
+            <input type="text" class="name" bindinput="handleGetName" />
+        </view>
+        <view class="help-phone comm">
+            <text class="title">联系人电话：</text>
+            <input type="number" class="phone" bindinput="handleGetPhone" />
+        </view>
+        <view class="submit" bindtap="handleSubmit">提 交</view>
     </view>
-    <view class="help-address comm">
-        <text class="title">详细地址：</text>
-        <input type="text" class="address" bindinput="handleGetAddress" />
-    </view>
-    <view class="help-date comm">
-        <text class="title">服务日期：</text>
-        <picker class="date" mode="date" value="{{date}}" bindchange="bindDateChange">
-            <view class="picker">{{date}}</view>
-            <text class="iconfont icon-down"></text>
-        </picker>
-    </view>
-    <view class="help-time comm">
-        <text class="title">服务时间：</text>
-        <picker class="time" mode="time" value="{{time}}" bindchange="bindTimeChange">
-            <view class="picker">{{time}}</view>
-            <text class="iconfont icon-down"></text>
-        </picker>
-    </view>
-    <view class="help-name comm">
-        <text class="title">联系人姓名：</text>
-        <input type="text" class="name" bindinput="handleGetName" />
-    </view>
-    <view class="help-phone comm">
-        <text class="title">联系人电话：</text>
-        <input type="number" class="phone" bindinput="handleGetPhone" />
-    </view>
-    <view class="submit" bindtap="handleSubmit">提 交</view>
 </view>

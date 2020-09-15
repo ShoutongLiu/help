@@ -17,7 +17,8 @@ Page({
         address: '',
         name: '',
         phone: '',
-        submitObj: {}
+        submitObj: {},
+        isHealth: false
     },
 
     // 获取需求类型
@@ -65,6 +66,18 @@ Page({
         this.handleGetTime()
     },
 
+    /**
+ * 生命周期函数--监听页面显示
+ */
+    onShow: function () {
+        this.handleIsHealth()
+    },
+    // 判断身份
+    handleIsHealth () {
+        const { userType } = app.globalData
+        this.setData({ isHealth: userType === 1 ? true : false })
+    },
+
     handleGetDate () {
         const date = new Date()
         const month = (date.getMonth() + 1).toString().length === 1 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)
@@ -83,6 +96,13 @@ Page({
         if (!content || !address || !name || !phone) {
             wx.showModal({
                 title: '请把信息填写完整',
+                showCancel: false
+            })
+            return
+        }
+        if (app.globalData.userType !== 1) {
+            wx.showModal({
+                title: '请先登录',
                 showCancel: false
             })
             return
@@ -142,13 +162,6 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
 
     },
 

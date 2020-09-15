@@ -26,6 +26,7 @@
       "disablePlugins": [],
       "outputPath": ""
     },
+    "bundle": true,
     "useIsolateContext": true,
     "useCompilerModule": true,
     "userConfirmedUseCompilerModuleSwitch": false,
@@ -99,6 +100,13 @@
           "id": -1,
           "name": "pages/disabled/disabled",
           "pathName": "pages/disabled/disabled",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/detail/detail",
+          "pathName": "pages/detail/detail",
           "query": "",
           "scene": null
         },
