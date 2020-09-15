@@ -112,7 +112,7 @@ exports.main = async (event, context) => {
                     }
                 })
                 .catch(console.error)
-            console.log("志愿者推送消息")
+            //志愿者消息推送
             await MissionCollection.doc(event._id).get().then(res => {
                 let openid = [res.data.f_openid, res.data.t_openid]
                 let doneName = res.data.doneName
