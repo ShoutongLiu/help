@@ -69,7 +69,7 @@ exports.main = async (event, context) => {
                     area: event.area,
                     authorAvatarUrl: event.authorAvatarUrl,
                     authorName: event.authorName,
-                    check: false, //默认没有通过管理员审核
+                    check: 0, //默认没有通过管理员审核
                     demContext: event.demContext,
                     demType: event.demType,
                     done: false,  //默认此单未完成
@@ -157,7 +157,7 @@ exports.main = async (event, context) => {
     app.router('submitCoordinate', async (ctx) => {
         await MissionCollection.where(_.and([
             {
-                check: true //通过管理员的审核
+                check: 1 //通过管理员的审核
             },
             {
                 accept: false  //但是没有被接单
@@ -168,6 +168,8 @@ exports.main = async (event, context) => {
                 let dataArr = res.data
                 dataArr.forEach((el, i) => {
                     //距离单位：km
+                    console.log(event.location)
+                    console.log(el.location)
                     let dis = util.getDistance(event.location, el.location)
                     el.dis = dis
                     missionArr.push(el)
