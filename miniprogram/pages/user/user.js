@@ -84,6 +84,13 @@ Page({
 
     handleSelect (e) {
         const { id } = e.currentTarget.dataset
+        if (!app.globalData.openid && id !== '4') {
+            wx.showModal({
+                title: '请先登录',
+                showCancel: false,
+            })
+            return
+        }
         switch (id) {
             case '1':
                 wx.navigateTo({

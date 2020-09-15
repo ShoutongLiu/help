@@ -26,19 +26,20 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "bundle": true,
+    "bundle": false,
     "useIsolateContext": true,
     "useCompilerModule": true,
-    "userConfirmedUseCompilerModuleSwitch": false,
+    "userConfirmedUseCompilerModuleSwitch": true,
     "packNpmManually": false,
     "packNpmRelationList": []
   },
   "appid": "wxa3a65a7c6c164c52",
   "projectname": "help",
-  "libVersion": "2.8.1",
+  "libVersion": "2.12.2",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+  "compileType": "miniprogram",
   "condition": {
     "search": {
       "current": -1,

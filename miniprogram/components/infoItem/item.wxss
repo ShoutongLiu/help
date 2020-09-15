@@ -25,6 +25,15 @@
     margin: 4rpx 0;
 }
 
+
+.item-info .need-info .name {
+    margin-bottom: 8rpx;
+}
+
+.item-info .need-info .type {
+    margin-top: 8rpx;
+}
+
 .item .integral,
 .item .start,
 .item .type-item {
