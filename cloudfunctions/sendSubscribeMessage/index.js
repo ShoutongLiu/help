@@ -7,22 +7,25 @@ cloud.init()
 exports.main = async (event, context) => {
     try {
         const result = await cloud.openapi.subscribeMessage.send({
-            templateId: '2hpkO7Ngbs1RkKG6n1FtNYVPDuB-vfwJjQhvm75Y_zw',
+            templateId: '35lJ7F4Ryes7-5lMzrq3gyn6HRGEsRHJCF62jQaSJSA',
             touser: event.openid,
             page: `/pages/detail/detail?_id=${event._id}`,
             lang: 'zh_CN',
             data: {
-                thing1: {
+                name1: {
+                    value: event.authorName
+                },
+                name5: {
                     value: event.doneName
                 },
-                thing2: {
-                    value: '您有一项任务待完成'
+                date7: {
+                    value: event.startTime
                 },
-                date3: {
-                    value: event.date
+                date6: {
+                    value: event.endTime
                 },
-                thing4: {
-                    value: event.demContext
+                thing8: {
+                    value: event.Address
                 }
             },
             miniprogramState: 'developer'
