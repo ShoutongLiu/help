@@ -23,7 +23,6 @@ Page({
 
     // 获取需求类型
     bindPickerTypeChange: function (e) {
-
         this.setData({
             index: e.detail.value
         })
@@ -57,6 +56,19 @@ Page({
     },
     handleGetPhone (e) {
         this.setData({ phone: e.detail.value })
+    },
+
+    handleDisabled () {
+        if (app.globalData.userType === 2) {
+            wx.showModal({
+                title: '你已认证志愿者',
+                showCancel: false
+            })
+            return
+        }
+        wx.navigateTo({
+            url: '../../pages/disabled/disabled',
+        })
     },
     /**
      * 生命周期函数--监听页面加载

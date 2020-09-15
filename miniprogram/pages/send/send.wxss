@@ -78,4 +78,16 @@
     color: #ccc;
     text-align: center;
     margin: 200rpx 0;
+    padding: 0 40rpx;
+}
+
+.no-health .btn {
+    margin: 100rpx auto;
+    height: 80rpx;
+    line-height: 80rpx;
+    border: 1rpx solid #00BFFF;
+    background-color: #00BFFF;
+    color: #fff;
+    border-radius: 40rpx;
+    font-size: 32rpx;
 }

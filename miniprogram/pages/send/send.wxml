@@ -1,5 +1,8 @@
 <view class="send-container">
-    <view class="no-health" wx:if="{{!isHealth}}">您的身份不能发布需求</view>
+    <view class="no-health" wx:if="{{!isHealth}}">
+        <view class="text" bindtap="handleDisabled">认证为残疾人才能发布需求</view>
+        <view class="btn" bindtap="handleDisabled">去认证</view>
+    </view>
     <view class="form" wx:if="{{isHealth}}">
         <view class="help-type">
             <text class="title">需求选择：</text>
