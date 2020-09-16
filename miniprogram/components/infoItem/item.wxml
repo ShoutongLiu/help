@@ -20,6 +20,6 @@
     </view>
     <view class="contact" bindtap="callPhone" data-phone="{{item.phone}}">
         <text class="iconfont icon-phone"></text>
-        <view class="distance">{{item.dis === null ? '0' : item.dis}}km</view>
+        <view class="distance">{{item.dis === null ? '0' : item.dis}} km</view>
     </view>
 </view>

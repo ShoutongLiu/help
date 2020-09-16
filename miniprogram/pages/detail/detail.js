@@ -8,33 +8,52 @@ Page({
      */
     data: {
         item_detail: {},
-        _id: ''
+        _id: '',
+        isAccept: false
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        console.log(options);
-        const eventChannel = this.getOpenerEventChannel()
-        eventChannel.on('item', (res) => {
-            const data = res.data
-            const target = typeData.find(v => {
-                return v.val === data.demType
+        const id = options._id
+        if (id) {
+            wx.cloud.callFunction({
+                name: 'router',
+                data: {
+                    $url: 'querySingleMission',
+                    _id: id
+                }
+            }).then(res => {
+                const data = res.result.data
+                this.handleData(data)
             })
-            data.demType = target.text
-            this.setData({ item_detail: data })
-        })
+        } else {
+            const eventChannel = this.getOpenerEventChannel()
+            eventChannel.on('item', (res) => {
+                const data = res.data
+                this.handleData(data)
+            })
+        }
     },
 
+    handleData (data) {
+        const target = typeData.find(v => {
+            return v.val === data.demType
+        })
+        data.demType = target.text
+        this.setData({ item_detail: data, isAccept: data.accept })
+    },
     handleAccept () {
-        if (app.globalData.userType !== 2) {
+        if (app.globalData.userType !== 2 && !app.globalData.openid) {
             wx.showModal({
                 title: '提示',
                 content: '请先登录并注册志愿者',
                 showCancel: false,
                 success: () => {
-                    wx.navigateBack()
+                    wx.switchTab({
+                        url: '../../pages/user/user'
+                    })
                 }
             })
             return

@@ -93,7 +93,7 @@ Page({
     // 判断身份
     handleIsHealth () {
         const { userType } = app.globalData
-        this.setData({ isHealth: userType === 2 ? true : false })
+        this.setData({ isHealth: userType === 1 ? true : false })
     },
 
     handleGetDate () {
@@ -156,29 +156,38 @@ Page({
             location: app.globalData.location,
             usertype: app.globalData.userType
         }
-        wx.showLoading({
-            title: '提交中...',
-        })
-        wx.cloud.callFunction({
-            name: 'router',
-            data: {
-                $url: 'addMission',
-                data: submitObj
+        const tmplId = '35lJ7F4Ryes7-5lMzrq3gyn6HRGEsRHJCF62jQaSJSA'
+        wx.requestSubscribeMessage({
+            tmplIds: [tmplId],
+            complete: (res) => {
+                console.log(res);
+                if (res.errMsg === 'requestSubscribeMessage:ok') {
+                    wx.showLoading({
+                        title: '提交中...',
+                    })
+                    wx.cloud.callFunction({
+                        name: 'router',
+                        data: {
+                            $url: 'addMission',
+                            data: submitObj
+                        }
+                    }).then(res => {
+                        console.log(res);
+                        if (!res.result.code === 0) {
+                            wx.showModal({
+                                content: '发布是败',
+                                showCancel: false
+                            })
+                        }
+                        wx.showModal({
+                            title: '需求提交成功',
+                            content: '24小时内即可审核完成',
+                            showCancel: false
+                        })
+                        wx.hideLoading()
+                    })
+                }
             }
-        }).then(res => {
-            console.log(res);
-            if (!res.result.code === 0) {
-                wx.showModal({
-                    content: '发布是败',
-                    showCancel: false
-                })
-            }
-            wx.showModal({
-                title: '需求提交成功',
-                content: '24小时内即可审核完成',
-                showCancel: false
-            })
-            wx.hideLoading()
         })
     },
     /**

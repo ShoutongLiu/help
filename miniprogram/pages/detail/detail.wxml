@@ -32,5 +32,7 @@
             </text>
         </text>
     </view>
-    <view class="btn" bindtap="handleAccept">接受需求</view>
+    <button class="btn" bindtap="handleAccept" disabled="{{isAccept}}">
+        {{isAccept ? '需求已接受' : '接受需求'}}
+    </button>
 </view>
