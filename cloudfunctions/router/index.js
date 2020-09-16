@@ -22,32 +22,14 @@ exports.main = async (event, context) => {
         await next()  //执行一下中间件.这是一个异步操作,要加上await
     })
 
-    //校验用户是否合法
-    // app.router('checkUser', async (ctx) => {
-    //     await UserCollection.where(_.and([
-    //         {
-    //             _openid: wxContext.OPENID
-    //         },
-    //         {
-    //             usertype: event.usertype
-    //         }])).get().then(function (res) {
-    //             if (res.data.length != 0) {
-    //                 ctx.data.checkResult = "合法用户!"
-    //             }
-    //             else {
-    //                 ctx.data.checkResult = "用户未注册!"
-    //             }
-    //         })
-    //     ctx.body = { code: 0, data: ctx.data }
-    // })
-    // app.router('admin/kind/delete', async (ctx) => {
-    //     try {
-    //         return await db.collection('kind').doc(event.kind._id).remove()
-    //     }
-    //     catch (e) {
-    //         console.error(e)
-    //     }
-    // });
+    //根据_id查询需求详情
+    app.router("querySingleMission",async (ctx) =>{
+        await MissionCollection.doc(event._id).get().then(res =>{
+            
+            ctx.data =  res.data
+        })
+        ctx.body = { code: 0, msg:"OK",data: ctx.data }
+    })
     //残疾人发布需求
     app.router('addMission', async (ctx) => {
         event = event.data
@@ -63,8 +45,8 @@ exports.main = async (event, context) => {
                 data: {
                     f_openid: wxContext.OPENID,
                     Address: event.Address,
-                    Difficulty: 0, //难度系数默认0
-                    ServiceDateTime: event.ServiceDateTime,
+                    startTime: event.startTime,
+                    endTime:event.startTime,
                     accept: false, //默认没有人接单
                     area: event.area,
                     authorAvatarUrl: event.authorAvatarUrl,
@@ -112,21 +94,28 @@ exports.main = async (event, context) => {
                     }
                 })
                 .catch(console.error)
-            //志愿者消息推送
+            //残疾人和志愿者消息推送
             await MissionCollection.doc(event._id).get().then(res => {
+                //残疾人和志愿者的openid
                 let openid = [res.data.f_openid, res.data.t_openid]
                 let doneName = res.data.doneName
-                let date = res.data.ServiceDateTime
-                let demContext = res.data.demContext
+                let authorName = res.data.authorName
+                let startTime = res.data.startTime
+                let endTime = res.data.endTime
+                let Address = res.data.area + res.data.Address
                 let message = []
                 openid.forEach((item, i) => {
                     cloud.callFunction({
                         name: 'sendSubscribeMessage',
                         data: {
+                            _id:event._id,
                             openid: item,
+                            authorName:authorName,
                             doneName: doneName,
-                            date: date,
-                            demContext: demContext
+                            startTime: startTime,
+                            endTime:endTime,
+                            Address:Address
+                            
                         }
                     })
                     message.push({
