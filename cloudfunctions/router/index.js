@@ -63,6 +63,7 @@ exports.main = async (event, context) => {
                 }
             }).then(res => {
                 if (res.errMsg == 'collection.add:ok') {
+                    
                     ctx.data.addmission = "发布成功"
                 } else {
                     ctx.data.addmission = "发布失败"
@@ -79,7 +80,7 @@ exports.main = async (event, context) => {
             await MissionCollection.doc(event._id).update({
                 // data 传入需要局部更新的数据
                 data: {
-                    // 表示将 done 字段置为 true
+                    // 表示将 accept 字段置为 true
                     accept: true,
                     doneName: event.doneName,
                     t_openid: wxContext.OPENID
