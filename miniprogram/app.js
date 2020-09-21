@@ -7,7 +7,9 @@ App({
         avatar: '',
         nickname: '',
         location: {},
-        isCheck: false
+        isCheck: false,
+        address: '',
+        listType: ''
     },
     onLaunch: function () {
         wx.cloud.init({

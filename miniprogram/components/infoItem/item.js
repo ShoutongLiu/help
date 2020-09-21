@@ -40,13 +40,23 @@ Component({
     methods: {
         goToDetail (e) {
             const { item } = e.currentTarget.dataset
-            wx.navigateTo({
-                url: `../../pages/detail/detail`,
-                success: (res) => {
-                    // 通过eventChannel向被打开页面传送数据
-                    res.eventChannel.emit('item', { data: item })
-                }
-            });
+            if (app.globalData.listType === 'waitDone') {
+                wx.navigateTo({
+                    url: `../../pages/checkEdit/checkEdit`,
+                    success: (res) => {
+                        // 通过eventChannel向被打开页面传送数据
+                        res.eventChannel.emit('item', { data: item })
+                    }
+                });
+            } else {
+                wx.navigateTo({
+                    url: `../../pages/detail/detail`,
+                    success: (res) => {
+                        // 通过eventChannel向被打开页面传送数据
+                        res.eventChannel.emit('item', { data: item })
+                    }
+                });
+            }
         },
         callPhone (e) {
             const { phone } = e.currentTarget.dataset

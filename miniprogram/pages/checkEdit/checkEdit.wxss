@@ -1,0 +1,49 @@
+/* miniprogram/pages/detail/detail.wxss */
+.detail {
+    padding: 20rpx;
+}
+
+.detail .item {
+    display: flex;
+    padding: 20rpx;
+}
+
+.detail .item .help-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.detail .item .help-time .line {
+    margin: 6rpx 0;
+}
+
+.detail .item .title {
+    min-width: 180rpx;
+}
+
+.detail .item .phone {
+    color: #00BFFF;
+}
+
+.detail .btn {
+    margin: 100rpx auto;
+    text-align: center;
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    background-color: #00BFFF;
+    border: 2rpx solid #00BFFF;
+    color: #fff;
+    border-radius: 40rpx;
+    font-size: 32rpx;
+}
+
+.detail .accept {
+    margin: 100rpx auto;
+    text-align: center;
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+}

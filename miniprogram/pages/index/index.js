@@ -138,6 +138,7 @@ Page({
                         const { recommend } = res.result.formatted_addresses
                         const { province, city } = res.result.address_component
                         let area = province === city ? province : province + city
+                        app.globalData.address = recommend
                         this.setData({ address: recommend, area })
                         this.getDemand()        // 调用函数获取数据
                     },
@@ -160,6 +161,7 @@ Page({
         wx.chooseLocation({
             success: (res) => {
                 const ajaxLocation = { lat: res.latitude, lng: res.longitude }
+                app.globalData.address = res.name
                 this.setData({ address: res.name, ajaxLocation })
                 console.log(this.data.location);
                 this.getDemand()

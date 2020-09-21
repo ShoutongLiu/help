@@ -10,7 +10,8 @@
     "pages/disabled/disabled",
     "pages/volunteer/volunteer",
     "pages/listDetail/listDetail",
-    "pages/center/center"
+    "pages/center/center",
+    "pages/checkEdit/checkEdit"
   ],
   "permission": {
     "scope.userLocation": {

@@ -1,3 +1,10 @@
 .list {
     padding: 0 30rpx;
 }
+
+.empty {
+    display: block;
+    width: 320rpx;
+    height: 240rpx;
+    margin: 200rpx auto;
+}

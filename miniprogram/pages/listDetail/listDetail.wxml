@@ -1,4 +1,5 @@
 <view class="list">
+    <image wx:if="{{listData.length === 0}}" class="empty" src="../../imgs/empty.png" mode="aspectFill"></image>
     <block wx:for="{{listData}}" wx:key="_id">
         <item item="{{item}}" />
     </block>

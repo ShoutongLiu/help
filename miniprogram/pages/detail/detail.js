@@ -65,7 +65,9 @@ Page({
         const dataObj = {
             doneName: nickname,
             _id: this.data.item_detail._id,
-            usertype: userType
+            usertype: userType,
+            dis: this.data.item_detail.dis,
+            address: app.globalData.address
         }
         wx.requestSubscribeMessage({
             tmplIds: [tmplId],

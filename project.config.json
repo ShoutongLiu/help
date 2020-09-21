@@ -115,6 +115,13 @@
           "id": -1,
           "name": "pages/detail/detail",
           "pathName": "pages/detail/detail",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/checkEdit/checkEdit",
+          "pathName": "pages/checkEdit/checkEdit",
           "scene": null
         }
       ]
