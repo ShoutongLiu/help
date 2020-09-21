@@ -13,7 +13,7 @@ cloud.init({
 const DB = cloud.database()
 const _ = DB.command
 const UserCollection = DB.collection('users')
-
+const MissionCollection = DB.collection('mission')
 /**
  * 这个示例将经自动鉴权过的小程序用户 openid 返回给小程序端
  * 
@@ -28,10 +28,13 @@ exports.main = async (event, context) => {
   // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）等信息
 
   let usertype = ""
+  let waitCheck = []  //待审核
+  let waitAccept = []  //待接受
+  let waitDone = []    //待完成
   const wxContext = cloud.getWXContext()
   await UserCollection.where({
-      _openid: wxContext.OPENID
-    }).get().then(function(res){
+    _openid: wxContext.OPENID
+  }).get().then(function(res){
       if(res.data.length!=0){
         usertype = res.data[0].usertype
       }
@@ -39,12 +42,52 @@ exports.main = async (event, context) => {
         usertype=0
       }
     })
-    
+    //残疾人的话查询他发布的需求的记录
+    if(usertype==1){ 
+      //查询待审核的记录
+      await MissionCollection.where({
+        f_openid:wxContext.OPENID,
+        check:0
+      }).get().then(function(res){
+        waitCheck=res.data
+      })
+      //查询待帮助的记录
+      await MissionCollection.where({
+        f_openid:wxContext.OPENID,
+        check:1,
+        accept:false
+      }).get().then(function(res){
+        waitAccept =res.data
+      })
+      //残疾人的需求被志愿者接受，等待志愿者完成
+      await MissionCollection.where({
+        f_openid:wxContext.OPENID,
+        check:1,
+        accept:true,
+        done:false
+      }).get().then(function(res){
+        waitDone=res.data
+      })
+    }
+    //志愿者的话查询他接受的需求的记录
+    else if(usertype==2){
+      //需要志愿者主动去待完成的任务
+      await MissionCollection.where({
+        t_openid:wxContext.OPENID,
+        done:false,
+      }).get().then(function(res){
+        waitDone =res.data
+      })
+      //志愿者待评价
+    }
   //   return result
   return {
     // event,
     openid: wxContext.OPENID,
-    usertype:usertype
+    usertype:usertype,
+    waitCheck:waitCheck,
+    waitAccept:waitAccept,
+    waitDone:waitDone
     // appid: wxContext.APPID,
     // unionid: wxContext.UNIONID,
     // env: wxContext.ENV,
