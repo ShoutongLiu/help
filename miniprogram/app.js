@@ -6,7 +6,8 @@ App({
         openid: '',
         avatar: '',
         nickname: '',
-        location: {}
+        location: {},
+        isCheck: false
     },
     onLaunch: function () {
         wx.cloud.init({

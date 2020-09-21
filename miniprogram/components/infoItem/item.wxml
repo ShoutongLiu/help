@@ -2,24 +2,22 @@
     <view class="item-info" bindtap="goToDetail" data-item="{{item}}">
         <image class="avatar" src="{{item.authorAvatarUrl}}" mode="aspectFill" lazy-load="true"></image>
         <view class="need-info">
-            <view class="name">
-                <text>{{item.authorName}}</text>
-                <text class="integral">{{item.price}}积分</text>
+            <view class="name comm">
+                <text class="title">{{item.authorName}}</text>
+                <text class="integral">{{item.price}} 积分</text>
             </view>
-            <!-- <view class="hard">
-                <text>难度</text>
-                <text class="start">
-                    <text wx:for="{{item.Difficulty}}" wx:key="index" class="iconfont icon-start"></text>
-                </text>
-            </view> -->
-            <view class="type">
-                <text>类型</text>
+            <view class="time comm">
+                <text class="title">预估时长</text>
+                <text class="length">{{item.length}}</text>
+            </view>
+            <view class="type comm">
+                <text class="title">需求类型</text>
                 <text class="type-item">{{type}}</text>
             </view>
         </view>
     </view>
-    <view class="contact" bindtap="callPhone" data-phone="{{item.phone}}">
+    <view class="contact" class="{{isShow ? 'row contact' : 'contact'}}" bindtap="callPhone" data-phone="{{item.phone}}">
         <text class="iconfont icon-phone"></text>
-        <view class="distance">{{item.dis === null ? '0' : item.dis}} km</view>
+        <view class="distance" wx:if="{{!isShow}}">{{item.dis === null ? '0' : item.dis}} km</view>
     </view>
 </view>

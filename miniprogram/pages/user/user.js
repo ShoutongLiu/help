@@ -10,15 +10,18 @@ Page({
         tabArr: [
             {
                 icon: 'shenhe',
-                text: '待审核'
+                text: '待审核',
+                type: "waitCheck"
             },
             {
                 icon: 'hand',
-                text: '待帮助'
+                text: '待帮助',
+                type: "waitAccept"
             },
             {
                 icon: 'completed',
-                text: '待完成'
+                text: '待完成',
+                type: "waitDone"
             },
             {
                 icon: 'pingjia',
@@ -120,7 +123,30 @@ Page({
             console.log(res);
             app.globalData.openid = res.result.openid
             app.globalData.userType = res.result.usertype
-        })
+            let newTab = this.data.tabArr
+            newTab.forEach(v => {
+                res.result.userMissionInfo.forEach(i => {
+                    if (v.type === i.type) {
+                        v.data = i.data
+                    }
+                })
+            })
+            this.setData({tabArr: newTab})
+        })  
+    },
+
+    // 跳转到需求列表
+    handleToList(e) {
+        console.log(e);
+        app.globalData.isCheck = true
+        const {item} = e.currentTarget.dataset
+        wx.navigateTo({
+            url: `../../pages/listDetail/listDetail`,
+            success: (res) => {
+                // 通过eventChannel向被打开页面传送数据
+                res.eventChannel.emit('item', { data: item })
+            }
+        });
     },
     onReady: function () {
 
@@ -130,7 +156,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+        this.login()
     },
 
     /**

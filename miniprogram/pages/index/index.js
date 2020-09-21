@@ -49,7 +49,9 @@ Page({
         ]
     },
     onShow () {
+        app.globalData.isCheck = false
         this.authLocation()
+        console.log(3620000 % 3600000);
     },
 
     // 获取附近的需求
@@ -65,18 +67,28 @@ Page({
                 location: this.data.ajaxLocation
             }
         }).then(res => {
-            console.log(res.result);
-            this.setData({ helpData: res.result })
-            this.data.helpData.forEach(v => {
-                this.data.typeData.forEach(i => {
-                    if (v.demType === i.val) {
-                        v.demType = i.text
-                    }
-                })
+            res.result.forEach(v => {
+                const length = (new Date(v.endTime)) - (new Date(v.startTime)) 
+                v.length = this.transTime(length)
             })
+            this.setData({ helpData: res.result })
             wx.hideLoading()
         })
     },
+
+    // 计算时长函数
+    transTime(time) {
+        let length  = null
+        if (time % 3600000 !== 0) {
+            const hours = Math.ceil((time / 1000 / 60 / 60)) + ' 小时'
+            const minute = (time % 3600000) / 6000 + '分'
+            length = hours + minute
+        } else {
+            length = Math.ceil((time / 1000 / 60 / 60)) + ' 小时'
+        }
+        return length
+    },
+
 
     onSearch (e) {
         keyWord = e.detail.keyWord

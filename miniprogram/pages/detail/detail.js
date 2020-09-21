@@ -9,7 +9,8 @@ Page({
     data: {
         item_detail: {},
         _id: '',
-        isAccept: false
+        isAccept: false,
+        isShow: false
     },
 
     /**
@@ -17,6 +18,7 @@ Page({
      */
     onLoad: function (options) {
         const id = options._id
+        this.setData({isShow: app.globalData.isCheck})
         if (id) {
             wx.cloud.callFunction({
                 name: 'router',

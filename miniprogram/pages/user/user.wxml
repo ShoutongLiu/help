@@ -24,9 +24,12 @@
             </view>
             <view class="tab">
                 <block wx:for="{{tabArr}}" wx:key="text">
-                    <view class="tab-item">
+                    <view class="tab-item" bindtap="handleToList" data-item="{{item}}">
                         <text class="iconfont icon-{{item.icon}}"></text>
                         <view class="item-text">{{item.text}}</view>
+                        <text class="dot" wx:if="{{item.data.length > 0}}">
+                            <text>{{item.data.length}}</text>
+                        </text>
                     </view>
                 </block>
             </view>

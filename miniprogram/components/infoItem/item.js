@@ -1,4 +1,5 @@
 import typeData from '../../utils/typeData'
+const app = getApp()
 Component({
     /**
      * 组件的属性列表
@@ -23,6 +24,14 @@ Component({
     data: {
         type: '',
         typeData,
+        isShow: false
+    },
+
+
+    lifetimes: {
+        attached: function() {
+           this.setData({isShow: app.globalData.isCheck})
+        },
     },
 
     /**

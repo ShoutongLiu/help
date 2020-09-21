@@ -8,7 +8,9 @@
     "pages/detail/detail",
     "pages/realName/realname",
     "pages/disabled/disabled",
-    "pages/volunteer/volunteer"
+    "pages/volunteer/volunteer",
+    "pages/listDetail/listDetail",
+    "pages/center/center"
   ],
   "permission": {
     "scope.userLocation": {

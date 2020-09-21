@@ -32,7 +32,7 @@
             </text>
         </text>
     </view>
-    <button class="btn" bindtap="handleAccept" disabled="{{isAccept}}">
+    <button class="btn" wx:if="{{!isShow}}" bindtap="handleAccept" disabled="{{isAccept}}">
         {{isAccept ? '需求已接受' : '接受需求'}}
     </button>
 </view>

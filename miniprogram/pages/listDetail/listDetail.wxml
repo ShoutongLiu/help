@@ -1,0 +1,5 @@
+<view class="list">
+    <block wx:for="{{listData}}" wx:key="_id">
+        <item item="{{item}}" />
+    </block>
+</view>
