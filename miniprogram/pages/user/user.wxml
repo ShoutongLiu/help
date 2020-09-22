@@ -7,7 +7,7 @@
         <view class="center" wx:if="{{nickName}}">
             <view class="user-name">{{nickName}}</view>
             <view class="person">
-                <text>个人中心</text>
+                <text bindtap="handleToCenter">个人中心</text>
                 <text class="iconfont icon-right"></text>
             </view>
         </view>

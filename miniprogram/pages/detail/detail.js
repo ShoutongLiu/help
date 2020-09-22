@@ -47,16 +47,24 @@ Page({
         this.setData({ item_detail: data, isAccept: data.accept })
     },
     handleAccept () {
-        if (app.globalData.userType !== 2) {
+        if (app.globalData.userType === 0) {
             wx.showModal({
                 title: '提示',
-                content: '请先登录并注册志愿者',
+                content: '请先登录并成为志愿者',
                 showCancel: false,
                 success: () => {
                     wx.switchTab({
                         url: '../../pages/user/user'
                     })
                 }
+            })
+            return
+        }
+        if (app.globalData.userType === 1) {
+            wx.showModal({
+                title: '提示',
+                content: '您的身份不能接受需求',
+                showCancel: false,
             })
             return
         }

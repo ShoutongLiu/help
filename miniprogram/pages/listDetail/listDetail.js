@@ -16,7 +16,7 @@ Page({
     eventChannel.on('item', (res) => {
         console.log(res);
         app.globalData.listType = res.data.type
-        const list = res.data.data
+        const list = res.data.data || []
         if (list.length > 0) {
             list.forEach(v => {
                 v.accept = false
@@ -24,7 +24,7 @@ Page({
                 v.length = this.transTime(length)
             })
         }
-        this.setData({listData: list})
+        this.setData({listData: list })
         // 修改页面title
         wx.setNavigationBarTitle({
             title: res.data.text

@@ -148,6 +148,12 @@ Page({
             }
         });
     },
+
+    handleToCenter() {
+        wx.navigateTo({
+          url: '../../pages/center/center',
+        })
+    },
     onReady: function () {
 
     },

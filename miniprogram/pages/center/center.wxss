@@ -1,1 +1,7 @@
-/* miniprogram/pages/center/center.wxss */
+.center {
+    padding: 20rpx 60rpx;
+}
+
+.center .item {
+    margin-top: 20rpx;
+}

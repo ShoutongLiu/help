@@ -24,15 +24,8 @@ Component({
     data: {
         type: '',
         typeData,
-        isShow: false
     },
 
-
-    lifetimes: {
-        attached: function() {
-           this.setData({isShow: app.globalData.isCheck})
-        },
-    },
 
     /**
      * 组件的方法列表
@@ -40,7 +33,7 @@ Component({
     methods: {
         goToDetail (e) {
             const { item } = e.currentTarget.dataset
-            if (app.globalData.listType === 'waitDone') {
+            if (app.globalData.listType === 'waitCheck') {
                 wx.navigateTo({
                     url: `../../pages/checkEdit/checkEdit`,
                     success: (res) => {
