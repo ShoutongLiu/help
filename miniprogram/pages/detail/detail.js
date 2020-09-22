@@ -47,7 +47,7 @@ Page({
         this.setData({ item_detail: data, isAccept: data.accept })
     },
     handleAccept () {
-        if (app.globalData.userType !== 2 && !app.globalData.openid) {
+        if (app.globalData.userType !== 2) {
             wx.showModal({
                 title: '提示',
                 content: '请先登录并注册志愿者',

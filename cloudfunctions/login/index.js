@@ -51,8 +51,8 @@ exports.main = async (event, context) => {
       }).get().then(function(res){
         waitCheck=res.data
       })
-      //查询待帮助的记录
-      await MissionCollection.where({
+      //查询待接受的记录
+      await DB.collection('missionPass').where({
         f_openid:wxContext.OPENID,
         check:1,
         accept:false
@@ -60,7 +60,7 @@ exports.main = async (event, context) => {
         waitAccept =res.data
       })
       //残疾人的需求被志愿者接受，等待志愿者完成
-      await MissionCollection.where({
+      await DB.collection('missionPass').where({
         f_openid:wxContext.OPENID,
         check:1,
         accept:true,
@@ -72,22 +72,35 @@ exports.main = async (event, context) => {
     //志愿者的话查询他接受的需求的记录
     else if(usertype==2){
       //需要志愿者主动去待完成的任务
-      await MissionCollection.where({
+      await DB.collection('missionPass').where({
         t_openid:wxContext.OPENID,
+        accept:true,
         done:false,
       }).get().then(function(res){
         waitDone =res.data
       })
       //志愿者待评价
     }
+  
+  let userMissionInfo = [
+    {
+      type:'waitCheck',
+      data:waitCheck
+    },{
+      type:'waitAccept',
+      data:waitAccept
+    },{
+      type:'waitDone',
+      data:waitDone
+    }
+  ]
   //   return result
   return {
     // event,
     openid: wxContext.OPENID,
     usertype:usertype,
-    waitCheck:waitCheck,
-    waitAccept:waitAccept,
-    waitDone:waitDone
+    userMissionInfo:userMissionInfo
+     
     // appid: wxContext.APPID,
     // unionid: wxContext.UNIONID,
     // env: wxContext.ENV,

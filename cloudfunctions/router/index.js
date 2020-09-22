@@ -1,7 +1,7 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 const TcbRouter = require('tcb-router');
-cloud.init()
+cloud.init({env: cloud.DYNAMIC_CURRENT_ENV})
 
 const DB = cloud.database()
 const _ = DB.command
@@ -47,19 +47,14 @@ exports.main = async (event, context) => {
                     Address: event.Address,
                     startTime: event.startTime,
                     endTime:event.startTime,
-                    accept: false, //默认没有人接单
                     area: event.area,
                     authorAvatarUrl: event.authorAvatarUrl,
                     authorName: event.authorName,
                     check: 0, //默认没有通过管理员审核
                     demContext: event.demContext,
                     demType: event.demType,
-                    done: false,  //默认此单未完成
-                    doneName: "",//默认处理人的微信昵称为空
                     location: event.location,
                     phone: event.phone,
-                    price: "",  //默认积分为空,管理员打分
-                    t_openid: ""  //默认处理人的openid为空
                 }
             }).then(res => {
                 if (res.errMsg == 'collection.add:ok') {
@@ -77,13 +72,15 @@ exports.main = async (event, context) => {
         if (event.usertype != 2) {
             ctx.body = { errMsg: "只有注册后的志愿者才能接需求！", usertype: event.usertype }
         } else {
-            await MissionCollection.doc(event._id).update({
+            await DB.collection('missionPass').doc(event._id).update({
                 // data 传入需要局部更新的数据
                 data: {
                     // 表示将 accept 字段置为 true
                     accept: true,
                     doneName: event.doneName,
-                    t_openid: wxContext.OPENID
+                    t_openid: wxContext.OPENID,
+                    v_location:event.address,
+                    dis:event.dis
                 }
             })
                 .then(res => {
@@ -96,7 +93,7 @@ exports.main = async (event, context) => {
                 })
                 .catch(console.error)
             //残疾人和志愿者消息推送
-            await MissionCollection.doc(event._id).get().then(res => {
+            await DB.collection('missionPass').doc(event._id).get().then(res => {
                 //残疾人和志愿者的openid
                 let openid = [res.data.f_openid, res.data.t_openid]
                 let doneName = res.data.doneName
@@ -145,7 +142,7 @@ exports.main = async (event, context) => {
     })
     //根据用户的位置，计算到残疾人需要的服务位置的距离
     app.router('submitCoordinate', async (ctx) => {
-        await MissionCollection.where(_.and([
+        await DB.collection('missionPass').where(_.and([
             {
                 check: 1 //通过管理员的审核
             },
