@@ -16,8 +16,8 @@
             </view>
         </view>
     </view>
-    <view class="contact" class="{{isShow ? 'row contact' : 'contact'}}" bindtap="callPhone" data-phone="{{item.phone}}">
+    <view class="contact" bindtap="callPhone" data-phone="{{item.phone}}">
         <text class="iconfont icon-phone"></text>
-        <view class="distance" wx:if="{{!isShow}}">{{item.dis === null ? '0' : item.dis}} km</view>
+        <view class="distance">{{item.dis === null ? '0' : item.dis}} km</view>
     </view>
 </view>

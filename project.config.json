@@ -19,7 +19,7 @@
     "checkSiteMap": true,
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
-    "useMultiFrameRuntime": true,
+    "useMultiFrameRuntime": false,
     "useApiHook": false,
     "babelSetting": {
       "ignore": [],
@@ -122,6 +122,20 @@
           "id": -1,
           "name": "pages/checkEdit/checkEdit",
           "pathName": "pages/checkEdit/checkEdit",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/checkEdit/checkEdit",
+          "pathName": "pages/checkEdit/checkEdit",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/center/center",
+          "pathName": "pages/center/center",
           "scene": null
         }
       ]

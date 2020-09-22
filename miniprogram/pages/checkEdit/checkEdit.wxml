@@ -1,39 +1,43 @@
 <view class="detail">
     <view class="item">
         <text class="title">联系人姓名：</text>
-        <text class="name">{{item_detail.authorName}}</text>
+        <text class="name">{{itemData.authorName}}</text>
     </view>
     <view class="item">
         <text class="title">帮助类型：</text>
-        <text class="type">{{item_detail.demType}}</text>
+        <picker class="picker" bindchange="bindPickerTypeChange" value="{{index}}" range="{{typeArr}}">
+            <view class="picker-val">{{typeArr[index]}}</view>
+            <text class="iconfont icon-down"></text>
+        </picker>
     </view>
     <view class="item">
         <text class="title">需求内容：</text>
-        <text class="content">{{item_detail.demContext}}</text>
+        <textarea class="input" value="{{itemData.demContext}}" />
     </view>
     <view class="item">
         <text class="title">联系地址：</text>
-        <text class="address">{{item_detail.area}}{{item_detail.Address}}</text>
+        <input type="text" class="input" value="{{itemData.newAddress}}" />
     </view>
     <view class="item">
-        <text class="title">帮助时间：</text>
-        <view class="help-time">
-            <text class="time">{{item_detail.startTime}}</text>
-            <text class="line">至</text>
-            <text class="time">{{item_detail.endTime}}</text>
-        </view>
+        <text class="title">开始时间：</text>
+        <picker class="time" mode="time" value="{{itemData.startTime}}" bindchange="bindStartTime">
+            <view class="picker">{{itemData.startTime}}</view>
+            <text class="iconfont icon-down"></text>
+        </picker>
+    </view>
+    <view class="item">
+        <text class="title">结束时间：</text>
+        <picker class="time" mode="time" value="{{itemData.endTime}}" bindchange="bindEndTime">
+            <view class="picker">{{itemData.endTime}}</view>
+            <text class="iconfont icon-down"></text>
+        </picker>
     </view>
     <view class="item">
         <text class="title">联系电话：</text>
-        <text class="phone" bindtap="callPhone" data-phone="{{item_detail.phone}}">
-            <text>
-                <text class="iconfont icon-phone"></text>
-                <text>{{item_detail.phone}}</text>
-            </text>
-        </text>
+        <input type="text" class="input" value="{{itemData.phone}}" />
     </view>
     <view class="btn-container">
-        <button class="cancel">取 消</button>
-        <button class="edit">编 辑</button>
+        <button class="cancel btn">撤 消</button>
+        <button class="edit btn" bindtap="handleSubmit">提 交</button>
     </view>
 </view>
