@@ -19,6 +19,9 @@ exports.main = async (event, context) => {
     // app.use 表示该中间件会适用于所有的路由
     app.use(async (ctx, next) => {
         ctx.data = {}
+        ctx.code = '0'
+        ctx.errMsg = 'OK!'
+        ctx.phone = ''
         await next()  //执行一下中间件.这是一个异步操作,要加上await
     })
 
@@ -55,6 +58,7 @@ exports.main = async (event, context) => {
                     demType: event.demType,
                     location: event.location,
                     phone: event.phone,
+                    cancel:false  //默认没有取消
                 }
             }).then(res => {
                 if (res.errMsg == 'collection.add:ok') {
@@ -70,75 +74,76 @@ exports.main = async (event, context) => {
     //志愿者接受需求
     app.router('acceptMission', async (ctx) => {
         if (event.usertype != 2) {
-            ctx.body = { errMsg: "只有注册后的志愿者才能接需求！", usertype: event.usertype }
+            ctx.code = 10000
+            ctx.errMsg = "只有注册后的志愿者才能接需求！"
         } else {
-            await DB.collection('missionPass').doc(event._id).update({
-                // data 传入需要局部更新的数据
-                data: {
-                    // 表示将 accept 字段置为 true
-                    accept: true,
-                    doneName: event.doneName,
-                    t_openid: wxContext.OPENID,
-                    v_location:event.address,
-                    dis:event.dis
-                }
+            //先判断是否被其他人接受这个需求
+            await DB.collection('missionPass').doc(event._id).get().then(res=>{
+                ctx.data = res.data.accept
             })
+            if(ctx.data){
+                ctx.code = 10001
+                ctx.errMsg = "接受失败，该需求已经被其他人接受"
+            }else{
+                //先得到志愿者的电话号码
+                await UserCollection.doc(event._id).get().then(res=>{
+                    ctx.phone = res.data.phone
+                })
+                await DB.collection('missionPass').doc(event._id).update({
+                    // data 传入需要局部更新的数据
+                    data: {
+                        // 表示将 accept 字段置为 true
+                        accept: true,
+                        doneName: event.doneName,
+                        t_openid: wxContext.OPENID,
+                        v_phone:ctx.phone,
+                        v_location:event.address,
+                        dis:event.dis
+                    }
+                })
                 .then(res => {
                     if (res.stats.updated == 1) {
-                        ctx.body = { code: 0, Msg: "接单成功!" }
+                        ctx.code = 0
+                        ctx.errMsg = '接受需求成功'
+                        
 
                     } else {
-                        ctx.body = { Msg: "接单失败!" }
+                        ctx.code = 0
+                        ctx.errMsg = '接受需求失败'
                     }
                 })
                 .catch(console.error)
-            //残疾人和志愿者消息推送
-            await DB.collection('missionPass').doc(event._id).get().then(res => {
-                //残疾人和志愿者的openid
-                let openid = [res.data.f_openid, res.data.t_openid]
-                let doneName = res.data.doneName
-                let authorName = res.data.authorName
-                let startTime = res.data.startTime
-                let endTime = res.data.endTime
-                let Address = res.data.area + res.data.Address
-                let message = []
-                openid.forEach((item, i) => {
-                    cloud.callFunction({
-                        name: 'sendSubscribeMessage',
-                        data: {
-                            _id:event._id,
-                            openid: item,
-                            authorName:authorName,
-                            doneName: doneName,
-                            startTime: startTime,
-                            endTime:endTime,
-                            Address:Address
-                            
-                        }
+                //残疾人和志愿者消息推送
+                await DB.collection('missionPass').doc(event._id).get().then(res => {
+                    //残疾人和志愿者的openid
+                    let openid = [res.data.f_openid, res.data.t_openid]
+                    let doneName = res.data.doneName
+                    let authorName = res.data.authorName
+                    let startTime = res.data.startTime
+                    let endTime = res.data.endTime
+                    let Address = res.data.area + res.data.Address
+                    //开始消息推送
+                    openid.forEach((item, i) => {
+                        cloud.callFunction({
+                            name: 'sendSubscribeMessage',
+                            data: {
+                                _id:event._id,
+                                openid: item,
+                                authorName:authorName,
+                                doneName: doneName,
+                                startTime: startTime,
+                                endTime:endTime,
+                                Address:Address
+                                
+                            }
+                        })
+                       
                     })
-                    message.push({
-                        _id:event._id,
-                        openid: item,
-                        doneName: res.data.doneName,
-                        date: res.data.ServiceDateTime,
-                        demContext: res.data.demContext
-                    })
+                    
                 })
-                ctx.body = { code:0,Msg: message}
-            })
-
+            }
         }
-
-        // if(ctx.body.Msg="接单成功"){
-        //     console.log("开始触发消息推送")
-        //     //订阅消息触发器 ,触发两次
-        //     await MissionCollection.doc(event._id).get().then(res=>{
-        //         ctx.body = { code:0,Msg: res}
-        //         
-        //     })
-        // }
-
-
+        ctx.body = {code:ctx.code,errMsg:ctx.errMsg,data:ctx.data}
     })
     //根据用户的位置，计算到残疾人需要的服务位置的距离
     app.router('submitCoordinate', async (ctx) => {

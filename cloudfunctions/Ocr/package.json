@@ -1,5 +1,5 @@
 {
-  "name": "cancelMission",
+  "name": "Ocr",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "tcb-router": "^1.1.2",
+    "tencentcloud-sdk-nodejs": "^3.0.255",
     "wx-server-sdk": "~2.3.0"
   }
 }
