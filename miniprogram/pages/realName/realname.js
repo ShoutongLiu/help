@@ -90,9 +90,10 @@ Page({
         // 所有图片上传完后存入数据库
         Promise.all(promiseArr).then(res => {
             wx.cloud.callFunction({
-                name:'',
+                name:'Ocr',
                 data: {
-                  
+                    imgUrl1: this.cardFont,
+                    imgUr2: this.cardBack
                 }
             }).then(res => {
                 console.log(res);
