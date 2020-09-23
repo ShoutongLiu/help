@@ -4,7 +4,10 @@
     <view class="help-content">
         <view class="tab">
             <block wx:for="{{tabVal}}" wx:key="val">
-                <text class="tab-val">{{item.text}}</text>
+                <view class="tab-val" bindtap="handleSort" data-val="{{item.val}}">
+                    <text class="">{{item.text}}</text>
+                    <text class="iconfont icon-down" wx:if="{{item.val === 'near'}}"></text>
+                </view>
             </block>
         </view>
         <view class="content">
@@ -13,5 +16,5 @@
             </block>
         </view>
     </view>
-    
+    <view class="empty" wx:if="{{helpData.length === 0}}">查询不到数据</view>
 </view>

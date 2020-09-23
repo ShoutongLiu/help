@@ -9,6 +9,7 @@ Page({
         value: '',
         address: '',
         helpData: [],
+        result:[],
         ajaxLocation: {},
         area: '',
         tabVal: [
@@ -20,10 +21,10 @@ Page({
                 text: '积分最多',
                 val: 'integral'
             },
-            {
-                text: '任务最难',
-                val: 'hard'
-            }
+            // {
+            //     text: '任务最难',
+            //     val: 'hard'
+            // }
         ],
         typeData: [
             {
@@ -71,7 +72,7 @@ Page({
                 const length = (new Date(v.endTime)) - (new Date(v.startTime)) 
                 v.length = this.transTime(length)
             })
-            this.setData({ helpData: res.result })
+            this.setData({ helpData: res.result, result: res.result})
             wx.hideLoading()
         })
     },
@@ -92,7 +93,13 @@ Page({
 
     onSearch (e) {
         keyWord = e.detail.keyWord
-        console.log(keyWord);
+        let searchArr = []
+        this.data.result.forEach(v => {
+            if (v.demContext.indexOf(keyWord) > -1) {
+                searchArr.push(v)
+            }
+        })
+        this.setData({helpData: searchArr})
     },
     // 判断权限获取位置信息
     authLocation () {
@@ -168,4 +175,31 @@ Page({
             }
         })
     },
+
+    // 排序函数
+    compare (property) {
+        return function (a, b) {
+            var value1 = a[property];
+            var value2 = b[property];
+            return value2 - value1
+        }
+    },
+
+    // 点击排序
+    handleSort(e) {
+        const value = e.currentTarget.dataset.val
+        switch (value) {
+            case 'near':
+                let priceArr = this.data.helpData.sort(this.compare('price'))
+                this.setData({helpData: priceArr})
+                break;
+            case 'integral':
+                let disArr = this.data.helpData.sort(this.compare('dis'))
+                this.setData({helpData: disArr})
+                break;
+        
+            default:
+                break;
+        }
+    }
 })

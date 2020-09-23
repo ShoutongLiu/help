@@ -74,6 +74,7 @@ Page({
                     cloudPath: 'card/' + Date.now() + '-' + Math.random() * 10000000 + suffix,
                     filePath: item,
                     success (res) {
+                        console.log(res.fileID);
                         fileds = fileds.concat(res.fileID)
                         resolve()
                     },
@@ -87,34 +88,26 @@ Page({
         }
         console.log(promiseArr);
         // 所有图片上传完后存入数据库
-        // Promise.all(promiseArr).then(res => {
-        //     db.collection('blog').add({
-        //         data: {
-        //             ...userInfo,
-        //             content,
-        //             imgs: fileds,
-        //             createTime: db.serverDate()  // 服务端时间
-        //         }
-        //     }).then(res => {
-        //         console.log(res);
-        //         wx.showToast({
-        //             title: '发布成功'
-        //         });
-        //         wx.hideLoading();
-        //         // 返回上一页面, 并刷新
-        //         wx.navigateBack();
-        //         let pages = getCurrentPages();
-        //         const prevPage = pages[pages.length - 2]
-        //         prevPage.onPullDownRefresh()
-
-        //     }).catch(err => {
-        //         wx.showToast({
-        //             title: err.errMsg,
-        //             icon: 'none',
-        //         });
-        //         wx.hideLoading();
-        //     })
-        // })
+        Promise.all(promiseArr).then(res => {
+            wx.cloud.callFunction({
+                name:'',
+                data: {
+                  
+                }
+            }).then(res => {
+                console.log(res);
+                wx.showToast({
+                    title: '认证成功'
+                });
+                wx.hideLoading();
+            }).catch(err => {
+                wx.showToast({
+                    title: err.errMsg,
+                    icon: 'none',
+                });
+                wx.hideLoading();
+            })
+        })
     },
     /**
      * 生命周期函数--监听页面加载

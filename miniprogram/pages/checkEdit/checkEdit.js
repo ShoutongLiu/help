@@ -8,6 +8,7 @@ Page({
     itemData: {},
     typeArr: ['物资需求', '出行需求', '房屋修理', '个人护理', '其他'],
     index: 0,
+    _id: ''
   },
 
   /**
@@ -18,7 +19,7 @@ Page({
     eventChannel.on('item', (res) => {
         console.log(res.data);
         res.data.newAddress = res.data.area + res.data.Address
-        this.setData({itemData: res.data})
+        this.setData({itemData: res.data, _id: res.data._id})
     })
   },
 
@@ -44,6 +45,28 @@ Page({
     handleSubmit() {
         console.log(this.data.itemData);
     }, 
+
+    // 撤销
+    handleCancel() {
+        wx.showLoading()
+        wx.cloud.callFunction({
+            name: 'cancelMission',
+            data: {
+                $url: 'cancelwaitCheck',
+                _id: this.data._id,
+                // _id: 'b8df3bd65f69d1d600407428601de590'
+            }
+        }).then(res => {
+            if (res.result.coed ===  0) {
+                wx.showToast({
+                  title: '撤销成功',
+                })
+            }
+            wx.hideLoading()
+        }).catch(() => {
+            wx.hideLoading()
+        })
+    },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

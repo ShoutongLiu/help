@@ -33,7 +33,7 @@ Component({
     methods: {
         goToDetail (e) {
             const { item } = e.currentTarget.dataset
-            if (app.globalData.listType === 'waitCheck') {
+            if (app.globalData.listType === 'waitDone') {
                 wx.navigateTo({
                     url: `../../pages/checkEdit/checkEdit`,
                     success: (res) => {
