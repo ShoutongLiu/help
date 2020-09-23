@@ -93,7 +93,7 @@ Page({
                 name:'Ocr',
                 data: {
                     imgUrl1: this.cardFont,
-                    imgUr2: this.cardBack
+                    imgUrl2: this.cardBack
                 }
             }).then(res => {
                 console.log(res);
