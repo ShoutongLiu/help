@@ -8,7 +8,7 @@
 
 .help-content .tab {
     display: flex;
-    flex-direction: row
+    flex-direction: row;
 }
 
 .help-content .tab-val {
@@ -16,6 +16,7 @@
     color: #666;
     font-size: 28rpx;
     text-align: center;
+    padding: 0 40rpx;
 }
 
 .help-content .tab-val:first-child {
@@ -24,4 +25,11 @@
 
 .help-content .tab-val:last-child {
     text-align: right;
+}
+
+.empty {
+    text-align: center;
+    color: #ccc;
+    font-size: 32rpx;
+    margin: 100rpx 0;
 }

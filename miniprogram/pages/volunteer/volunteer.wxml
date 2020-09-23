@@ -1,2 +1,19 @@
-<!-- miniprogram/pages/volunteer/volunteer.wxml -->
-<text>miniprogram/pages/volunteer/volunteer.wxml</text>
+<view class="subject">
+    <view class="title">志愿者申请答题</view>
+    <view class="content">
+        <view class="subject-item" wx:for="{{subject}}" wx:key="title">
+            <view class="sub">{{item.title}}</view>
+            <view class="answer">
+                <radio-group bindchange="radioChange" class="group" data-index="{{index}}">
+                    <label class="answer-label" wx:for="{{item.options}}" wx:key="value">
+                        <view class="radio-item">
+                            <radio value="{{item.value}}" />
+                        </view>
+                        <view class="name">{{item.name}}</view>
+                    </label>
+                </radio-group>
+            </view>
+        </view>
+    </view>
+    <view class="submit" bindtap="handleSubmit">提 交</view>
+</view>
