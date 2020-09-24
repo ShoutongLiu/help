@@ -47,7 +47,7 @@ Page({
         wx.cloud.callFunction({
             name:'Ocr',
             data: {
-                imgUrl1: path
+                ImageUrl: path
             }
         }).then(res => {
             console.log(res);
