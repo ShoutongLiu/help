@@ -47,9 +47,7 @@ Page({
         let obj = num  === 1 ? { imgUrl1: path } : { imgUrl2: path }
         wx.cloud.callFunction({
             name:'Ocr',
-            data: {
-                ...obj
-            }
+            data: obj
         }).then(res => {
             console.log(res);
             wx.showToast({
