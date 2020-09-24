@@ -24,8 +24,12 @@ let req = new models.IDCardOCRRequest();
 // 云函数入口函数
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
+  const res = await cloud.downloadFile({
+    fileID: event.fileID,
+  })
+  const buffer = res.fileContent.toString('base64')
   let params = {
-    "ImageUrl": event.ImageUrl,
+    "ImageBase64": buffer,
     // "CardSide":"FRONT"
   };
   req.from_json_string(JSON.stringify(params));
@@ -34,7 +38,7 @@ exports.main = async (event, context) => {
   return new Promise((resolve, reject) => {  // 通过Promise容器来接收异步API的回调，然后通过当前脚本返回给客户端
     client.IDCardOCR(req, function(errMsg, response) {
      if (errMsg) {
-      resolve({ "errMsg": errMsg })
+      resolve({ "errMsg": errMsg})
      }
      console.log(typeof(response))
      resolve({ "userInfo": response})
