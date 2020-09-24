@@ -73,6 +73,7 @@ Page({
             })
             this.setData({ helpData: res.result, result: res.result})
             wx.hideLoading()
+            wx.stopPullDownRefresh()
         })
     },
 
