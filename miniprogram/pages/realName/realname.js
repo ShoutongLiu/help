@@ -44,10 +44,11 @@ Page({
           title: '上传中...',
         })
         num === 1 ? this.setData({ cardFont: path }) : this.setData({ cardBack: path })
-        let obj = num  === 1 ? { imgUrl1: path } : { imgUrl2: path }
         wx.cloud.callFunction({
             name:'Ocr',
-            data: obj
+            data: {
+                ImageUrl: path
+            }
         }).then(res => {
             console.log(res);
             wx.showToast({
