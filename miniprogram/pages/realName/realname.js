@@ -44,36 +44,36 @@ Page({
           title: '上传中...',
         })
         num === 1 ? this.setData({ cardFont: path }) : this.setData({ cardBack: path })
-        wx.cloud.callFunction({
-            name:'Ocr',
-            data: {
-                ImageUrl: path
-            }
-        }).then(res => {
-            console.log(res);
-            wx.showToast({
-                title: '上传成功'
-            });
-            wx.hideLoading();
-        }).catch(err => {
-            wx.showToast({
-                title: err.errMsg,
-                icon: 'none',
-            });
-            wx.hideLoading();
-        })
-        // let suffix = /\.\w+$/.exec(path)[0]
+        let suffix = /\.\w+$/.exec(path)[0]
         // 调用上传云存储函数(异步)
-        // wx.cloud.uploadFile({
-        //     cloudPath: 'card/' + Date.now() + '-' + Math.random() * 10000000 + suffix,
-        //     filePath: path,
-        //     success: (res) => {
-                
-        //     },
-        //     file (err) {
-        //         console.log(err);
-        //     }
-        // })
+        wx.cloud.uploadFile({
+            cloudPath: 'card/' + Date.now() + '-' + Math.random() * 10000000 + suffix,
+            filePath: path,
+            success: (res) => {
+                wx.cloud.callFunction({
+                    name:'Ocr',
+                    data: {
+                        fileID: res.fileID
+                    }
+                }).then(res => {
+                    console.log(res);
+                    wx.showToast({
+                        title: '上传成功'
+                    });
+                    wx.hideLoading();
+                }).catch(err => {
+                    wx.showToast({
+                        title: err.errMsg,
+                        icon: 'none',
+                    });
+                    wx.hideLoading();
+                })
+            },
+            file (err) {
+                wx.hideLoading();
+                console.log(err);
+            }
+        })
     },
     // 地区选择
     bindRegionChange: function (e) {
