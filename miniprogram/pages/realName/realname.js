@@ -16,7 +16,8 @@ Page({
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
             success: (res) => {
-                this.setData({ cardFont: res.tempFilePaths[0] })
+                const path = res.tempFilePaths[0]
+                this.handleUpload(path, 1)
             },
             fail: (err) => {
                 console.log(err);
@@ -29,12 +30,50 @@ Page({
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
             success: (res) => {
-                this.setData({ cardBack: res.tempFilePaths[0] })
+                const path = res.tempFilePaths[0]
+                this.handleUpload(path, 2)
             },
             fail: (err) => {
                 console.log(err);
             },
         });
+    },
+    // 上传图片
+    handleUpload(path, num) {
+        wx.showLoading({
+          title: '上传中...',
+        })
+        num === 1 ? this.setData({ cardFont: path }) : this.setData({ cardBack: path })
+        wx.cloud.callFunction({
+            name:'Ocr',
+            data: {
+                imgUrl1: path
+            }
+        }).then(res => {
+            console.log(res);
+            wx.showToast({
+                title: '上传成功'
+            });
+            wx.hideLoading();
+        }).catch(err => {
+            wx.showToast({
+                title: err.errMsg,
+                icon: 'none',
+            });
+            wx.hideLoading();
+        })
+        // let suffix = /\.\w+$/.exec(path)[0]
+        // 调用上传云存储函数(异步)
+        // wx.cloud.uploadFile({
+        //     cloudPath: 'card/' + Date.now() + '-' + Math.random() * 10000000 + suffix,
+        //     filePath: path,
+        //     success: (res) => {
+                
+        //     },
+        //     file (err) {
+        //         console.log(err);
+        //     }
+        // })
     },
     // 地区选择
     bindRegionChange: function (e) {
@@ -55,61 +94,10 @@ Page({
             return
         }
         wx.showLoading({
-            title: '上传中...',
+            title: '提交中...',
             mask: true
         });
-        let promiseArr = []
-        let fileds = []
-        let images = []
-        images.push(this.data.cardFont)
-        images.push(this.data.cardBack)
-        // 图片上传到云存储
-        for (let i = 0; i < images.length; i++) {
-            let p = new Promise((resolve, reject) => {
-                let item = images[i]
-                // 获取文件拓展名
-                let suffix = /\.\w+$/.exec(item)[0]
-                // 调用上传云存储函数(异步)
-                wx.cloud.uploadFile({
-                    cloudPath: 'card/' + Date.now() + '-' + Math.random() * 10000000 + suffix,
-                    filePath: item,
-                    success (res) {
-                        console.log(res.fileID);
-                        fileds = fileds.concat(res.fileID)
-                        resolve()
-                    },
-                    file (err) {
-                        console.log(err);
-                        reject()
-                    }
-                })
-            })
-            promiseArr.push(p)
-        }
-        console.log(promiseArr);
-        console.log(fileds);
-        // 所有图片上传完后存入数据库
-        Promise.all(promiseArr).then(res => {
-            wx.cloud.callFunction({
-                name:'Ocr',
-                data: {
-                    imgUrl1: fileds[0],
-                    imgUrl2: fileds[1]
-                }
-            }).then(res => {
-                console.log(res);
-                wx.showToast({
-                    title: '认证成功'
-                });
-                wx.hideLoading();
-            }).catch(err => {
-                wx.showToast({
-                    title: err.errMsg,
-                    icon: 'none',
-                });
-                wx.hideLoading();
-            })
-        })
+        wx.hideLoading()
     },
     /**
      * 生命周期函数--监听页面加载

@@ -52,7 +52,6 @@ Page({
     onShow () {
         app.globalData.isCheck = false
         this.authLocation()
-        console.log(3620000 % 3600000);
     },
 
     // 获取附近的需求
@@ -201,5 +200,12 @@ Page({
             default:
                 break;
         }
-    }
+    },
+
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh: function () {
+        this.getDemand();
+    },
 })

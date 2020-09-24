@@ -1,42 +1,11 @@
-// miniprogram/pages/volunteer/volunteer.js
+import subjectArr from '../../utils/subject'
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        subject: [
-            {
-                title: '1.请选择世界最友好的国家',
-                options: [
-                    {value: 'USA', name: 'A.美国'},
-                    {value: 'CHN', name: 'B.中国'},
-                    {value: 'BRA', name: 'C.巴西'},
-                    {value: 'JPN', name: 'D.日本'}
-                ],
-                answer: 'CHN'
-            },
-            {
-                title: '2.请选择世界最不友好的国家',
-                options: [
-                    {value: 'USA', name: 'A.美国'},
-                    {value: 'CHN', name: 'B.中国'},
-                    {value: 'BRA', name: 'C.巴西'},
-                    {value: 'JPN', name: 'D.日本'}
-                ],
-                answer: 'USA'
-            },
-            {
-                title: '3.2020年夏季奥运会在哪个国家举行？',
-                options: [
-                    {value: 'USA', name: 'A.美国'},
-                    {value: 'CHN', name: 'B.中国'},
-                    {value: 'BRA', name: 'C.巴西'},
-                    {value: 'JPN', name: 'D.日本'}
-                ],
-                answer: 'JPN'
-            },
-        ]
+        subject: subjectArr
     },
     radioChange(e) {
         const newObj = this.data.subject
