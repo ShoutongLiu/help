@@ -87,13 +87,14 @@ Page({
             promiseArr.push(p)
         }
         console.log(promiseArr);
+        console.log(fileds);
         // 所有图片上传完后存入数据库
         Promise.all(promiseArr).then(res => {
             wx.cloud.callFunction({
                 name:'Ocr',
                 data: {
-                    imgUrl1: this.cardFont,
-                    imgUrl2: this.cardBack
+                    imgUrl1: fileds[0],
+                    imgUrl2: fileds[1]
                 }
             }).then(res => {
                 console.log(res);

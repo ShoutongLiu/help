@@ -25,22 +25,27 @@ let req = new models.IDCardOCRRequest();
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   let params = {
-    "ImageUrl": event.imgUrl1,
-    "CardSide":"FRONT"
+    "ImageUrl": 'https://7465-test-cloud-yv3p7-1303010745.tcb.qcloud.la/card/1600929110142-9643412.754443793.jpg?sign=842924a7d64d2cb81e1c17ce5ffd28e4&t=1600929283',
+    // "CardSide":"FRONT"
   };
   req.from_json_string(JSON.stringify(params));
 
-  client.IDCardOCR(req, function(errMsg, response) {
-      if (errMsg) {
-          console.log(errMsg);
-          return;
-      }
-      console.log(response.to_json_string());
-  });
-  return {
-    event,
-    // openid: wxContext.OPENID,
-    // appid: wxContext.APPID,
-    // unionid: wxContext.UNIONID,
-  }
+
+  return new Promise((resolve, reject) => {  // 通过Promise容器来接收异步API的回调，然后通过当前脚本返回给客户端
+    client.IDCardOCR(req, function(errMsg, response) {
+     if (errMsg) {
+      resolve({ "errMsg": errMsg })
+     }
+     console.log(typeof(response))
+     resolve({ "userInfo": response})
+   });
+  })
+  
+  
+  // return {
+  //   event,
+  //   openid: wxContext.OPENID,
+  //   appid: wxContext.APPID,
+  //   unionid: wxContext.UNIONID,
+  // }
 }
