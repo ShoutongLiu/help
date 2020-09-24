@@ -25,7 +25,7 @@ let req = new models.IDCardOCRRequest();
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   let params = {
-    "ImageUrl": 'https://7465-test-cloud-yv3p7-1303010745.tcb.qcloud.la/card/1600929110142-9643412.754443793.jpg?sign=842924a7d64d2cb81e1c17ce5ffd28e4&t=1600929283',
+    "ImageUrl": event.ImageUrl,
     // "CardSide":"FRONT"
   };
   req.from_json_string(JSON.stringify(params));
