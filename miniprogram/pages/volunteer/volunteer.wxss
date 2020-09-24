@@ -18,13 +18,10 @@
     margin-top: 20rpx;
 }
 
-.subject .group {
-    display: flex;
-    justify-content: space-between;
-}
 
 .subject .group .answer-label {
     display: flex;
+    margin-bottom: 20rpx;
 }
 
 
