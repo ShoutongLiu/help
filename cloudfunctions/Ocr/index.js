@@ -40,7 +40,7 @@ exports.main = async (event, context) => {
   const buffer = res.fileContent.toString('base64')
   let params = {
     "ImageBase64": buffer,
-    // "CardSide":"FRONT"
+    "CardSide":event.type
     // "Config": "{\"CropIdCard\":true}"
   };
   req.from_json_string(JSON.stringify(params));
