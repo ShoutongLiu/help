@@ -10,7 +10,8 @@ Page({
         cardBack: '../../imgs/font.png',
         fontInfo: {},
         backInfo: {},
-        fileID:'',
+        fileID1:'',
+        fileID2:'',
         phone: ''
     },
     onChooseFont () {
@@ -57,7 +58,7 @@ Page({
             filePath: path,
             success: (res) => {
                 console.log(res);
-                this.setData({fileID: res.fileID})
+                num === 1 ? this.setData({fileID1: res.fileID}) : this.setData({fileID2: res.fileID})
                 wx.cloud.callFunction({
                     name:'Ocr',
                     data: {
@@ -138,27 +139,35 @@ Page({
         let fontObj = this.data.backInfo
         fontObj.Authority = this.data.fontInfo.Authority
         fontObj.ValidDate = this.data.fontInfo.ValidDate
+        const {fileID1, fileID2} = this.data
         wx.cloud.callFunction({
             name: 'realCommit',
             data: {
                 realnameInfo: fontObj,
-                phone: this.data.phone
+                phone: this.data.phone,
+                fileID:[fileID1, fileID2]
             }
         }).then(res => {
             console.log(res)
-            if (res.code === 0) {
-                wx.showToast({
-                  title: '实名认证成功'
+            if (res.result.code === 0) {
+                wx.showModal({
+                  title: '实名认证成功',
+                  showCancel: false,
+                  success: (res) => {
+                        if (res.confirm) {
+                            wx.navigateBack()
+                        } 
+                  }
                 })
-                wx.navigateBack()
+              
             } else {
-                wx.showToast({
+                wx.showModal({
                     title: '实名认证失败',
-                    icon: false
+                    content: res.result.errMsg,
+                    showCancel: false
                 }) 
             }
         })
-
         wx.hideLoading()
     },
     /**
