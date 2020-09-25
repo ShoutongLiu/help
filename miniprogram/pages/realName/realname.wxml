@@ -13,16 +13,9 @@
         <view class="upload-text">请上传身份证（头像面）</view>
         <button class="upload-btn" bindtap="onChooseBack">上 传</button>
     </view>
-    <view class="address">
-        <view class="title">请选择常住地区:</view>
-        <picker class="city" mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
-            <view class="picker">
-                {{region[0]}}{{region[1]}}{{region[2]}}
-                <text class="iconfont icon-down"></text>
-            </view>
-        </picker>
-        <view class="title">请输入详细地址:</view>
-        <input type="text" class="address-detail" bindinput="handleGetAddress" placeholder="详细地址" />
+    <view class="phone">
+        <view class="title">请输入手机号码:</view>
+        <input type="text" class="num" bindinput="handleGetphone" placeholder="手机号码" />
     </view>
     <button class="upload-submit" bindtap="onSubmit">提 交</button>
 </view>
