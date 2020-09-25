@@ -110,7 +110,7 @@ Page({
     },  
 
     onSubmit () {  
-        if (this.data.cardFont.indexOf('http') !== -1) || (this.data.cardBack.indexOf('http') !== -1) {
+        if (this.data.cardFont.indexOf('http') === -1 || this.data.cardBack.indexOf('http') === -1) {
             wx.showToast({
                 title: '请上传图片',
                 icon: 'none'
