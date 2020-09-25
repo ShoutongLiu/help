@@ -38,32 +38,27 @@
 
 .real-name .city {
     height: 60rpx;
-	line-height: 60rpx;
-	border: 1rpx solid #ccc;
-	border-radius: 6rpx;
-	padding-left: 10rpx;
-	font-size: 30rpx;
+    line-height: 60rpx;
+    border: 1rpx solid #ccc;
+    border-radius: 6rpx;
+    padding-left: 10rpx;
+    font-size: 30rpx;
 }
 
-.real-name .address .title {
-    padding: 20rpx 0;
+
+.real-name .phone {
+    margin-top: 20rpx;
 }
 
-.real-name .address .city .picker {
-    position: relative;
-}
-
-.real-name .address .city .icon-down {
-    position: absolute;
-    top: 0;
-    right: 20rpx;
-}
-
-.real-name .address .address-detail {
+.real-name .phone .num {
     height: 60rpx;
-	line-height: 60rpx;
-	border: 1rpx solid #ccc;
-	border-radius: 6rpx;
-	padding-left: 10rpx;
-	font-size: 30rpx;
+    line-height: 60rpx;
+    border: 1rpx solid #ccc;
+    border-radius: 6rpx;
+    padding-left: 10rpx;
+    font-size: 30rpx;
+}
+
+.real-name .phone .title {
+    margin: 20rpx 0;
 }

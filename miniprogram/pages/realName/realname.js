@@ -1,4 +1,5 @@
-// miniprogram/pages/realName/realname.js
+const regPhone = /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/
+const reg = RegExp(/http/)
 Page({
 
     /**
@@ -7,8 +8,10 @@ Page({
     data: {
         cardFont: '../../imgs/back.png',
         cardBack: '../../imgs/font.png',
-        region: ['广东省', '深圳市', '南山区'],
-        address: ''
+        fontInfo: {},
+        backInfo: {},
+        fileID:'',
+        phone: ''
     },
     onChooseFont () {
         wx.chooseImage({
@@ -42,14 +45,19 @@ Page({
     handleUpload(path, num) {
         wx.showLoading({
           title: '上传中...',
+          mask: true
         })
-        num === 1 ? this.setData({ cardFont: path }) : this.setData({ cardBack: path })
         let suffix = /\.\w+$/.exec(path)[0]
+        num === 1 ? this.setData({ cardFont: path }) : this.setData({ cardBack: path })
+        let pathName = 'card/' + Date.now() + '-' + Math.random() * 10000000 + suffix
+        // let pathName = num === 1 ? `card/font${suffix}` : `card/back${suffix}`
         // 调用上传云存储函数(异步)
         wx.cloud.uploadFile({
-            cloudPath: 'card/' + Date.now() + '-' + Math.random() * 10000000 + suffix,
+            cloudPath: pathName,
             filePath: path,
             success: (res) => {
+                console.log(res);
+                this.setData({fileID: res.fileID})
                 wx.cloud.callFunction({
                     name:'Ocr',
                     data: {
@@ -57,15 +65,18 @@ Page({
                     }
                 }).then(res => {
                     console.log(res);
-                    wx.showToast({
-                        title: '上传成功'
-                    });
+                    if (res.result.userInfo) {
+                        wx.showToast({
+                            title: '认证成功'
+                        });
+                        num === 1 ? this.setData({fontInfo: res.result.userInfo}) : this.setData({backInfo: res.result.userInfo})
+                    } else {
+                        this.renzhengFail(this.data.fileID)
+                    }
                     wx.hideLoading();
                 }).catch(err => {
-                    wx.showToast({
-                        title: err.errMsg,
-                        icon: 'none',
-                    });
+                    console.log(err);
+                    this.renzhengFail(this.data.fileID)
                     wx.hideLoading();
                 })
             },
@@ -75,17 +86,29 @@ Page({
             }
         })
     },
-    // 地区选择
-    bindRegionChange: function (e) {
-        this.setData({
-            region: e.detail.value
+
+    renzhengFail(fileID) {
+        wx.showToast({
+            title: '认证失败，请重新上传',
+            icon: 'none',
+        });
+          // 认证失败，删除
+        wx.cloud.deleteFile({
+            fileList: [fileID],
+            success: res => {
+                console.log(res.fileList)
+            },
+            fail: console.error
         })
     },
-    handleGetAddress (e) {
-        this.setData({ address: e.detail.value })
-    },
-    onSubmit () {
-        let reg = RegExp(/http/)
+
+    // 获取电话
+    handleGetphone(e) {
+        console.log(e);
+        this.setData({phone: e.detail.value})
+    },  
+
+    onSubmit () {  
         if (!reg.exec(this.data.cardFont) || !reg.exec(this.data.cardBack)) {
             wx.showToast({
                 title: '请上传图片',
@@ -93,10 +116,49 @@ Page({
             });
             return
         }
+        if (!this.data.phone) {
+            wx.showToast({
+                title: '请填写手机号码',
+                icon: 'none'
+            });
+            return
+        }
+
+        if (!regPhone.test(this.data.phone)) {
+            wx.showToast({
+                title: '请输入正确的电话号码',
+                icon: 'none'
+            })
+            return
+        }
         wx.showLoading({
             title: '提交中...',
             mask: true
         });
+        let fontObj = this.data.backInfo
+        fontObj.Authority = this.data.fontInfo.Authority
+        fontObj.ValidDate = this.data.fontInfo.ValidDate
+        wx.cloud.callFunction({
+            name: 'realCommit',
+            data: {
+                realnameInfo: fontObj,
+                phone: this.data.phone
+            }
+        }).then(res => {
+            console.log(res)
+            if (res.code === 0) {
+                wx.showToast({
+                  title: '实名认证成功'
+                })
+                wx.navigateBack()
+            } else {
+                wx.showToast({
+                    title: '实名认证失败',
+                    icon: false
+                }) 
+            }
+        })
+
         wx.hideLoading()
     },
     /**
