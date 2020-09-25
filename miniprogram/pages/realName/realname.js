@@ -1,5 +1,4 @@
 const regPhone = /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/
-const reg = RegExp(/http/)
 Page({
 
     /**
@@ -8,11 +7,11 @@ Page({
     data: {
         cardFont: '../../imgs/back.png',
         cardBack: '../../imgs/font.png',
-        fontInfo: {},
-        backInfo: {},
+        fontInfo: null,
+        backInfo: null,
         fileID1:'',
         fileID2:'',
-        phone: ''
+        phone: '',
     },
     onChooseFont () {
         wx.chooseImage({
@@ -62,13 +61,14 @@ Page({
                 wx.cloud.callFunction({
                     name:'Ocr',
                     data: {
-                        fileID: res.fileID
+                        fileID: res.fileID,
+                        type: num === 1 ? 'FRONT' : 'BACK'
                     }
                 }).then(res => {
                     console.log(res);
                     if (res.result.userInfo) {
                         wx.showToast({
-                            title: '认证成功'
+                            title: '图片识别成功'
                         });
                         num === 1 ? this.setData({fontInfo: res.result.userInfo}) : this.setData({backInfo: res.result.userInfo})
                     } else {
@@ -90,7 +90,7 @@ Page({
 
     renzhengFail(fileID) {
         wx.showToast({
-            title: '认证失败，请重新上传',
+            title: '识别失败，请重新上传',
             icon: 'none',
         });
           // 认证失败，删除
@@ -110,7 +110,7 @@ Page({
     },  
 
     onSubmit () {  
-        if (!reg.exec(this.data.cardFont) || !reg.exec(this.data.cardBack)) {
+        if (this.data.cardFont.indexOf('http') !== -1) || (this.data.cardBack.indexOf('http') !== -1) {
             wx.showToast({
                 title: '请上传图片',
                 icon: 'none'
@@ -128,6 +128,14 @@ Page({
         if (!regPhone.test(this.data.phone)) {
             wx.showToast({
                 title: '请输入正确的电话号码',
+                icon: 'none'
+            })
+            return
+        }
+
+        if (!this.data.fontInfo || !this.data.backInfo) {
+            wx.showToast({
+                title: '请输入通过识别',
                 icon: 'none'
             })
             return
@@ -151,13 +159,13 @@ Page({
             console.log(res)
             if (res.result.code === 0) {
                 wx.showModal({
-                  title: '实名认证成功',
-                  showCancel: false,
-                  success: (res) => {
+                    title: '实名认证成功',
+                    showCancel: false,
+                    success: (res) => {
                         if (res.confirm) {
                             wx.navigateBack()
                         } 
-                  }
+                    }
                 })
               
             } else {
