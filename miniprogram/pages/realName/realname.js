@@ -62,7 +62,7 @@ Page({
                     name:'Ocr',
                     data: {
                         fileID: res.fileID,
-                        type: num === 1 ? 'FRONT' : 'BACK'
+                        type: num === 1 ? 'BACK' : 'FRONT'
                     }
                 }).then(res => {
                     console.log(res);
