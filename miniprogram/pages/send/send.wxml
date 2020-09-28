@@ -53,7 +53,7 @@
         </view>
         <view class="help-phone comm">
             <text class="title">联系人电话：</text>
-            <input type="number" class="phone" bindinput="handleGetPhone" />
+            <input type="number" class="phone" value="{{phone}}" bindinput="handleGetPhone" />
         </view>
         <view class="submit" bindtap="handleSubmit">提 交</view>
     </view>
