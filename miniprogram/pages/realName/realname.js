@@ -139,7 +139,7 @@ Page({
 
         if (!this.data.fontInfo || !this.data.backInfo) {
             wx.showToast({
-                title: '请先通过识别',
+                title: '身份未认证',
                 icon: 'none'
             })
             return

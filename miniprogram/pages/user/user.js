@@ -10,6 +10,21 @@ Page({
         userType: '游客',
         tabArr: [
             {
+                icon: 'completed',
+                text: '待完成',
+                type: "waitDone"
+            },
+            {
+                icon: 'pingjia',
+                text: '待评价'
+            },
+            {
+                icon: 'quxiao',
+                text: '已取消'
+            }
+        ],
+        v_tabArr: [
+            {
                 icon: 'shenhe',
                 text: '待审核',
                 type: "waitCheck"
@@ -174,16 +189,26 @@ Page({
             app.globalData.userType = res.result.usertype
             app.globalData.phone = res.result.phone
             app.globalData.realname = res.result.realname
-            let newTab = this.data.tabArr
-            newTab.forEach(v => {
-                res.result.userMissionInfo.forEach(i => {
-                    if (v.type === i.type) {
-                        v.data = i.data
-                    }
-                })
-            })
+            if (res.result.usertype === 1) {
+                let newTab = this.data.tabArr
+                this.addData(newTab, res.result.userMissionInfo)
+                this.setData({ tabArr: newTab })
+            } else {
+                let v_newTab = this.data.v_tabArr
+                this.addData(v_newTab, res.result.userMissionInfo)
+                this.setData({ v_tabArr: v_newTab })
+            }
             this.judgeType(res.result.usertype)
-            this.setData({ tabArr: newTab })
+        })
+    },
+
+    addData (arr, res) {
+        arr.forEach(v => {
+            res.forEach(i => {
+                if (v.type === i.type) {
+                    v.data = i.data
+                }
+            })
         })
     },
 
