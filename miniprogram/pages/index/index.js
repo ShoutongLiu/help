@@ -9,7 +9,7 @@ Page({
         value: '',
         address: '',
         helpData: [],
-        result:[],
+        result: [],
         ajaxLocation: {},
         area: '',
         tabVal: [
@@ -68,18 +68,21 @@ Page({
             }
         }).then(res => {
             res.result.forEach(v => {
-                const length = (new Date(v.endTime)) - (new Date(v.startTime)) 
+                let end = new Date(v.endTime.replace(/-/g, '/')).getTime()
+                let start = new Date(v.startTime.replace(/-/g, '/')).getTime()
+                const length = end - start
                 v.length = this.transTime(length)
             })
-            this.setData({ helpData: res.result, result: res.result})
+            this.setData({ helpData: res.result, result: res.result })
+            console.log(this.data.helpData);
             wx.hideLoading()
             wx.stopPullDownRefresh()
         })
     },
 
     // 计算时长函数
-    transTime(time) {
-        let length  = null
+    transTime (time) {
+        let length = null
         if (time % 3600000 !== 0) {
             const hours = Math.ceil((time / 1000 / 60 / 60)) + ' 小时'
             const minute = (time % 3600000) / 6000 + '分'
@@ -99,7 +102,7 @@ Page({
                 searchArr.push(v)
             }
         })
-        this.setData({helpData: searchArr})
+        this.setData({ helpData: searchArr })
     },
     // 判断权限获取位置信息
     authLocation () {
@@ -186,18 +189,18 @@ Page({
     },
 
     // 点击排序
-    handleSort(e) {
+    handleSort (e) {
         const value = e.currentTarget.dataset.val
         switch (value) {
             case 'near':
                 let priceArr = this.data.helpData.sort(this.compare('price'))
-                this.setData({helpData: priceArr})
+                this.setData({ helpData: priceArr })
                 break;
             case 'integral':
                 let disArr = this.data.helpData.sort(this.compare('dis'))
-                this.setData({helpData: disArr})
+                this.setData({ helpData: disArr })
                 break;
-        
+
             default:
                 break;
         }

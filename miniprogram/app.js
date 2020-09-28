@@ -9,7 +9,8 @@ App({
         location: {},
         isCheck: false,
         address: '',
-        listType: ''
+        listType: '',
+        phone: ''
     },
     onLaunch: function () {
         wx.cloud.init({

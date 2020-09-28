@@ -1,4 +1,4 @@
-// miniprogram/pages/disabled/disabled.js
+
 Page({
 
     /**
@@ -14,7 +14,9 @@ Page({
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
             success: (res) => {
-                this.setData({ cardFont: res.tempFilePaths[0] })
+                const path = res.tempFilePaths[0]
+                this.setData({ cardFont: path })
+                this.uploadImg(path)
             },
             fail: (err) => {
                 console.log(err);
@@ -27,13 +29,43 @@ Page({
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
             success: (res) => {
-                this.setData({ cardBack: res.tempFilePaths[0] })
+                const path = res.tempFilePaths[0]
+                this.setData({ cardBack: path })
+                this.uploadImg(path)
             },
             fail: (err) => {
                 console.log(err);
             },
         });
     },
+
+
+    // 上传函数
+    uploadImg (path) {
+        let suffix = /\.\w+$/.exec(path)[0]
+        // 调用上传云存储函数(异步)
+        wx.cloud.uploadFile({
+            cloudPath: 'discard/' + Date.now() + '-' + Math.random() * 10000000 + suffix,
+            filePath: path,
+            success (res) {
+                if (res.fileID) {
+                    wx.showToast({
+                        title: '上传成功',
+                    })
+                } else {
+                    wx.showToast({
+                        title: '上传失败',
+                        icon: 'none'
+                    })
+                }
+            },
+            file (err) {
+                console.log(err);
+            }
+        })
+    },
+
+
     onSubmit () {
         if (!this.data.cardFont || !this.data.cardBack) {
             wx.showToast({
@@ -43,66 +75,33 @@ Page({
             return
         }
         wx.showLoading({
-            title: '上传中...',
+            title: '提交中...',
             mask: true
         });
-        let promiseArr = []
-        let fileds = []
-        let images = []
-        images.push(this.data.cardFont)
-        images.push(this.data.cardBack)
-        // 图片上传到云存储
-        for (let i = 0; i < images.length; i++) {
-            let p = new Promise((resolve, reject) => {
-                let item = images[i]
-                // 获取文件拓展名
-                let suffix = /\.\w+$/.exec(item)[0]
-                // 调用上传云存储函数(异步)
-                wx.cloud.uploadFile({
-                    cloudPath: 'card/' + Date.now() + '-' + Math.random() * 10000000 + suffix,
-                    filePath: item,
-                    success (res) {
-                        fileds = fileds.concat(res.fileID)
-                        resolve()
-                    },
-                    file (err) {
-                        console.log(err);
-                        reject()
+        wx.cloud.callFunction({
+            name: 'addusers',
+            data: {
+                usertype: 1
+            }
+        }).then(res => {
+            console.log(res);
+            if (res.result.code === 0) {
+                wx.showModal({
+                    title: '认证成功',
+                    showCancel: false,
+                    success: (res) => {
+                        console.log(res);
+                        if (res.confirm) {
+                            wx.navigateBack()
+                        }
                     }
                 })
-            })
-            promiseArr.push(p)
-        }
-        console.log(promiseArr);
-        // 所有图片上传完后存入数据库
-        // Promise.all(promiseArr).then(res => {
-        //     db.collection('blog').add({
-        //         data: {
-        //             ...userInfo,
-        //             content,
-        //             imgs: fileds,
-        //             createTime: db.serverDate()  // 服务端时间
-        //         }
-        //     }).then(res => {
-        //         console.log(res);
-        //         wx.showToast({
-        //             title: '发布成功'
-        //         });
-        //         wx.hideLoading();
-        //         // 返回上一页面, 并刷新
-        //         wx.navigateBack();
-        //         let pages = getCurrentPages();
-        //         const prevPage = pages[pages.length - 2]
-        //         prevPage.onPullDownRefresh()
-
-        //     }).catch(err => {
-        //         wx.showToast({
-        //             title: err.errMsg,
-        //             icon: 'none',
-        //         });
-        //         wx.hideLoading();
-        //     })
-        // })
+            }
+            wx.hideLoading()
+        }).catch((err) => {
+            console.log(err);
+            wx.hideLoading()
+        })
     },
 
     /**
