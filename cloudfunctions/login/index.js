@@ -29,6 +29,7 @@ exports.main = async (event, context) => {
 
   let usertype = ""//用户类型
   let phone = ''//电话号码
+  let realname = ''//真实姓名
   let waitCheck = []   //待审核
   let waitAccept = []  //待接受
   let waitDone = []    //待完成
@@ -41,10 +42,12 @@ exports.main = async (event, context) => {
       if(res.data.length!=0){
         usertype = res.data[0].usertype
         phone = res.data[0].phone
+        realname = res.data[0].realname
       }
       else{
         usertype=0
         phone = ''
+        realname = ''
       }
     })
     //残疾人的话查询他发布的需求的记录
@@ -137,6 +140,7 @@ exports.main = async (event, context) => {
     openid: wxContext.OPENID,
     usertype:usertype,
     phone:phone,
+    realname:realname,
     userMissionInfo:userMissionInfo
      
     // appid: wxContext.APPID,

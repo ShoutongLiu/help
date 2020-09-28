@@ -21,7 +21,6 @@ exports.main = async (event, context) => {
         ctx.data = {}
         ctx.code = '0'
         ctx.errMsg = 'OK!'
-        ctx.phone = ''
         await next()  //执行一下中间件.这是一个异步操作,要加上await
     })
 
@@ -86,10 +85,6 @@ exports.main = async (event, context) => {
                 ctx.code = 10001
                 ctx.errMsg = "接受失败，该需求已经被其他人接受"
             }else{
-                //先得到志愿者的电话号码
-                await UserCollection.doc(event._id).get().then(res=>{
-                    ctx.phone = res.data.phone
-                })
                 await DB.collection('missionPass').doc(event._id).update({
                     // data 传入需要局部更新的数据
                     data: {
@@ -97,7 +92,7 @@ exports.main = async (event, context) => {
                         accept: true,
                         doneName: event.doneName,
                         t_openid: wxContext.OPENID,
-                        v_phone:ctx.phone,
+                        v_phone:event.phone,
                         v_location:event.address,
                         dis:event.dis
                     }

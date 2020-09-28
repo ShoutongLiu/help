@@ -21,7 +21,9 @@ exports.main = async (event, context) => {
       _openid:wxContext.OPENID
     }).update({
       data:{
-        usertype:event.usertype
+        usertype:event.usertype,
+        integral:event.usertype==1?100:0,
+        CertificateID:event.usertype==1?event.CertificateID:''
       }
     })
   }else{
