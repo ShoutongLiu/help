@@ -7,6 +7,7 @@ Page({
     data: {
         avatar: '../../imgs/user-login.png',
         nickName: '',
+        userType: '游客',
         tabArr: [
             {
                 icon: 'shenhe',
@@ -58,6 +59,21 @@ Page({
     onLoad: function (options) {
         this.handleSetting()
     },
+
+    judgeType (type) {
+        switch (type) {
+            case 0:
+                this.setData({ userType: '游客' })
+                break
+            case 1:
+                this.setData({ userType: '残疾人' })
+                break
+            case 2:
+                this.setData({ userType: '志愿者' })
+                break
+        }
+    },
+
 
     handleSetting () {
         //  查看是否授权
@@ -157,6 +173,7 @@ Page({
             app.globalData.openid = res.result.openid
             app.globalData.userType = res.result.usertype
             app.globalData.phone = res.result.phone
+            app.globalData.realname = res.result.realname
             let newTab = this.data.tabArr
             newTab.forEach(v => {
                 res.result.userMissionInfo.forEach(i => {
@@ -165,6 +182,7 @@ Page({
                     }
                 })
             })
+            this.judgeType(res.result.usertype)
             this.setData({ tabArr: newTab })
         })
     },

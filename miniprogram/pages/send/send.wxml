@@ -49,7 +49,7 @@
         </view>
         <view class="help-name comm">
             <text class="title">联系人姓名：</text>
-            <input type="text" class="name" bindinput="handleGetName" />
+            <input type="text" class="name" value="{{name}}" bindinput="handleGetName" />
         </view>
         <view class="help-phone comm">
             <text class="title">联系人电话：</text>

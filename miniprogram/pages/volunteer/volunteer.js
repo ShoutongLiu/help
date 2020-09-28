@@ -53,6 +53,9 @@ Page({
             })
             return
         }
+        wx.showLoading({
+            title: '提交中...',
+        })
         wx.cloud.callFunction({
             name: 'addusers',
             data: {
@@ -71,6 +74,7 @@ Page({
                         }
                     }
                 })
+                wx.hideLoading()
             } else {
                 wx.showModal({
                     title: '认证失败',
@@ -82,8 +86,8 @@ Page({
                         }
                     }
                 })
+                wx.hideLoading()
             }
-            wx.hideLoading()
         }).catch((err) => {
             console.log(err);
             wx.hideLoading()

@@ -82,7 +82,7 @@ Page({
     onLoad: function (options) {
         this.handleGetDate()
         this.handleGetTime()
-        this.setData({ phone: app.globalData.phone })
+        this.setData({ phone: app.globalData.phone, name: app.globalData.realname })
     },
 
     /**

@@ -10,6 +10,7 @@ App({
         isCheck: false,
         address: '',
         listType: '',
+        realname: '',
         phone: ''
     },
     onLaunch: function () {
