@@ -47,10 +47,10 @@ exports.main = async (event, context) => {
             await MissionCollection.add({
                 data: {
                     f_openid: wxContext.OPENID,
-                    Address: event.Address,
                     startTime: event.startTime,
                     endTime:event.startTime,
                     area: event.area,
+                    Address: event.Address,
                     authorAvatarUrl: event.authorAvatarUrl,
                     authorName: event.authorName,
                     check: 0, //默认没有通过管理员审核
@@ -58,7 +58,8 @@ exports.main = async (event, context) => {
                     demType: event.demType,
                     location: event.location,
                     phone: event.phone,
-                    cancel:false  //默认没有取消
+                    cancel:false,//默认没有取消
+                    price:'' //默认没积分
                 }
             }).then(res => {
                 if (res.errMsg == 'collection.add:ok') {
