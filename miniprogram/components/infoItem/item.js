@@ -32,8 +32,15 @@ Component({
      */
     methods: {
         goToDetail (e) {
+            if (app.globalData.userType === 1) {
+                wx.showToast({
+                    title: '残疾人不能接单',
+                    icon: 'none'
+                })
+                return
+            }
             const { item } = e.currentTarget.dataset
-            if (app.globalData.listType === 'waitDone') {
+            if (app.globalData.listType === 'waitCheck') {
                 wx.navigateTo({
                     url: `../../pages/checkEdit/checkEdit`,
                     success: (res) => {

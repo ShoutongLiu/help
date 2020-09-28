@@ -10,7 +10,7 @@ Page({
         item_detail: {},
         _id: '',
         isAccept: false,
-        isShow: false
+        isShow: false,
     },
 
     /**
@@ -18,7 +18,7 @@ Page({
      */
     onLoad: function (options) {
         const id = options._id
-        this.setData({isShow: app.globalData.isCheck})
+        this.setData({ isShow: app.globalData.isCheck })
         if (id) {
             wx.cloud.callFunction({
                 name: 'router',
@@ -46,6 +46,7 @@ Page({
         data.demType = target.text
         this.setData({ item_detail: data, isAccept: data.accept })
     },
+
     handleAccept () {
         if (app.globalData.userType === 0) {
             wx.showModal({
@@ -69,13 +70,15 @@ Page({
             return
         }
         const tmplId = '35lJ7F4Ryes7-5lMzrq3gyn6HRGEsRHJCF62jQaSJSA'
-        const { nickname, userType } = app.globalData
+        const { nickname, userType, address, phone, location } = app.globalData
         const dataObj = {
             doneName: nickname,
             _id: this.data.item_detail._id,
             usertype: userType,
             dis: this.data.item_detail.dis,
-            address: app.globalData.address
+            address: address,
+            v_phone: phone,
+            v_location: location
         }
         wx.requestSubscribeMessage({
             tmplIds: [tmplId],

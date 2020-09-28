@@ -9,8 +9,8 @@ Page({
         cardBack: '../../imgs/font.png',
         fontInfo: null,
         backInfo: null,
-        fileID1:'',
-        fileID2:'',
+        fileID1: '',
+        fileID2: '',
         isFront: false,
         isBack: false,
         phone: '',
@@ -21,7 +21,7 @@ Page({
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
             success: (res) => {
-                this.setData({isFront: true})
+                this.setData({ isFront: true })
                 const path = res.tempFilePaths[0]
                 this.handleUpload(path, 1)
             },
@@ -36,7 +36,7 @@ Page({
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
             success: (res) => {
-                this.setData({isBack: true})
+                this.setData({ isBack: true })
                 const path = res.tempFilePaths[0]
                 this.handleUpload(path, 2)
             },
@@ -46,10 +46,10 @@ Page({
         });
     },
     // 上传图片
-    handleUpload(path, num) {
+    handleUpload (path, num) {
         wx.showLoading({
-          title: '上传中...',
-          mask: true
+            title: '上传中...',
+            mask: true
         })
         let suffix = /\.\w+$/.exec(path)[0]
         num === 1 ? this.setData({ cardFont: path }) : this.setData({ cardBack: path })
@@ -61,9 +61,9 @@ Page({
             filePath: path,
             success: (res) => {
                 console.log(res);
-                num === 1 ? this.setData({fileID1: res.fileID}) : this.setData({fileID2: res.fileID})
+                num === 1 ? this.setData({ fileID1: res.fileID }) : this.setData({ fileID2: res.fileID })
                 wx.cloud.callFunction({
-                    name:'Ocr',
+                    name: 'Ocr',
                     data: {
                         fileID: res.fileID,
                         type: num === 1 ? 'BACK' : 'FRONT'
@@ -74,7 +74,7 @@ Page({
                         wx.showToast({
                             title: '图片识别成功'
                         });
-                        num === 1 ? this.setData({fontInfo: res.result.userInfo}) : this.setData({backInfo: res.result.userInfo})
+                        num === 1 ? this.setData({ fontInfo: res.result.userInfo }) : this.setData({ backInfo: res.result.userInfo })
                     } else {
                         this.renzhengFail(this.data.fileID)
                     }
@@ -92,12 +92,12 @@ Page({
         })
     },
 
-    renzhengFail(fileID) {
+    renzhengFail (fileID) {
         wx.showToast({
             title: '识别失败，请重新上传',
             icon: 'none',
         });
-          // 认证失败，删除
+        // 认证失败，删除
         wx.cloud.deleteFile({
             fileList: [fileID],
             success: res => {
@@ -108,12 +108,12 @@ Page({
     },
 
     // 获取电话
-    handleGetphone(e) {
+    handleGetphone (e) {
         console.log(e);
-        this.setData({phone: e.detail.value})
-    },  
+        this.setData({ phone: e.detail.value })
+    },
 
-    onSubmit () {  
+    onSubmit () {
         if (!this.data.isFront || !this.data.isBack) {
             wx.showToast({
                 title: '请上传图片',
@@ -139,7 +139,7 @@ Page({
 
         if (!this.data.fontInfo || !this.data.backInfo) {
             wx.showToast({
-                title: '请输入通过识别',
+                title: '身份未认证',
                 icon: 'none'
             })
             return
@@ -151,13 +151,13 @@ Page({
         let fontObj = this.data.backInfo
         fontObj.Authority = this.data.fontInfo.Authority
         fontObj.ValidDate = this.data.fontInfo.ValidDate
-        const {fileID1, fileID2} = this.data
+        const { fileID1, fileID2 } = this.data
         wx.cloud.callFunction({
             name: 'realCommit',
             data: {
                 realnameInfo: fontObj,
                 phone: this.data.phone,
-                fileID:[fileID1, fileID2]
+                fileID: [fileID1, fileID2]
             }
         }).then(res => {
             console.log(res)
@@ -168,10 +168,10 @@ Page({
                     success: (res) => {
                         if (res.confirm) {
                             wx.navigateBack()
-                        } 
+                        }
                     }
                 })
-              
+                wx.hideLoading()
             } else {
                 wx.showModal({
                     title: '实名认证失败',
@@ -180,12 +180,12 @@ Page({
                     success: (res) => {
                         if (res.confirm) {
                             wx.navigateBack()
-                        } 
+                        }
                     }
-                }) 
+                })
+                wx.hideLoading()
             }
         })
-        wx.hideLoading()
     },
     /**
      * 生命周期函数--监听页面加载

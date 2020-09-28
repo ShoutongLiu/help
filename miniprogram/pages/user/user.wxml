@@ -5,7 +5,10 @@
             点击登录
         </button>
         <view class="center" wx:if="{{nickName}}">
-            <view class="user-name">{{nickName}}</view>
+            <view class="user-name">
+                <view>{{nickName}}</view>
+                <view class="user-type">{{userType}}</view>
+            </view>
             <view class="person">
                 <text bindtap="handleToCenter">个人中心</text>
                 <text class="iconfont icon-right"></text>
@@ -23,7 +26,7 @@
                 </view>
             </view>
             <view class="tab">
-                <block wx:for="{{tabArr}}" wx:key="text">
+                <block wx:for="{{userType === '残疾人' ? tabArr : v_tabArr}}" wx:key="text">
                     <view class="tab-item" bindtap="handleToList" data-item="{{item}}">
                         <text class="iconfont icon-{{item.icon}}"></text>
                         <view class="item-text">{{item.text}}</view>
