@@ -10,7 +10,7 @@ Page({
         item_detail: {},
         _id: '',
         isAccept: false,
-        isShow: false
+        isShow: false,
     },
 
     /**
@@ -46,6 +46,7 @@ Page({
         data.demType = target.text
         this.setData({ item_detail: data, isAccept: data.accept })
     },
+
     handleAccept () {
         if (app.globalData.userType === 0) {
             wx.showModal({

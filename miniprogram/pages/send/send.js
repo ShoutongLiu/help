@@ -1,5 +1,6 @@
 const app = getApp()
 import typeData from '../../utils/typeData'
+let QQMapWX = require('../../assets/map/qqmap-wx-jssdk.js');
 const reg = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/
 Page({
 
@@ -113,7 +114,7 @@ Page({
         this.setData({ startTime: currenTime, endTime: endHours + ':' + min })
     },
     // 提交表单
-    handleSubmit () {
+    async handleSubmit () {
         const { index, typeArr, content, region, address, date, startTime, endTime, name, phone } = this.data
         if (!content || !address || !name || !phone) {
             wx.showModal({
@@ -136,60 +137,74 @@ Page({
             })
             return
         }
+
         const type = typeArr[index]
         const item = typeData.find(v => {
             return v.text === type
         })
         const area = region[0] + region[1]
         const serve_address = region[2] + address
+        const addRess = area + serve_address
         const start = date + ' ' + startTime
         const end = date + ' ' + endTime
-        const submitObj = {
-            demType: item.val,
-            area,
-            demContext: content,
-            Address: serve_address,
-            startTime: start,
-            endTime: end,
-            authorName: name,
-            phone,
-            authorAvatarUrl: app.globalData.avatar,
-            location: app.globalData.location,
-            usertype: app.globalData.userType
-        }
-        const tmplId = '35lJ7F4Ryes7-5lMzrq3gyn6HRGEsRHJCF62jQaSJSA'
-        wx.requestSubscribeMessage({
-            tmplIds: [tmplId],
-            complete: (res) => {
+        const qqmapsdk = new QQMapWX({
+            key: 'XPUBZ-6WG3X-QLJ4K-7ZCRD-REKN6-L5BDO'
+        });
+        qqmapsdk.geocoder({
+            //获取表单传入地址
+            address: addRess, //地址参数，例：固定地址，address: '北京市海淀区彩和坊路海淀西大街74号'
+            success: (res) => {//成功后的回调
                 console.log(res);
-                if (res.errMsg === 'requestSubscribeMessage:ok') {
-                    wx.showLoading({
-                        title: '提交中...',
-                    })
-                    wx.cloud.callFunction({
-                        name: 'router',
-                        data: {
-                            $url: 'addMission',
-                            data: submitObj
-                        }
-                    }).then(res => {
+                const submitObj = {
+                    demType: item.val,
+                    area,
+                    demContext: content,
+                    Address: serve_address,
+                    startTime: start,
+                    endTime: end,
+                    authorName: name,
+                    phone,
+                    authorAvatarUrl: app.globalData.avatar,
+                    location: res.result.location,
+                    usertype: app.globalData.userType
+                }
+                console.log(submitObj);
+                const tmplId = '35lJ7F4Ryes7-5lMzrq3gyn6HRGEsRHJCF62jQaSJSA'
+                wx.requestSubscribeMessage({
+                    tmplIds: [tmplId],
+                    complete: (res) => {
                         console.log(res);
-                        if (!res.result.code === 0) {
-                            wx.showModal({
-                                content: '发布是败',
-                                showCancel: false
+                        if (res.errMsg === 'requestSubscribeMessage:ok') {
+                            wx.showLoading({
+                                title: '提交中...',
+                            })
+                            wx.cloud.callFunction({
+                                name: 'router',
+                                data: {
+                                    $url: 'addMission',
+                                    data: submitObj
+                                }
+                            }).then(res => {
+                                console.log(res);
+                                if (!res.result.code === 0) {
+                                    wx.showModal({
+                                        content: '发布是败',
+                                        showCancel: false
+                                    })
+                                }
+                                wx.showModal({
+                                    title: '需求提交成功',
+                                    content: '24小时内即可审核完成',
+                                    showCancel: false
+                                })
+                                wx.hideLoading()
                             })
                         }
-                        wx.showModal({
-                            title: '需求提交成功',
-                            content: '24小时内即可审核完成',
-                            showCancel: false
-                        })
-                        wx.hideLoading()
-                    })
-                }
+                    }
+                })
             }
         })
+
     },
     /**
      * 生命周期函数--监听页面初次渲染完成
