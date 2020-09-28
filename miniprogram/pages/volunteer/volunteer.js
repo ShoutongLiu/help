@@ -71,6 +71,17 @@ Page({
                         }
                     }
                 })
+            } else {
+                wx.showModal({
+                    title: '认证失败',
+                    content: res.result.errMsg,
+                    showCancel: false,
+                    success: (res) => {
+                        if (res.confirm) {
+                            wx.navigateBack()
+                        }
+                    }
+                })
             }
             wx.hideLoading()
         }).catch((err) => {
