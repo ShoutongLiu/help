@@ -28,9 +28,11 @@ exports.main = async (event, context) => {
   // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）等信息
 
   let usertype = ""
-  let waitCheck = []  //待审核
+  let waitCheck = []   //待审核
   let waitAccept = []  //待接受
   let waitDone = []    //待完成
+  let waitComment = [] //待评价
+  let Cancelled = []   //已经取消
   const wxContext = cloud.getWXContext()
   await UserCollection.where({
     _openid: wxContext.OPENID
@@ -47,7 +49,8 @@ exports.main = async (event, context) => {
       //查询待审核的记录
       await MissionCollection.where({
         f_openid:wxContext.OPENID,
-        check:0
+        check:0,
+        cancel:false
       }).get().then(function(res){
         waitCheck=res.data
       })
@@ -64,9 +67,26 @@ exports.main = async (event, context) => {
         f_openid:wxContext.OPENID,
         check:1,
         accept:true,
-        done:false
+        done:false,
       }).get().then(function(res){
         waitDone=res.data
+      })
+      //残疾人待评价的需求
+      await DB.collection('missionPass').where({
+        f_openid:wxContext.OPENID,
+        check:1,
+        accept:true,
+        done:true,
+        iscomment1:false
+      }).get().then(function(res){
+        waitComment=res.data
+      })
+      //残疾人已经取消的需求
+      await MissionCollection.where({
+        f_openid:wxContext.OPENID,
+        cancel:true
+      }).get().then(function(res){
+        Cancelled=res.data
       })
     }
     //志愿者的话查询他接受的需求的记录
@@ -80,6 +100,14 @@ exports.main = async (event, context) => {
         waitDone =res.data
       })
       //志愿者待评价
+      await DB.collection('missionPass').where({
+        t_openid:wxContext.OPENID,
+        done:true,
+        iscomment2:false
+      }).get().then(function(res){
+        waitComment =res.data
+      })
+      //志愿者已经取消的
     }
   
   let userMissionInfo = [
@@ -92,9 +120,15 @@ exports.main = async (event, context) => {
     },{
       type:'waitDone',
       data:waitDone
+    },{
+      type:'waitComment',
+      data:waitComment
+    },{
+      type:'Cancelled',
+      data:Cancelled
     }
   ]
-  //   return result
+  
   return {
     // event,
     openid: wxContext.OPENID,
