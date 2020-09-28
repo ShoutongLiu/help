@@ -20,10 +20,16 @@ exports.main = async (event, context) => {
       data:{
         _openid: wxContext.OPENID,
         realnameInfo:event.realnameInfo,
-        phone:event.phone,
         fileID:event.fileID
       }
     }).then(res=>{})
+    await DB.collection('users').add({
+      data:{
+        _openid:wxContext.OPENID,
+        usertype:0,
+        phone:event.phone
+      }
+    })
   }else{
     context.code = -1001
     context.errMsg = '提交失败，该用户已经实名'
