@@ -87,7 +87,7 @@ Page({
 
     handleSelect (e) {
         const { id } = e.currentTarget.dataset
-        if (!app.globalData.openid && id !== '4') {
+        if (!app.globalData.nickname && id !== '4') {
             wx.showModal({
                 title: '请先登录',
                 showCancel: false,
@@ -96,16 +96,49 @@ Page({
         }
         switch (id) {
             case '1':
+                if (app.globalData.phone) {
+                    wx.showToast({
+                        title: '你已经实名认证',
+                        icon: 'none'
+                    })
+                    return
+                }
                 wx.navigateTo({
                     url: `../../pages/realName/realname`,
                 })
                 break
             case '2':
+                if (app.globalData.userType === 1) {
+                    wx.showToast({
+                        title: '你已经认证残疾人',
+                        icon: 'none'
+                    })
+                    return
+                } else if (app.globalData.userType === 2) {
+                    wx.showToast({
+                        title: '你已经认证志愿者',
+                        icon: 'none'
+                    })
+                    return
+                }
                 wx.navigateTo({
                     url: `../../pages/disabled/disabled`,
                 })
                 break
             case '3':
+                if (app.globalData.userType === 1) {
+                    wx.showToast({
+                        title: '你已经认证残疾人',
+                        icon: 'none'
+                    })
+                    return
+                } else if (app.globalData.userType === 2) {
+                    wx.showToast({
+                        title: '你已经认证志愿者',
+                        icon: 'none'
+                    })
+                    return
+                }
                 wx.navigateTo({
                     url: `../../pages/volunteer/volunteer`,
                 })
@@ -123,6 +156,7 @@ Page({
             console.log(res);
             app.globalData.openid = res.result.openid
             app.globalData.userType = res.result.usertype
+            app.globalData.phone = res.result.phone
             let newTab = this.data.tabArr
             newTab.forEach(v => {
                 res.result.userMissionInfo.forEach(i => {
@@ -131,15 +165,15 @@ Page({
                     }
                 })
             })
-            this.setData({tabArr: newTab})
-        })  
+            this.setData({ tabArr: newTab })
+        })
     },
 
     // 跳转到需求列表
-    handleToList(e) {
+    handleToList (e) {
         console.log(e);
         app.globalData.isCheck = true
-        const {item} = e.currentTarget.dataset
+        const { item } = e.currentTarget.dataset
         wx.navigateTo({
             url: `../../pages/listDetail/listDetail`,
             success: (res) => {
@@ -149,9 +183,9 @@ Page({
         });
     },
 
-    handleToCenter() {
+    handleToCenter () {
         wx.navigateTo({
-          url: '../../pages/center/center',
+            url: '../../pages/center/center',
         })
     },
     onReady: function () {

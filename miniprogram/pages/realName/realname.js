@@ -11,6 +11,8 @@ Page({
         backInfo: null,
         fileID1:'',
         fileID2:'',
+        isFront: false,
+        isBack: false,
         phone: '',
     },
     onChooseFont () {
@@ -19,6 +21,7 @@ Page({
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
             success: (res) => {
+                this.setData({isFront: true})
                 const path = res.tempFilePaths[0]
                 this.handleUpload(path, 1)
             },
@@ -33,6 +36,7 @@ Page({
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
             success: (res) => {
+                this.setData({isBack: true})
                 const path = res.tempFilePaths[0]
                 this.handleUpload(path, 2)
             },
@@ -110,7 +114,7 @@ Page({
     },  
 
     onSubmit () {  
-        if (this.data.cardFont.indexOf('http') === -1 || this.data.cardBack.indexOf('http') === -1) {
+        if (!this.data.isFront || !this.data.isBack) {
             wx.showToast({
                 title: '请上传图片',
                 icon: 'none'
@@ -172,7 +176,12 @@ Page({
                 wx.showModal({
                     title: '实名认证失败',
                     content: res.result.errMsg,
-                    showCancel: false
+                    showCancel: false,
+                    success: (res) => {
+                        if (res.confirm) {
+                            wx.navigateBack()
+                        } 
+                    }
                 }) 
             }
         })

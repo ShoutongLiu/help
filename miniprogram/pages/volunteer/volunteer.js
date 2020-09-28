@@ -1,24 +1,25 @@
 import subjectArr from '../../utils/subject'
+let timer = null
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        subject: subjectArr
+        subject: []
     },
-    radioChange(e) {
+    radioChange (e) {
         const newObj = this.data.subject
         const { index } = e.currentTarget.dataset
         const currentChoose = e.detail.value
         const currentItem = newObj[index]
         currentItem.currentChoose = currentChoose
-        this.setData({subject: newObj})
+        this.setData({ subject: newObj })
     },
 
-    handleSubmit() {
-       let isFour =  this.data.subject.every(v => {
-            return  Object.keys(v).length === 4
+    handleSubmit () {
+        let isFour = this.data.subject.every(v => {
+            return Object.keys(v).length === 4
         })
         if (!isFour) {
             wx.showModal({
@@ -28,6 +29,8 @@ Page({
             return
         }
         let errArr = []
+
+        // 判断是否正确
         this.data.subject.forEach(v => {
             if (v.answer !== v.currentChoose) {
                 errArr.push(v)
@@ -39,25 +42,58 @@ Page({
                 title: '未能通过',
                 content: '是否重新测试？',
                 success: (res) => {
+                    console.log(res);
                     if (res.confirm) {
-                      console.log('用户点击确定')
+                        this.reset()
+                        console.log('用户点击确定')
                     } else if (res.cancel) {
-                        console.log('用户点击取消')
+                        wx.navigateBack()
                     }
                 }
             })
-        } else {
-            wx.showToast({
-                title: '恭喜通过测试',
-            })
+            return
         }
+        wx.cloud.callFunction({
+            name: 'addusers',
+            data: {
+                usertype: 2
+            }
+        }).then(res => {
+            console.log(res);
+            if (res.result.code === 0) {
+                wx.showModal({
+                    title: '恭喜通过测试',
+                    showCancel: false,
+                    success: (res) => {
+                        console.log(res);
+                        if (res.confirm) {
+                            wx.navigateBack()
+                        }
+                    }
+                })
+            }
+            wx.hideLoading()
+        }).catch((err) => {
+            console.log(err);
+            wx.hideLoading()
+        })
+
+    },
+    // 重置题目
+    reset () {
+        wx.showLoading()
+        this.setData({ subject: [] })
+        timer = setTimeout(() => {
+            wx.hideLoading()
+            this.setData({ subject: subjectArr })
+        }, 1000)
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+        this.setData({ subject: subjectArr })
     },
 
     /**
@@ -85,7 +121,7 @@ Page({
      * 生命周期函数--监听页面卸载
      */
     onUnload: function () {
-
+        clearTimeout(timer)
     },
 
     /**
