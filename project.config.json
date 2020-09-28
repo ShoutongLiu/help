@@ -10,7 +10,7 @@
     "minified": true,
     "newFeature": true,
     "coverView": true,
-    "nodeModules": false,
+    "nodeModules": true,
     "autoAudits": false,
     "showShadowRootInWxmlPanel": true,
     "scopeDataCheck": false,
@@ -129,6 +129,20 @@
           "id": -1,
           "name": "pages/checkEdit/checkEdit",
           "pathName": "pages/checkEdit/checkEdit",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/center/center",
+          "pathName": "pages/center/center",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/volunteer/volunteer",
+          "pathName": "pages/volunteer/volunteer",
           "query": "",
           "scene": null
         },
