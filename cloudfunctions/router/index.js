@@ -21,7 +21,6 @@ exports.main = async (event, context) => {
         ctx.data = {}
         ctx.code = '0'
         ctx.errMsg = 'OK!'
-        ctx.phone = ''
         await next()  //执行一下中间件.这是一个异步操作,要加上await
     })
 
@@ -47,10 +46,10 @@ exports.main = async (event, context) => {
             await MissionCollection.add({
                 data: {
                     f_openid: wxContext.OPENID,
-                    Address: event.Address,
                     startTime: event.startTime,
                     endTime:event.startTime,
                     area: event.area,
+                    Address: event.Address,
                     authorAvatarUrl: event.authorAvatarUrl,
                     authorName: event.authorName,
                     check: 0, //默认没有通过管理员审核
@@ -58,7 +57,8 @@ exports.main = async (event, context) => {
                     demType: event.demType,
                     location: event.location,
                     phone: event.phone,
-                    cancel:false  //默认没有取消
+                    cancel:false,//默认没有取消
+                    price:'' //默认没积分
                 }
             }).then(res => {
                 if (res.errMsg == 'collection.add:ok') {
@@ -85,10 +85,6 @@ exports.main = async (event, context) => {
                 ctx.code = 10001
                 ctx.errMsg = "接受失败，该需求已经被其他人接受"
             }else{
-                //先得到志愿者的电话号码
-                await UserCollection.doc(event._id).get().then(res=>{
-                    ctx.phone = res.data.phone
-                })
                 await DB.collection('missionPass').doc(event._id).update({
                     // data 传入需要局部更新的数据
                     data: {
@@ -96,7 +92,7 @@ exports.main = async (event, context) => {
                         accept: true,
                         doneName: event.doneName,
                         t_openid: wxContext.OPENID,
-                        v_phone:ctx.phone,
+                        v_phone:event.phone,
                         v_location:event.address,
                         dis:event.dis
                     }
