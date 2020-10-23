@@ -189,7 +189,7 @@ Page({
             app.globalData.userType = res.result.usertype
             app.globalData.phone = res.result.phone
             app.globalData.realname = res.result.realname
-            if (res.result.usertype === 1) {
+            if (res.result.usertype === 2) {
                 let newTab = this.data.tabArr
                 this.addData(newTab, res.result.userMissionInfo)
                 this.setData({ tabArr: newTab })
