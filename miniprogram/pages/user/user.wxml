@@ -27,7 +27,7 @@
             </view>
             <view class="tab">
                 <block wx:for="{{userType === '残疾人' ? tabArr : v_tabArr}}" wx:key="text">
-                    <view class="tab-item" bindtap="handleToList" data-item="{{item}}">
+                    <view class="tab-item {{userType === '残疾人' ? 'disable' : ''}}" bindtap="handleToList" data-item="{{item}}">
                         <text class="iconfont icon-{{item.icon}}"></text>
                         <view class="item-text">{{item.text}}</view>
                         <text class="dot" wx:if="{{item.data.length > 0}}">
