@@ -91,6 +91,10 @@ page {
     position: relative;
 }
 
+.main .tab .tab-item.disable {
+    width: 33.33%;
+}
+
 .main .tab .tab-item .dot {
     position: absolute;
     top: 0;
