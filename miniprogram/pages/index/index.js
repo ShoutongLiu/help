@@ -51,6 +51,7 @@ Page({
     },
     onShow () {
         app.globalData.isCheck = false
+        app.globalData.isIndex = true
         this.authLocation()
     },
 

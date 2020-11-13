@@ -80,6 +80,7 @@ page {
 
 .main .order .tab {
     display: flex;
+    justify-content: space-around;
     padding: 20rpx 0;
 }
 
