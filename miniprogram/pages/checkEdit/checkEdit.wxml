@@ -38,6 +38,6 @@
     </view>
     <view class="btn-container">
         <button class="cancel btn" bindtap="handleCancel">撤 消</button>
-        <button class="edit btn" bindtap="handleSubmit">提 交</button>
+        <button class="edit btn" bindtap="handleSubmit">重新发布</button>
     </view>
 </view>

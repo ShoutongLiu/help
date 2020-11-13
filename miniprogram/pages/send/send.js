@@ -197,6 +197,7 @@ Page({
                                     content: '24小时内即可审核完成',
                                     showCancel: false
                                 })
+                                this.setData({ content: '', address: '', phone: '', name: '' })
                                 wx.hideLoading()
                             })
                         }
