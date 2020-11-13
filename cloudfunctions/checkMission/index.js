@@ -31,25 +31,29 @@ exports.main = async (event, context) => {
             location: checkData.location,
             phone: checkData.phone,
             cancel:false,//默认没有取消
-            price:checkData.price, //默认没积
+            price:checkData.price, //管理员打的积分
             refusal:checkData.refusal,
             v_location:{},
             v_phone:'',
             accept:false,
             dis:0,
             done:false,
-            doneName:''
+            doneName:'',
+            checkDateTime:checkData.checkDateTime, //审核时间
+            iscomment1:false,
+            iscomment2:false,
         }
       }).then(res => {
           if (res.errMsg == 'collection.add:ok') {
               
-              ctx.data.addmission = "发布成功"
+              
           } else {
-              ctx.data.addmission = "发布失败"
+              
           }
       })
   }
   return {
+    result:"审核完成"
     // wxContext
     // data:event.checkData
     // openid: wxContext.OPENID,
