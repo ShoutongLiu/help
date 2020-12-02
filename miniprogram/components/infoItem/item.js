@@ -7,6 +7,10 @@ Component({
     properties: {
         item: {
             type: Object,
+        },
+        isIndex: {
+            type: Boolean,
+            default: true
         }
     },
     // 监听器
@@ -23,7 +27,7 @@ Component({
      */
     data: {
         type: '',
-        typeData,
+        typeData
     },
 
 

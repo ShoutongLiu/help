@@ -19,14 +19,19 @@
         <input type="text" class="input" value="{{itemData.newAddress}}" />
     </view>
     <view class="item">
-        <text class="title">开始时间：</text>
-        <picker class="time" mode="time" value="{{itemData.startTime}}" bindchange="bindStartTime">
-            <view class="picker">{{itemData.startTime}}</view>
+        <text class="title">服务日期：</text>
+        <picker class="date" mode="date" value="{{itemData.date}}" bindchange="bindServeDate">
+            <view class="picker">{{itemData.date}}</view>
             <text class="iconfont icon-down"></text>
         </picker>
     </view>
     <view class="item">
-        <text class="title">结束时间：</text>
+        <text class="title">服务时间：</text>
+        <picker class="time" mode="time" value="{{itemData.startTime}}" bindchange="bindStartTime">
+            <view class="picker">{{itemData.startTime}}</view>
+            <text class="iconfont icon-down"></text>
+        </picker>
+        <text>至</text>
         <picker class="time" mode="time" value="{{itemData.endTime}}" bindchange="bindEndTime">
             <view class="picker">{{itemData.endTime}}</view>
             <text class="iconfont icon-down"></text>

@@ -7,6 +7,7 @@ let keyWord = ''
 
 Page({
     data: {
+        isIndex: true,
         value: '',
         address: '',
         helpData: [],

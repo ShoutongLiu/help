@@ -12,7 +12,7 @@
         </view>
         <view class="content">
             <block wx:for="{{helpData}}" wx:key="_id">
-                <item item="{{item}}" />
+                <item item="{{item}}" isIndex="{{isIndex}}" />
             </block>
         </view>
     </view>

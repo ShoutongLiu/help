@@ -19,6 +19,9 @@ Page({
         eventChannel.on('item', (res) => {
             console.log(res.data);
             res.data.newAddress = res.data.area + res.data.Address
+            res.data.date = res.data.startTime.split(' ')[0]
+            res.data.startTime = res.data.startTime.split(' ')[1]
+            res.data.endTime = res.data.endTime.split(' ')[1]
             this.setData({ itemData: res.data, _id: res.data._id })
         })
     },
@@ -30,14 +33,23 @@ Page({
         })
     },
 
-    bindStartTime: function (e) {
-        this.setData({
-            startTime: e.detail.value
-        })
+    bindServeDate (e) {
+        this.setValue(e, 'date')
     },
-    bindEndTime: function (e) {
+
+    bindStartTime (e) {
+        this.setValue(e, 'startTime')
+    },
+    bindEndTime (e) {
+        this.setValue(e, 'endTime')
+    },
+
+    setValue (e, attr) {
+        console.log(e)
+        let item = this.data.itemData
+        item[attr] = e.detail.value
         this.setData({
-            endTime: e.detail.value
+            itemData: item
         })
     },
 

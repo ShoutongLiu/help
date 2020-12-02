@@ -216,6 +216,7 @@ Page({
     handleToList (e) {
         console.log(e);
         app.globalData.isCheck = true
+        console.log(app)
         const { item } = e.currentTarget.dataset
         wx.navigateTo({
             url: `../../pages/listDetail/listDetail`,

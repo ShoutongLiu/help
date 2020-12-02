@@ -51,7 +51,8 @@
 }
 
 .detail .picker,
-.detail .item .time {
+.detail .item .time, 
+.detail .item .date{
     flex: 1;
     height: 60rpx;
     line-height: 60rpx;
