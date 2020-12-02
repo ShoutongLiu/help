@@ -26,8 +26,7 @@ exports.main = async (event, context) => {
 
     //根据_id查询需求详情
     app.router("querySingleMission",async (ctx) =>{
-        await MissionCollection.doc(event._id).get().then(res =>{
-            
+        await DB.collection('missionPass').doc(event._id).get().then(res =>{
             ctx.data =  res.data
         })
         ctx.body = { code: 0, msg:"OK",data: ctx.data }
