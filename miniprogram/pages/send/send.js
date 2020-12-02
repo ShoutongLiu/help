@@ -20,7 +20,8 @@ Page({
         name: '',
         phone: '',
         submitObj: {},
-        isHealth: false
+        isHealth: false,
+        hasOpenid: false
     },
 
     // 获取需求类型
@@ -66,6 +67,12 @@ Page({
     },
 
     handleDisabled () {
+        if (!app.globalData.openid) {
+            wx.reLaunch({
+                url: '../../pages/user/user',
+            })
+            return
+        }
         if (app.globalData.userType === 2) {
             wx.showModal({
                 title: '你已认证志愿者',
@@ -81,6 +88,9 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        if (app.globalData.openid) {
+            this.setData({ hasOpenid: true })
+        }
         this.handleGetDate()
         this.handleGetTime()
         this.setData({ phone: app.globalData.phone, name: app.globalData.realname })

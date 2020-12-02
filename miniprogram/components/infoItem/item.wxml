@@ -17,7 +17,9 @@
         </view>
     </view>
     <view class="contact" bindtap="callPhone" data-phone="{{item.phone}}">
-        <text class="iconfont icon-phone"></text>
-        <view class="distance">{{item.dis === null ? '0' : item.dis}} km</view>
+        <text class="iconfont icon-phone" wx:if="{{item.dis > -1}}"></text>
+        <view class="distance" wx:if="{{item.dis > -1}}">
+            {{item.dis === null ? '0' : item.dis}} km
+        </view>
     </view>
 </view>

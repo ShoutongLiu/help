@@ -1,4 +1,5 @@
 const app = getApp()
+import transTime from '../../utils/computeTime'
 Page({
 
     /**
@@ -11,7 +12,7 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
+    onLoad: function () {
         const eventChannel = this.getOpenerEventChannel()
         eventChannel.on('item', (res) => {
             console.log(res);
@@ -20,8 +21,10 @@ Page({
             if (list.length > 0) {
                 list.forEach(v => {
                     v.accept = false
-                    const length = (new Date(v.endTime)) - (new Date(v.startTime))
-                    v.length = this.transTime(length)
+                    let end = new Date(v.endTime.replace(/-/g, '/')).getTime()
+                    let start = new Date(v.startTime.replace(/-/g, '/')).getTime()
+                    const length = end - start
+                    v.length = transTime(length)
                 })
             }
             this.setData({ listData: list })
@@ -32,19 +35,6 @@ Page({
         })
     },
 
-
-    // 计算时长函数
-    transTime (time) {
-        let length = null
-        if (time % 3600000 !== 0) {
-            const hours = Math.ceil((time / 1000 / 60 / 60)) + ' 小时'
-            const minute = (time % 3600000) / 6000 + '分'
-            length = hours + minute
-        } else {
-            length = Math.ceil((time / 1000 / 60 / 60)) + ' 小时'
-        }
-        return length
-    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

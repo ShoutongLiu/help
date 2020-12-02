@@ -2,8 +2,9 @@
 //获取应用实例
 const app = getApp()
 let QQMapWX = require('../../assets/map/qqmap-wx-jssdk.js');
-// import data from '../../utils/data'
+import transTime from '../../utils/computeTime'
 let keyWord = ''
+
 Page({
     data: {
         value: '',
@@ -72,26 +73,13 @@ Page({
                 let end = new Date(v.endTime.replace(/-/g, '/')).getTime()
                 let start = new Date(v.startTime.replace(/-/g, '/')).getTime()
                 const length = end - start
-                v.length = this.transTime(length)
+                v.length = transTime(length)
             })
             this.setData({ helpData: res.result, result: res.result })
             console.log(this.data.helpData);
             wx.hideLoading()
             wx.stopPullDownRefresh()
         })
-    },
-
-    // 计算时长函数
-    transTime (time) {
-        let length = null
-        if (time % 3600000 !== 0) {
-            const hours = Math.ceil((time / 1000 / 60 / 60)) + ' 小时'
-            const minute = (time % 3600000) / 6000 + '分'
-            length = hours + minute
-        } else {
-            length = Math.ceil((time / 1000 / 60 / 60)) + ' 小时'
-        }
-        return length
     },
 
 
