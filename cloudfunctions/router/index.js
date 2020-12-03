@@ -76,7 +76,7 @@ exports.main = async (event, context) => {
             ctx.code = 10000
             ctx.errMsg = "只有注册后的志愿者才能接需求！"
         } else {
-            //先判断是否被其他人接受这个需求
+            //先判断此需求是否被其他人抢先接受
             await DB.collection('missionPass').doc(event._id).get().then(res=>{
                 ctx.data = res.data.accept
             })
@@ -91,7 +91,7 @@ exports.main = async (event, context) => {
                         accept: true,
                         doneName: event.doneName,
                         t_openid: wxContext.OPENID,
-                        v_phone:event.phone,
+                        v_phone:event.v_phone,
                         v_location:event.address,
                         dis:event.dis
                     }

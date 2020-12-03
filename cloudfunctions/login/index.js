@@ -64,7 +64,8 @@ exports.main = async (event, context) => {
       await DB.collection('missionPass').where({
         f_openid:wxContext.OPENID,
         check:1,
-        accept:false
+        accept:false,
+        cancel:false
       }).get().then(function(res){
         waitAccept =res.data
       })
@@ -73,6 +74,7 @@ exports.main = async (event, context) => {
         f_openid:wxContext.OPENID,
         check:1,
         accept:true,
+        cancel:false,
         done:false,
       }).get().then(function(res){
         waitDone=res.data
