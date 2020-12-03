@@ -1,5 +1,5 @@
 <view class="item" wx:if="{{!item.accept}}">
-    <view class="item-info" bindtap="goToDetail" data-item="{{item}}">
+    <view class="item-info" bindtap="goToDetail" data-item="{{item}}" data-title="{{title}}">
         <image class="avatar" src="{{item.authorAvatarUrl}}" mode="aspectFill" lazy-load="true"></image>
         <view class="need-info">
             <view class="name comm">

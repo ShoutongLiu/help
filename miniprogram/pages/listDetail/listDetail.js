@@ -7,7 +7,8 @@ Page({
      */
     data: {
         listData: [],
-        isIndex: false
+        isIndex: false,
+        title: ''
     },
 
     /**
@@ -28,7 +29,7 @@ Page({
                     v.length = transTime(length)
                 })
             }
-            this.setData({ listData: list })
+            this.setData({ listData: list, title: res.data.text })
             // 修改页面title
             wx.setNavigationBarTitle({
                 title: res.data.text
