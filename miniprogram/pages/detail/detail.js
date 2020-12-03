@@ -17,6 +17,13 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        console.log(options);
+        // 设置页面title
+        const title = options.title
+        wx.setNavigationBarTitle({
+            title: title
+        })
+
         const id = options._id
         this.setData({ isShow: app.globalData.isCheck })
         if (id) {
@@ -28,17 +35,20 @@ Page({
                 }
             }).then(res => {
                 const data = res.result.data
+                console.log(data)
                 this.handleData(data)
             })
         } else {
             const eventChannel = this.getOpenerEventChannel()
             eventChannel.on('item', (res) => {
                 const data = res.data
+                console.log(data)
                 this.handleData(data)
             })
         }
     },
 
+    // 获取对应类型
     handleData (data) {
         const target = typeData.find(v => {
             return v.val === data.demType
@@ -80,6 +90,7 @@ Page({
             v_phone: phone,
             v_location: location
         }
+        console.log(dataObj);
         wx.requestSubscribeMessage({
             tmplIds: [tmplId],
             complete: (res) => {

@@ -24,11 +24,24 @@
         </view>
     </view>
     <view class="item">
-        <text class="title">联系电话：</text>
+        <text class="title">残疾人电话：</text>
         <text class="phone" bindtap="callPhone" data-phone="{{item_detail.phone}}">
             <text>
                 <text class="iconfont icon-phone"></text>
                 <text>{{item_detail.phone}}</text>
+            </text>
+        </text>
+    </view>
+    <view class="item" wx:if="{{item_detail.doneName}}">
+        <text class="title">残疾人姓名：</text>
+        <text>{{item_detail.doneName}}</text>
+    </view>
+    <view class="item" wx:if="{{item_detail.v_phone}}">
+        <text class="title">志愿者电话：</text>
+        <text class="phone" bindtap="callPhone" data-phone="{{item_detail.v_phone}}">
+            <text>
+                <text class="iconfont icon-phone"></text>
+                <text>{{item_detail.v_phone}}</text>
             </text>
         </text>
     </view>

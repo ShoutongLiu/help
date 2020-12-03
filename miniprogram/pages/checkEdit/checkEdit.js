@@ -60,23 +60,31 @@ Page({
 
     // 撤销
     handleCancel () {
-        wx.showLoading()
-        wx.cloud.callFunction({
-            name: 'cancelMission',
-            data: {
-                $url: 'cancelwaitCheck',
-                _id: this.data._id,
-                // _id: 'b8df3bd65f69d1d600407428601de590'
+        wx.showModal({
+            title: '确定撤消吗？',
+            success: (res) => {
+                if (res.confirm) {
+                    wx.cloud.callFunction({
+                        name: 'cancelMission',
+                        data: {
+                            $url: 'cancelwaitCheck',
+                            _id: this.data._id,
+                            // _id: 'b8df3bd65f69d1d600407428601de590'
+                        }
+                    }).then(res => {
+                        if (res.result.coed !== 0) {
+                            wx.showToast({
+                                title: '撤消失败',
+                                icon: 'none'
+                            })
+                        }
+                        wx.showToast({
+                            title: '撤消成功'
+                        })
+                        wx.navigateBack({ delta: 2 })
+                    })
+                }
             }
-        }).then(res => {
-            if (res.result.coed === 0) {
-                wx.showToast({
-                    title: '撤销成功',
-                })
-            }
-            wx.hideLoading()
-        }).catch(() => {
-            wx.hideLoading()
         })
     },
 

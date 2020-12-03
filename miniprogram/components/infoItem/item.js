@@ -6,7 +6,10 @@ Component({
      */
     properties: {
         item: {
-            type: Object,
+            type: Object
+        },
+        title: {
+            type: String
         },
         isIndex: {
             type: Boolean,
@@ -36,10 +39,11 @@ Component({
      */
     methods: {
         goToDetail (e) {
-            const { item } = e.currentTarget.dataset
+            const { item, title } = e.currentTarget.dataset
+            // 组件通信
             if (app.globalData.listType === 'waitCheck' && !app.globalData.isIndex) {
                 wx.navigateTo({
-                    url: `../../pages/checkEdit/checkEdit`,
+                    url: `../../pages/checkEdit/checkEdit?title=${title}`,
                     success: (res) => {
                         // 通过eventChannel向被打开页面传送数据
                         res.eventChannel.emit('item', { data: item })
@@ -47,7 +51,7 @@ Component({
                 });
             } else {
                 wx.navigateTo({
-                    url: `../../pages/detail/detail`,
+                    url: `../../pages/detail/detail?title=${title}`,
                     success: (res) => {
                         // 通过eventChannel向被打开页面传送数据
                         res.eventChannel.emit('item', { data: item })
