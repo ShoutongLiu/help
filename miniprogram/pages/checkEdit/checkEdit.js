@@ -72,7 +72,8 @@ Page({
                             // _id: 'b8df3bd65f69d1d600407428601de590'
                         }
                     }).then(res => {
-                        if (res.result.coed !== 0) {
+                        console.log(res);
+                        if (res.result.code !== 0) {
                             wx.showToast({
                                 title: '撤消失败',
                                 icon: 'none'
