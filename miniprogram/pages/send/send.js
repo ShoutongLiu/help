@@ -101,6 +101,8 @@ Page({
  */
     onShow: function () {
         this.handleIsHealth()
+        console.log(this.data)
+        this.setData({ content: '', address: '' })
     },
     // 判断身份
     handleIsHealth () {
@@ -201,13 +203,14 @@ Page({
                                         content: '发布是败',
                                         showCancel: false
                                     })
+                                    return
                                 }
                                 wx.showModal({
                                     title: '需求提交成功',
                                     content: '24小时内即可审核完成',
                                     showCancel: false
                                 })
-                                this.setData({ content: '', address: '', phone: '', name: '' })
+                                this.setData({ content: '', address: '' })
                                 wx.hideLoading()
                             })
                         }

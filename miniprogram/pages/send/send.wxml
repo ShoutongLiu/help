@@ -13,7 +13,7 @@
         </view>
         <view class="help-content comm">
             <text class="title">需求内容：</text>
-            <textarea placeholder="请描述你的需求" class="content" bindinput="handleInputContent" />
+            <textarea placeholder="请描述你的需求" value="{{content}}" class="content" bindinput="handleInputContent" />
         </view>
         <view class="help-city comm">
             <text class="title">地区选择：</text>
@@ -26,7 +26,7 @@
         </view>
         <view class="help-address comm">
             <text class="title">详细地址：</text>
-            <input type="text" class="address" bindinput="handleGetAddress" />
+            <input type="text" class="address" value="{{address}}" bindinput="handleGetAddress" />
         </view>
         <view class="help-date comm">
             <text class="title">服务日期：</text>
