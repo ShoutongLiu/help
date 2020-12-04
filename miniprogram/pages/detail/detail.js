@@ -138,13 +138,13 @@ Page({
                         console.log(res)
                         if (res.result.errcode !== 0) {
                             wx.showToast({
-                                title: '确定已完成',
+                                title: '确定已完成失败',
                                 icon: 'none'
                             })
                             return
                         }
                         wx.showToast({
-                            title: '确定已完成失败'
+                            title: '确定已完成'
                         })
                         this.setData({ isFinesh: true })
                     })
