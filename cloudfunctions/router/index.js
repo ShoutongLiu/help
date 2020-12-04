@@ -40,7 +40,6 @@ exports.main = async (event, context) => {
         else if (event.usertype != 1) {
             ctx.body = { errMsg: "只有注册后的残疾人才能发布需求！", usertype: event.usertype }
         }
-
         else {
             await MissionCollection.add({
                 data: {
@@ -61,7 +60,6 @@ exports.main = async (event, context) => {
                 }
             }).then(res => {
                 if (res.errMsg == 'collection.add:ok') {
-                    
                     ctx.data.addmission = "发布成功"
                 } else {
                     ctx.data.addmission = "发布失败"

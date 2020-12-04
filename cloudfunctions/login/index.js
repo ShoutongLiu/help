@@ -93,7 +93,7 @@ exports.main = async (event, context) => {
       await MissionCollection.where({
         f_openid:wxContext.OPENID,
         cancel:true
-      }).get().then(function(res){
+      }).get().then(function(res){ 
         Cancelled=res.data
       })
     }
