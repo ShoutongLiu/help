@@ -11,6 +11,9 @@ Page({
         _id: '',
         isAccept: false,
         isShow: false,
+        isFinesh: false,
+        type: '',
+        userType: 0
     },
 
     /**
@@ -25,7 +28,7 @@ Page({
         })
 
         const id = options._id
-        this.setData({ isShow: app.globalData.isCheck })
+        this.setData({ isShow: app.globalData.isCheck, type: app.globalData.listType, userType: app.globalData.userType })
         if (id) {
             wx.cloud.callFunction({
                 name: 'router',
@@ -35,14 +38,12 @@ Page({
                 }
             }).then(res => {
                 const data = res.result.data
-                console.log(data)
                 this.handleData(data)
             })
         } else {
             const eventChannel = this.getOpenerEventChannel()
             eventChannel.on('item', (res) => {
                 const data = res.data
-                console.log(data)
                 this.handleData(data)
             })
         }
@@ -115,6 +116,37 @@ Page({
                                 }
                             })
                         }
+                    })
+                }
+            }
+        })
+    },
+    // 已完成事件
+    handleDone () {
+        wx.showModal({
+            title: '确定完成吗？',
+            success: (res) => {
+                if (res.confirm) {
+                    wx.cloud.callFunction({
+                        name: 'missionDone',
+                        data: {
+                            _id: this.data.item_detail._id,
+                            t_openid: this.data.item_detail.t_openid,
+                            integral: parseInt(this.data.item_detail.price)
+                        }
+                    }).then(res => {
+                        console.log(res)
+                        if (res.result.errcode !== 0) {
+                            wx.showToast({
+                                title: '确定已完成失败',
+                                icon: 'none'
+                            })
+                            return
+                        }
+                        wx.showToast({
+                            title: '确定已完成'
+                        })
+                        this.setData({ isFinesh: true })
                     })
                 }
             }

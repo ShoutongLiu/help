@@ -33,7 +33,7 @@
         </text>
     </view>
     <view class="item" wx:if="{{item_detail.doneName}}">
-        <text class="title">残疾人姓名：</text>
+        <text class="title">志愿者姓名：</text>
         <text>{{item_detail.doneName}}</text>
     </view>
     <view class="item" wx:if="{{item_detail.v_phone}}">
@@ -45,6 +45,9 @@
             </text>
         </text>
     </view>
+    <button class="btn" wx:if="{{type === 'waitDone' && userType === 1}}" disabled="{{isFinesh}}" bindtap="handleDone">
+        帮助已完成
+    </button>
     <button class="btn" wx:if="{{!isShow}}" bindtap="handleAccept" disabled="{{isAccept}}">
         {{isAccept ? '需求已接受' : '接受需求'}}
     </button>

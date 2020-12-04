@@ -41,11 +41,13 @@ Page({
             },
             {
                 icon: 'pingjia',
-                text: '待评价'
+                text: '待评价',
+                type: 'waitComment'
             },
             {
                 icon: 'quxiao',
-                text: '已取消'
+                text: '已取消',
+                type: 'Cancelled'
             }
         ],
         cardArr: [
@@ -202,6 +204,7 @@ Page({
         })
     },
 
+    // 匹配对应的数据
     addData (arr, res) {
         arr.forEach(v => {
             res.forEach(i => {

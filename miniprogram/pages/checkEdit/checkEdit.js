@@ -77,6 +77,7 @@ Page({
                                 title: '撤消失败',
                                 icon: 'none'
                             })
+                            return
                         }
                         wx.showToast({
                             title: '撤消成功'
