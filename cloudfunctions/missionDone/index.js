@@ -12,7 +12,7 @@ const MissionPassCollection = DB.collection('missionPass')
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
-  //将改单状态改成完成状态
+  //残疾人将改单状态改成完成状态
   await MissionPassCollection.doc(event._id).update({
     data:{
       done:true
@@ -29,7 +29,6 @@ exports.main = async (event, context) => {
     }
   })
   return {
-    
       errcode:0,
       errMsg:'OK'
   }
