@@ -21,7 +21,7 @@ exports.main = async (event, context) => {
       await DB.collection('mission').doc(event._id).get().then(res =>{
           ctx.data =  res.data.check
       })
-      //还没通过审核，直接删除就完事
+      //还没通过审核，直接撤销就完事
       if(ctx.data==0){
         await DB.collection('mission').doc(event._id).update({
           data:{
@@ -38,7 +38,6 @@ exports.main = async (event, context) => {
         await DB.collection('missionPass').where({orderNumber:event._id}).get({
           success:function(res){
             ctx.data = res.data[0].accept
-            
           }
         })
         if (ctx.data == true){
@@ -46,15 +45,14 @@ exports.main = async (event, context) => {
           ctx.msg = "该需求已被志愿者接受，如若想撤销，请联系志愿者"
         }else{
           //需求通过了审核，但是未被接受，残疾人还有权主动撤销
-          await DB.collection('missionPass').where({orderNumber:event._id}).remove()
-          await DB.collection('mission').doc(event._id).update({
+          await DB.collection('missionPass').where({orderNumber:event._id}).update({
             data:{
-              check:0,
               cancel:true
             },
             success:function(res){
             }
           })
+          
           ctx.msg = '撤销成功'
         }
       }

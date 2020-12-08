@@ -17,15 +17,31 @@ exports.main = async (event, context) => {
   })
   
   if(context.result){
-    await DB.collection('users').where({
-      _openid:wxContext.OPENID
-    }).update({
-      data:{
-        usertype:event.usertype,
-        integral:event.usertype==1?100:0,
-        CertificateID:event.usertype==1?event.CertificateID:''
-      }
-    })
+    //注册志愿者的话
+    if(event.usertype==2){
+      await DB.collection('users').where({
+        _openid:wxContext.OPENID
+      }).update({
+        data:{
+          check:1,
+          usertype:2,
+        }
+      })
+    }
+    //注册残疾人的话
+    else{
+      await DB.collection('users').where({
+        _openid:wxContext.OPENID
+      }).update({
+        data:{
+          usertype:1,
+          CertificateID:event.CertificateID,
+          DisabilityLevel:0, //伤残等级
+          DisabilityType:0  //伤残类别
+        }
+      })
+    }
+    
   }else{
     //用户未实名
     context.code=-1002

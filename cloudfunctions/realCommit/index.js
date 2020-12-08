@@ -12,9 +12,8 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   await DB.collection('userInfo').where({_openid: wxContext.OPENID}).get().then(res=>{
     context.isReal = res.data.length?true:false
-    
   })
-  //用户未实名的话添加进数据库
+  // 用户未实名的话添加进数据库
   if(!context.isReal){
     await DB.collection('userInfo').add({
       data:{
@@ -30,7 +29,7 @@ exports.main = async (event, context) => {
         phone:event.phone,
         realname:event.realnameInfo.Name,
         integral:0,
-        CertificateID:''  //证书的云存储ID
+        check:0
       }
     })
   }else{

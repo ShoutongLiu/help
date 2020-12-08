@@ -8,6 +8,7 @@ const _ = DB.command
 const UserCollection = DB.collection('users')
 const MissionCollection = DB.collection('mission') //待审核的需求
 const MissionPassCollection = DB.collection('missionPass') //通过的需求
+const MissionReject = DB.collection('missionReject') //未通过的需求
 // 云函数入口函数
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext() //"{"wxContext":{"APPID":"wxa3a65a7c6c164c52","ENV":"test-cloud-yv3p7","SOURCE":"wx_http"}}
@@ -32,7 +33,6 @@ exports.main = async (event, context) => {
             phone: checkData.phone,
             cancel:false,//默认没有取消
             price:checkData.price, //管理员打的积分
-            refusal:checkData.refusal,
             v_location:{},
             v_phone:'',
             accept:false,
@@ -51,6 +51,27 @@ exports.main = async (event, context) => {
               
           }
       })
+  }else{
+    await MissionCollection.doc(checkData._id).remove()//删除待审核的需求
+    await MissionReject.add({ //添加审核未通过的需求
+      data:{
+          orderNumber:checkData._id,
+          f_openid: checkData.f_openid,
+          startTime: checkData.startTime,
+          endTime:checkData.startTime,
+          area: checkData.area,
+          Address: checkData.Address,
+          authorAvatarUrl: checkData.authorAvatarUrl,
+          authorName: checkData.authorName,
+          check: 2, //该需求未通过管理员审核
+          demContext: checkData.demContext,
+          demType: checkData.demType,
+          location: checkData.location,
+          phone: checkData.phone,
+          refusal:checkData.refusal, //拒绝理由
+          checkDateTime:checkData.checkDateTime, //审核时间
+      }
+    })
   }
   return {
     result:"审核完成"
