@@ -48,6 +48,9 @@
     <button class="btn" wx:if="{{type === 'waitDone' && userType === 1}}" disabled="{{isFinesh}}" bindtap="handleDone">
         帮助已完成
     </button>
+    <button class="btn" wx:if="{{type === 'Cancelled' && userType === 1}}" bindtap="handleDel" data-item="{{item_detail}}">
+        删除需求
+    </button>
     <button class="btn" wx:if="{{!isShow}}" bindtap="handleAccept" disabled="{{isAccept}}">
         {{isAccept ? '需求已接受' : '接受需求'}}
     </button>

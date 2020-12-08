@@ -5,14 +5,13 @@
         <view class="tab">
             <block wx:for="{{tabVal}}" wx:key="val">
                 <view class="tab-val" bindtap="handleSort" data-val="{{item.val}}">
-                    <text class="">{{item.text}}</text>
-                    <text class="iconfont icon-down" wx:if="{{item.val === 'near'}}"></text>
+                    <text class="{{sortType === item.val ? 'isChoose' : ''}}">{{item.text}}</text>
                 </view>
             </block>
         </view>
         <view class="content">
             <block wx:for="{{helpData}}" wx:key="_id">
-                <item item="{{item}}" isIndex="{{isIndex}}" />
+                <item item="{{item}}" index="{{index}}" isIndex="{{isIndex}}" />
             </block>
         </view>
     </view>

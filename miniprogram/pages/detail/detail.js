@@ -160,6 +160,38 @@ Page({
         })
     },
 
+    handleDel (e) {
+        console.log(e);
+        const { item } = e.currentTarget.dataset
+        wx.showModal({
+            title: '确定删除吗？',
+            success: (res) => {
+                if (res.confirm) {
+                    wx.cloud.callFunction({
+                        name: 'deleteMission',
+                        data: {
+                            _id: item._id,
+                            check: item.check,
+                        }
+                    }).then(res => {
+                        console.log(res)
+                        if (res.result.errCode !== 0) {
+                            wx.showToast({
+                                title: '删除失败',
+                                icon: 'none'
+                            })
+                            return
+                        }
+                        wx.showToast({
+                            title: '删除成功'
+                        })
+                        wx.navigateBack({ delta: 2 })
+                    })
+                }
+            }
+        })
+    },
+
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

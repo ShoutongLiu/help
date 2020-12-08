@@ -6,17 +6,26 @@
     <view class="item">
         <text class="title">帮助类型：</text>
         <picker class="picker" bindchange="bindPickerTypeChange" value="{{index}}" range="{{typeArr}}">
-            <view class="picker-val">{{typeArr[index]}}</view>
+            <view class="picker-val">{{typeArr[itemData.demType]}}</view>
             <text class="iconfont icon-down"></text>
         </picker>
     </view>
     <view class="item">
         <text class="title">需求内容：</text>
-        <textarea class="input" value="{{itemData.demContext}}" />
+        <textarea class="input" value="{{itemData.demContext}}" bindinput="bindContext" />
+    </view>
+    <view class="item">
+        <text class="title">地区选择：</text>
+        <picker class="city" mode="region" bindchange="bindRegionChange" value="{{itemData.area}}" custom-item="{{customItem}}">
+            <view class="picker">
+                {{itemData.area[0]}}{{itemData.area[1]}}{{itemData.area[2]}}
+                <text class="iconfont icon-down"></text>
+            </view>
+        </picker>
     </view>
     <view class="item">
         <text class="title">联系地址：</text>
-        <input type="text" class="input" value="{{itemData.newAddress}}" />
+        <input type="text" class="input" value="{{itemData.Address}}" bindinput="bindAddress" />
     </view>
     <view class="item">
         <text class="title">服务日期：</text>

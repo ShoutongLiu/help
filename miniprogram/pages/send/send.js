@@ -32,6 +32,7 @@ Page({
     },
     // 地区选择
     bindRegionChange: function (e) {
+        console.log(e)
         this.setData({
             region: e.detail.value
         })
@@ -154,9 +155,9 @@ Page({
         const item = typeData.find(v => {
             return v.text === type
         })
-        const area = region[0] + region[1]
-        const serve_address = region[2] + address
-        const addRess = area + serve_address
+        const area = region
+        const serve_address = address
+        const addRess = region[0] + region[1] + region[2] + serve_address
         const start = date + ' ' + startTime
         const end = date + ' ' + endTime
         const qqmapsdk = new QQMapWX({
