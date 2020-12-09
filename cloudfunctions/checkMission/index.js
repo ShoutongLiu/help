@@ -50,7 +50,7 @@ exports.main = async (event, context) => {
         })
     await UserCollection.where({_openid:checkData.f_openid}).update({
       data:{
-        sendOrder:_inc(1)   //发出的需求的单数加1
+        sendOrder:_.inc(1)   //发出的需求的单数加1
       }
     })
   }else{

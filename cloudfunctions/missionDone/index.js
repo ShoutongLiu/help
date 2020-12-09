@@ -26,7 +26,7 @@ exports.main = async (event, context) => {
   }).update({
     data:{
       integral:_.inc(event.integral),
-      completeOrder:_inc(1)
+      completeOrder:_.inc(1)
     }
   })
   return {

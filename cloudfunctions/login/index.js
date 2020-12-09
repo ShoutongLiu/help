@@ -30,6 +30,9 @@ exports.main = async (event, context) => {
   let usertype = ""//用户类型
   let phone = ''//电话号码
   let realname = ''//真实姓名
+  let order =''  //订单数
+  let integral = '' //总积分
+  let assess = ''
   let waitCheck = []   //待审核
   let waitAccept = []  //待接受
   let waitDone = []    //待完成
@@ -44,12 +47,16 @@ exports.main = async (event, context) => {
         phone = res.data[0].phone
         realname = res.data[0].realname
         order = res.data[0].completeOrder!=undefined?res.data[0].completeOrder:res.data[0].sendOrder
-        test = '这是测试'
+        integral = res.data[0].integral
+        assess = res.data[0].assess
       }
       else{
         usertype=0
         phone = ''
         realname = ''
+        order = 0
+        integral = 0
+        assess = 0
       }
     })
     //残疾人的话查询他发布的需求的记录
@@ -145,6 +152,9 @@ exports.main = async (event, context) => {
     usertype:usertype,
     phone:phone,
     realname:realname,
+    order:order,
+    integral:integral,
+    assess:assess,
     userMissionInfo:userMissionInfo
      
     // appid: wxContext.APPID,
