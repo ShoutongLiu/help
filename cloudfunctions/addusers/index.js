@@ -5,8 +5,6 @@ cloud.init({
 })
 const DB = cloud.database()
 
-
-
 // 云函数入口函数
 exports.main = async (event, context) => {
   context.code=0
@@ -17,7 +15,7 @@ exports.main = async (event, context) => {
   })
   
   if(context.result){
-    //注册志愿者的话
+    //注册志愿者
     if(event.usertype==2){
       await DB.collection('users').where({
         _openid:wxContext.OPENID
@@ -28,14 +26,14 @@ exports.main = async (event, context) => {
         }
       })
     }
-    //注册残疾人的话
+    //注册残疾人
     else{
       await DB.collection('users').where({
         _openid:wxContext.OPENID
       }).update({
         data:{
           usertype:1,
-          CertificateID:event.CertificateID,
+          Disability_Photo_ID:event.Disability_Photo_ID, //残疾照片ID
           DisabilityLevel:0, //伤残等级
           DisabilityType:0  //伤残类别
         }

@@ -1,4 +1,5 @@
 // 云函数入口文件
+// 身份证照片OCR解析
 const cloud = require('wx-server-sdk')
 cloud.init()
 //腾讯云服务OCR
