@@ -54,4 +54,22 @@
     <button class="btn" wx:if="{{!isShow}}" bindtap="handleAccept" disabled="{{isAccept}}">
         {{isAccept ? '需求已接受' : '接受需求'}}
     </button>
+    <view class="evaluate" wx:if="{{type === 'waitComment' && userType === 1}}">
+        <view class="title">请对本次服务进行评价:</view>
+        <view class="eva-price">
+            <radio-group bindchange="radioChange">
+                <label class="item-price" wx:for="{{evaluateArr}}" wx:key="val">
+                    <view class="weui-cell__hd">
+                        <radio value="{{item.val}}" />
+                        {{item.text}}
+                    </view>
+                </label>
+            </radio-group>
+        </view>
+        <view class="title">请填写评价内容：</view>
+        <view class="content">
+            <textarea class="text-area" bindinput="bindTextInput" value="{{evaValue}}" placeholder="评价内容" />
+        </view>
+        <button class="btn" bindtap="handleEvaluate">提交评价</button>
+    </view>
 </view>

@@ -13,7 +13,30 @@ Page({
         isShow: false,
         isFinesh: false,
         type: '',
-        userType: 0
+        userType: 0,
+        evaValue: '',
+        evaluateArr: [
+            {
+                val: 5,
+                text: '5分(非常满意)'
+            },
+            {
+                val: 4,
+                text: '4分(满意)'
+            },
+            {
+                val: 3,
+                text: '3分(一般)'
+            },
+            {
+                val: 2,
+                text: '2分(不满意)'
+            },
+            {
+                val: 1,
+                text: '1分(非常满意)'
+            }
+        ]
     },
 
     /**
@@ -192,6 +215,18 @@ Page({
         })
     },
 
+    // 点击选择分数
+    radioChange (e) {
+        console.log(e);
+    },
+
+    bindTextInput (e) {
+        console.log(e)
+    },
+    // 提交评价事件
+    handleEvaluate () {
+
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
