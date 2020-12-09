@@ -15,6 +15,7 @@ Page({
         type: '',
         userType: 0,
         evaValue: '',
+        evaPrice: '',
         evaluateArr: [
             {
                 val: 5,
@@ -218,14 +219,19 @@ Page({
     // 点击选择分数
     radioChange (e) {
         console.log(e);
+        this.setData({ evaPrice: e.detail.value })
     },
-
+    // 获取评价内容
     bindTextInput (e) {
-        console.log(e)
+        this.setData({ evaValue: e.detail.value })
     },
     // 提交评价事件
     handleEvaluate () {
-
+        const subObj = {
+            price: this.data.evaPrice,
+            value: this.data.evaValue
+        }
+        console.log(subObj)
     },
     /**
      * 生命周期函数--监听页面初次渲染完成

@@ -2,7 +2,27 @@
     padding: 20rpx 60rpx;
 }
 
-.center .item {
+.center .avatar {
+    margin: 40rpx 0;
+}
+
+
+.center .avatar .img {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+
+.center .info {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.center .info .item {
+    width: 50%;
     margin-top: 20rpx;
 }
 

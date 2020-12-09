@@ -16,11 +16,13 @@ Page({
             },
             {
                 icon: 'pingjia',
-                text: '待评价'
+                text: '待评价',
+                type: 'waitComment'
             },
             {
                 icon: 'quxiao',
-                text: '已取消'
+                text: '已取消',
+                type: 'Cancelled'
             }
         ],
         v_tabArr: [
@@ -186,7 +188,9 @@ Page({
         wx.cloud.callFunction({
             name: 'login'
         }).then(res => {
-            console.log(res);
+            console.log(res, 'login');
+            const { assess, integral, order, realname } = res.result
+            app.globalData.serviceInfo = { assess, integral, order, realname }
             app.globalData.openid = res.result.openid
             app.globalData.userType = res.result.usertype
             app.globalData.phone = res.result.phone
@@ -232,7 +236,7 @@ Page({
 
     handleToCenter () {
         wx.navigateTo({
-            url: '../../pages/center/center',
+            url: `../../pages/center/center?usertype=${this.data.userType}`,
         })
     },
     onReady: function () {

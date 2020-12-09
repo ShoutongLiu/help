@@ -12,7 +12,8 @@ App({
         address: '',
         listType: '',
         realname: '',
-        phone: ''
+        phone: '',
+        serviceInfo: {}
     },
     onLaunch: function () {
         if (!wx.cloud) {
