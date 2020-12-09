@@ -14,6 +14,7 @@ Page({
         result: [],
         ajaxLocation: {},
         area: '',
+        sortType: 'near',
         tabVal: [
             {
                 text: '离我最近',
@@ -170,24 +171,30 @@ Page({
     },
 
     // 排序函数
-    compare (property) {
+    compare (property, type) {
         return function (a, b) {
             var value1 = a[property];
             var value2 = b[property];
-            return value2 - value1
+            // 根据传入的类型判断大小排序
+            if (type === 'near') {
+                return parseInt(value1) - parseInt(value2)
+            } else {
+                return parseInt(value2) - parseInt(value1)
+            }
         }
     },
 
     // 点击排序
     handleSort (e) {
         const value = e.currentTarget.dataset.val
+        this.setData({ sortType: value })
         switch (value) {
             case 'near':
-                let priceArr = this.data.helpData.sort(this.compare('price'))
+                let priceArr = this.data.helpData.sort(this.compare('dis', 'near'))
                 this.setData({ helpData: priceArr })
                 break;
             case 'integral':
-                let disArr = this.data.helpData.sort(this.compare('dis'))
+                let disArr = this.data.helpData.sort(this.compare('price', 'integral'))
                 this.setData({ helpData: disArr })
                 break;
 

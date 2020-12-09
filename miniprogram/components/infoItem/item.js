@@ -8,6 +8,9 @@ Component({
         item: {
             type: Object
         },
+        index: {
+            type: Number
+        },
         title: {
             type: String
         },

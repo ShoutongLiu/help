@@ -1,4 +1,4 @@
-// miniprogram/pages/checkEdit/checkEdit.js
+
 Page({
 
     /**
@@ -18,7 +18,6 @@ Page({
         const eventChannel = this.getOpenerEventChannel()
         eventChannel.on('item', (res) => {
             console.log(res.data);
-            res.data.newAddress = res.data.area + res.data.Address
             res.data.date = res.data.startTime.split(' ')[0]
             res.data.startTime = res.data.startTime.split(' ')[1]
             res.data.endTime = res.data.endTime.split(' ')[1]
@@ -28,9 +27,12 @@ Page({
 
     // 获取需求类型
     bindPickerTypeChange: function (e) {
-        this.setData({
-            index: e.detail.value
-        })
+        this.setValue(e, 'demType')
+    },
+
+    // 省市选择
+    bindRegionChange (e) {
+        this.setValue(e, 'area')
     },
 
     bindServeDate (e) {
@@ -44,6 +46,15 @@ Page({
         this.setValue(e, 'endTime')
     },
 
+    bindContext (e) {
+        console.log(e)
+        this.setValue(e, 'demContext')
+    },
+
+    bindAddress (e) {
+        this.setValue(e, 'Address')
+    },
+
     setValue (e, attr) {
         console.log(e)
         let item = this.data.itemData
@@ -55,7 +66,41 @@ Page({
 
     // 提交事件
     handleSubmit () {
-        console.log(this.data.itemData);
+        const reObj = {
+            demType: parseInt(this.data.itemData.demType),
+            demContext: this.data.itemData.demContext,
+            area: this.data.itemData.area,
+            Address: this.data.itemData.Address,
+            startTime: this.data.itemData.date + ' ' + this.data.itemData.startTime,
+            endTime: this.data.itemData.date + ' ' + this.data.itemData.endTime,
+            phone: this.data.itemData.phone,
+            _id: this.data.itemData._id,
+        }
+        wx.showModal({
+            title: '确定重新发布吗？',
+            success: (res) => {
+                if (res.confirm) {
+                    console.log(reObj)
+                    wx.cloud.callFunction({
+                        name: 'republish',
+                        data: reObj
+                    }).then(res => {
+                        console.log(res);
+                        if (res.result.errCode !== 0) {
+                            wx.showToast({
+                                title: '重新发布失败',
+                                icon: 'none'
+                            })
+                            return
+                        }
+                        wx.showToast({
+                            title: '重新发布成功！'
+                        })
+                        wx.navigateBack({ delta: 2 })
+                    })
+                }
+            }
+        })
     },
 
     // 撤销

@@ -1,10 +1,11 @@
 .home-container {
-    padding: 0 30rpx;
+    padding: 0 15rpx;
 }
 
 .help-content {
     margin-top: 40rpx;
 }
+
 
 .help-content .tab {
     display: flex;
@@ -17,6 +18,12 @@
     font-size: 28rpx;
     text-align: center;
     padding: 0 40rpx;
+}
+
+.help-content .tab-val .isChoose {
+    font-weight: bold;
+    color: #00BFFF;
+    border-bottom: 4rpx solid #00BFFF;
 }
 
 .help-content .tab-val:first-child {

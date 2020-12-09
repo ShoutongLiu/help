@@ -13,7 +13,30 @@ Page({
         isShow: false,
         isFinesh: false,
         type: '',
-        userType: 0
+        userType: 0,
+        evaValue: '',
+        evaluateArr: [
+            {
+                val: 5,
+                text: '5分(非常满意)'
+            },
+            {
+                val: 4,
+                text: '4分(满意)'
+            },
+            {
+                val: 3,
+                text: '3分(一般)'
+            },
+            {
+                val: 2,
+                text: '2分(不满意)'
+            },
+            {
+                val: 1,
+                text: '1分(非常满意)'
+            }
+        ]
     },
 
     /**
@@ -160,6 +183,50 @@ Page({
         })
     },
 
+    handleDel (e) {
+        console.log(e);
+        const { item } = e.currentTarget.dataset
+        wx.showModal({
+            title: '确定删除吗？',
+            success: (res) => {
+                if (res.confirm) {
+                    wx.cloud.callFunction({
+                        name: 'deleteMission',
+                        data: {
+                            _id: item._id,
+                            check: item.check,
+                        }
+                    }).then(res => {
+                        console.log(res)
+                        if (res.result.errCode !== 0) {
+                            wx.showToast({
+                                title: '删除失败',
+                                icon: 'none'
+                            })
+                            return
+                        }
+                        wx.showToast({
+                            title: '删除成功'
+                        })
+                        wx.navigateBack({ delta: 2 })
+                    })
+                }
+            }
+        })
+    },
+
+    // 点击选择分数
+    radioChange (e) {
+        console.log(e);
+    },
+
+    bindTextInput (e) {
+        console.log(e)
+    },
+    // 提交评价事件
+    handleEvaluate () {
+
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
