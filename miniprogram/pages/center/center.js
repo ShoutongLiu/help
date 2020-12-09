@@ -30,7 +30,7 @@ Page({
     onLoad: function (options) {
         const { assess, order } = app.globalData.serviceInfo
         // 计算综合评价
-        let num = (assess / order).toFixed(2)
+        let num = (parseInt(assess) / parseInt(order)).toFixed(2)
         this.setData({
             userType: options.usertype,
             avatar: app.globalData.avatar,
