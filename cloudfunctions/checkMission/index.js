@@ -45,12 +45,14 @@ exports.main = async (event, context) => {
         }
       }).then(res => {
           if (res.errMsg == 'collection.add:ok') {
-              
-              
           } else {
-              
           }
-      })
+        })
+    await UserCollection.where({_openid:checkData.f_openid}).update({
+      data:{
+        sendOrder:_inc(1)   //发出的需求的单数加1
+      }
+    })
   }else{
     await MissionCollection.doc(checkData._id).remove()//删除待审核的需求
     await MissionReject.add({ //添加审核未通过的需求

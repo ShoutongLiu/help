@@ -20,12 +20,13 @@ exports.main = async (event, context) => {
     success:function(res){
     }
   })
-
+  //添加积分和完成的订单数
   await UserCollection.where({
     _openid:event.t_openid
   }).update({
     data:{
-      integral:_.inc(event.integral)
+      integral:_.inc(event.integral),
+      completeOrder:_inc(1)
     }
   })
   return {

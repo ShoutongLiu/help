@@ -43,6 +43,8 @@ exports.main = async (event, context) => {
         usertype = res.data[0].usertype
         phone = res.data[0].phone
         realname = res.data[0].realname
+        order = res.data[0].completeOrder!=undefined?res.data[0].completeOrder:res.data[0].sendOrder
+        test = '这是测试'
       }
       else{
         usertype=0

@@ -23,6 +23,8 @@ exports.main = async (event, context) => {
         data:{
           check:1,
           usertype:2,
+          assess:0 ,//评价总得分
+          completeOrder:0//完成的总共订单数
         }
       })
     }
@@ -34,6 +36,8 @@ exports.main = async (event, context) => {
         data:{
           usertype:1,
           Disability_Photo_ID:event.Disability_Photo_ID, //残疾照片ID
+          assess:0,//评价得分
+          sendOrder:0 ,//发出的订单数
           DisabilityLevel:0, //伤残等级
           DisabilityType:0  //伤残类别
         }
