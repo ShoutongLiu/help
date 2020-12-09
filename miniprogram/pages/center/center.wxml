@@ -1,7 +1,13 @@
 <view class="center">
-    <view class="name item">姓名：XXX</view>
-    <view class="order item">总共接单：20 单</view>
-    <view class="need item">共发出需求： 10 单</view>
-    <view class="point item">当前积分：100 分</view>
+    <view class="avatar">
+        <image class="img" src="{{avatar}}" mode="aspectFill"></image>
+    </view>
+    <view class="info">
+        <text class="name item">姓名：{{serviceInfo.realname}}</text>
+        <text class="type item">身份：{{userType}}</text>
+        <text class="assess item">综合评价：{{assess}}</text>
+        <text class="order item">服务次数：{{serviceInfo.order}}</text>
+        <text class="integral item">获得积分：{{serviceInfo.integral}}</text>
+    </view>
     <!-- <view class="login-out" bindtap="handleLoginOut">退出登录</view> -->
 </view>

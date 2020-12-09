@@ -5,8 +5,12 @@ Page({
      * 页面的初始数据
      */
     data: {
-
+        userType: '游客',
+        avatar: '',
+        seiviceInfo: {},
+        assess: 0,
     },
+
 
 
     handleLoginOut () {
@@ -24,7 +28,15 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+        const { assess, order } = app.globalData.serviceInfo
+        // 计算综合评价
+        let num = (assess / order).toFixed(2)
+        this.setData({
+            userType: options.usertype,
+            avatar: app.globalData.avatar,
+            serviceInfo: app.globalData.serviceInfo,
+            assess: num
+        })
     },
 
     /**
