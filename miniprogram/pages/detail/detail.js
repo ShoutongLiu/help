@@ -156,6 +156,7 @@ Page({
                         data: {
                             _id: this.data.item_detail._id,
                             t_openid: this.data.item_detail.t_openid,
+                            f_openid: this.data.item_detail.f_openid,
                             integral: parseInt(this.data.item_detail.price)
                         }
                     }).then(res => {
@@ -168,7 +169,10 @@ Page({
                             return
                         }
                         wx.showToast({
-                            title: '确定已完成'
+                            title: '确定已完成',
+                            success: () => {
+                                wx.navigateBack({ delta: 2 })
+                            }
                         })
                         this.setData({ isFinesh: true })
                     })
@@ -230,7 +234,7 @@ Page({
         const { item } = e.currentTarget.dataset
         const subObj = {
             _id: item._id,
-            openid: item.t_openid,
+            openid: app.globalData.userType === 1 ? item.t_openid : item.f_openid,
             usertype: app.globalData.userType,
             assess: parseInt(this.data.evaPrice),
             comment: this.data.evaValue
@@ -252,9 +256,11 @@ Page({
                 return
             }
             wx.showToast({
-                title: '评价成功'
+                title: '评价成功',
+                success: () => {
+                    wx.navigateBack({ delta: 2 })
+                }
             })
-            wx.navigateBack({ delta: 2 })
             wx.hideLoading()
         })
     },

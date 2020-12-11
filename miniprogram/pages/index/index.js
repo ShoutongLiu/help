@@ -15,6 +15,7 @@ Page({
         ajaxLocation: {},
         area: '',
         sortType: 'near',
+        location: '',
         tabVal: [
             {
                 text: '离我最近',
@@ -55,6 +56,9 @@ Page({
     onShow () {
         app.globalData.isCheck = false
         app.globalData.isIndex = true
+    },
+
+    onLoad () {
         this.authLocation()
     },
 
@@ -164,7 +168,6 @@ Page({
                 const ajaxLocation = { lat: res.latitude, lng: res.longitude }
                 app.globalData.address = res.name
                 this.setData({ address: res.name, ajaxLocation })
-                console.log(this.data.location);
                 this.getDemand()
             }
         })
