@@ -13,7 +13,7 @@ App({
         listType: '',
         realname: '',
         phone: '',
-        serviceInfo: {}
+        serviceInfo: {},
     },
     onLaunch: function () {
         if (!wx.cloud) {

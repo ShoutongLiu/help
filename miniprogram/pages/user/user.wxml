@@ -9,7 +9,7 @@
                 <view>{{nickName}}</view>
                 <view class="user-type">{{userType}}</view>
             </view>
-            <view class="person">
+            <view class="person" wx:if="{{userType !== '游客'}}">
                 <text bindtap="handleToCenter">个人中心</text>
                 <text class="iconfont icon-right"></text>
             </view>

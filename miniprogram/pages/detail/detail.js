@@ -156,6 +156,7 @@ Page({
                         data: {
                             _id: this.data.item_detail._id,
                             t_openid: this.data.item_detail.t_openid,
+                            f_openid: this.data.item_detail.f_openid,
                             integral: parseInt(this.data.item_detail.price)
                         }
                     }).then(res => {
@@ -168,7 +169,10 @@ Page({
                             return
                         }
                         wx.showToast({
-                            title: '确定已完成'
+                            title: '确定已完成',
+                            success: () => {
+                                wx.navigateBack({ delta: 2 })
+                            }
                         })
                         this.setData({ isFinesh: true })
                     })
@@ -226,12 +230,39 @@ Page({
         this.setData({ evaValue: e.detail.value })
     },
     // 提交评价事件
-    handleEvaluate () {
+    handleEvaluate (e) {
+        const { item } = e.currentTarget.dataset
         const subObj = {
-            price: this.data.evaPrice,
-            value: this.data.evaValue
+            _id: item._id,
+            openid: app.globalData.userType === 1 ? item.t_openid : item.f_openid,
+            usertype: app.globalData.userType,
+            assess: parseInt(this.data.evaPrice),
+            comment: this.data.evaValue
         }
-        console.log(subObj)
+        wx.showLoading({
+            title: '提交中',
+        })
+        wx.cloud.callFunction({
+            name: 'commentConfirm',
+            data: subObj
+        }).then(res => {
+            console.log(res);
+            if (res.result.errCode !== 0) {
+                wx.showToast({
+                    title: '评价失败',
+                    icon: 'none'
+                })
+                wx.hideLoading()
+                return
+            }
+            wx.showToast({
+                title: '评价成功',
+                success: () => {
+                    wx.navigateBack({ delta: 2 })
+                }
+            })
+            wx.hideLoading()
+        })
     },
     /**
      * 生命周期函数--监听页面初次渲染完成

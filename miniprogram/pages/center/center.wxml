@@ -6,8 +6,12 @@
         <text class="name item">姓名：{{serviceInfo.realname}}</text>
         <text class="type item">身份：{{userType}}</text>
         <text class="assess item">综合评价：{{assess}}</text>
-        <text class="order item">服务次数：{{serviceInfo.order}}</text>
-        <text class="integral item">获得积分：{{serviceInfo.integral}}</text>
+        <text class="order item">
+            <text>{{userType === '残疾人' ? '被服务次数' : '服务次数'}}：{{serviceInfo.order}}</text>
+        </text>
+        <text class="integral item" wx:if="{{userType === '志愿者'}}">
+            <text>获得积分：{{serviceInfo.integral}}</text>
+        </text>
     </view>
     <!-- <view class="login-out" bindtap="handleLoginOut">退出登录</view> -->
 </view>

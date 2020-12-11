@@ -1,4 +1,4 @@
-<view class="disabled">
+<view class="disabled" wx:if="{{usertype !== 10}}">
     <view class="card-font">
         <view class="img-box">
             <image class="img" src="{{cardFont}}" mode="aspectFill"></image>
@@ -14,4 +14,7 @@
         <button class="upload-btn" bindtap="onChooseBack">上 传</button>
     </view>
     <button class="upload-submit" bindtap="onSubmit">提 交</button>
+</view>
+<view class="isCheck" wx:else>
+    <view class="text">您已申请残疾人认证，请等待后台确认！</view>
 </view>
