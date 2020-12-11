@@ -40,3 +40,18 @@
     margin-top: 60rpx;
     border-radius: 40rpx;
 }
+
+.isCheck {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: #ccc;
+    font-size: 32rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.isCheck .text {
+    margin-top: 200rpx;
+}

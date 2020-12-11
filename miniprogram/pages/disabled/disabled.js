@@ -1,4 +1,4 @@
-
+const app = getApp()
 Page({
 
     /**
@@ -6,7 +6,8 @@ Page({
      */
     data: {
         cardFont: '',
-        cardBack: ''
+        cardBack: '',
+        usertype: 0,
     },
     onChooseFont () {
         wx.chooseImage({
@@ -15,8 +16,7 @@ Page({
             sourceType: ['album', 'camera'],
             success: (res) => {
                 const path = res.tempFilePaths[0]
-                this.setData({ cardFont: path })
-                this.uploadImg(path)
+                this.uploadImg(path, 'cardFont')
             },
             fail: (err) => {
                 console.log(err);
@@ -30,8 +30,7 @@ Page({
             sourceType: ['album', 'camera'],
             success: (res) => {
                 const path = res.tempFilePaths[0]
-                this.setData({ cardBack: path })
-                this.uploadImg(path)
+                this.uploadImg(path, 'cardBack')
             },
             fail: (err) => {
                 console.log(err);
@@ -41,14 +40,15 @@ Page({
 
 
     // 上传函数
-    uploadImg (path) {
+    uploadImg (path, type) {
         let suffix = /\.\w+$/.exec(path)[0]
         // 调用上传云存储函数(异步)
         wx.cloud.uploadFile({
             cloudPath: 'discard/' + Date.now() + '-' + Math.random() * 10000000 + suffix,
             filePath: path,
-            success (res) {
+            success: (res) => {
                 if (res.fileID) {
+                    type === 'cardFont' ? this.setData({ cardFont: res.fileID }) : this.setData({ cardBack: res.fileID })
                     wx.showToast({
                         title: '上传成功',
                     })
@@ -81,7 +81,8 @@ Page({
         wx.cloud.callFunction({
             name: 'addusers',
             data: {
-                usertype: 1
+                usertype: 1,
+                Disability_Photo_ID: [this.data.cardFont, this.data.cardBack]
             }
         }).then(res => {
             console.log(res);
@@ -108,7 +109,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+        this.setData({ usertype: app.globalData.userType })
     },
 
     /**

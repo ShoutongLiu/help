@@ -226,12 +226,37 @@ Page({
         this.setData({ evaValue: e.detail.value })
     },
     // 提交评价事件
-    handleEvaluate () {
+    handleEvaluate (e) {
+        const { item } = e.currentTarget.dataset
         const subObj = {
-            price: this.data.evaPrice,
-            value: this.data.evaValue
+            _id: item._id,
+            openid: item.t_openid,
+            usertype: app.globalData.userType,
+            assess: parseInt(this.data.evaPrice),
+            comment: this.data.evaValue
         }
-        console.log(subObj)
+        wx.showLoading({
+            title: '提交中',
+        })
+        wx.cloud.callFunction({
+            name: 'commentConfirm',
+            data: subObj
+        }).then(res => {
+            console.log(res);
+            if (res.result.errCode !== 0) {
+                wx.showToast({
+                    title: '评价失败',
+                    icon: 'none'
+                })
+                wx.hideLoading()
+                return
+            }
+            wx.showToast({
+                title: '评价成功'
+            })
+            wx.navigateBack({ delta: 2 })
+            wx.hideLoading()
+        })
     },
     /**
      * 生命周期函数--监听页面初次渲染完成

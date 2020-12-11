@@ -70,6 +70,6 @@
         <view class="content">
             <textarea class="text-area" bindinput="bindTextInput" value="{{evaValue}}" placeholder="评价内容" />
         </view>
-        <button class="btn" bindtap="handleEvaluate">提交评价</button>
+        <button class="btn" bindtap="handleEvaluate" data-item="{{item_detail}}">提交评价</button>
     </view>
 </view>
