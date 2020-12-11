@@ -21,7 +21,6 @@ exports.main = async (event, context) => {
         _openid:wxContext.OPENID
       }).update({
         data:{
-          check:1,
           usertype:2,
           assess:0 ,//评价总得分
           completeOrder:0//完成的总共订单数
@@ -34,7 +33,7 @@ exports.main = async (event, context) => {
         _openid:wxContext.OPENID
       }).update({
         data:{
-          usertype:1,
+          usertype:10,  //10 代表申请残疾人，等待审核
           Disability_Photo_ID:event.Disability_Photo_ID, //残疾照片ID
           assess:0,//评价得分
           sendOrder:0 ,//发出的订单数
@@ -53,6 +52,5 @@ exports.main = async (event, context) => {
   return {
     code:context.code,
     errMsg:context.errMsg,
-    
   }
 }

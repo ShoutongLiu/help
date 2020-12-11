@@ -59,7 +59,7 @@ exports.main = async (event, context) => {
         assess = 0
       }
     })
-    //残疾人的话查询他发布的需求的记录
+    //通过审核的残疾人，查询他发布的需求的记录
     if(usertype==1){ 
       //查询待审核的记录
       await MissionCollection.where({

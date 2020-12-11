@@ -29,7 +29,6 @@ exports.main = async (event, context) => {
         phone:event.phone,
         realname:event.realnameInfo.Name,
         integral:0,
-        check:0
       }
     })
   }else{
