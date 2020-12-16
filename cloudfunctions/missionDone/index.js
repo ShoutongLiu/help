@@ -22,6 +22,14 @@ exports.main = async (event, context) => {
   })
   //添加积分和完成的订单数
   await UserCollection.where({
+    _openid:event.f_openid
+  }).update({
+    data:{
+      integral:_.inc(event.integral),
+      sendOrder:_.inc(1)
+    }
+  })
+  await UserCollection.where({
     _openid:event.t_openid
   }).update({
     data:{
@@ -29,6 +37,7 @@ exports.main = async (event, context) => {
       completeOrder:_.inc(1)
     }
   })
+  
   return {
       errcode:0,
       errMsg:'OK'
