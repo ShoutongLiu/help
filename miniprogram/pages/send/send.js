@@ -182,9 +182,10 @@ Page({
                     usertype: app.globalData.userType
                 }
                 console.log(submitObj);
-                const tmplId = '35lJ7F4Ryes7-5lMzrq3gyn6HRGEsRHJCF62jQaSJSA'
+                const tempId1 = '35lJ7F4Ryes7-5lMzrq3gyn6HRGEsRHJCF62jQaSJSA'
+                const tempId2 = 'KTJQz1im9BH9tR7cNbUfSqWROEHEjQ4qBFlMcYFIavg'
                 wx.requestSubscribeMessage({
-                    tmplIds: [tmplId],
+                    tmplIds: [tempId1, tempId2],
                     complete: (res) => {
                         console.log(res);
                         if (res.errMsg === 'requestSubscribeMessage:ok') {

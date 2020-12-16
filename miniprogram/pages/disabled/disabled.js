@@ -74,34 +74,43 @@ Page({
             });
             return
         }
-        wx.showLoading({
-            title: '提交中...',
-            mask: true
-        });
-        wx.cloud.callFunction({
-            name: 'addusers',
-            data: {
-                usertype: 1,
-                Disability_Photo_ID: [this.data.cardFont, this.data.cardBack]
-            }
-        }).then(res => {
-            console.log(res);
-            if (res.result.code === 0) {
-                wx.showModal({
-                    title: '认证成功',
-                    showCancel: false,
-                    success: (res) => {
-                        console.log(res);
-                        if (res.confirm) {
-                            wx.navigateBack()
+        const tmplId = 'KTJQz1im9BH9tR7cNbUfSn9-HJc2djen_dmg9DL0dj0'
+        wx.requestSubscribeMessage({
+            tmplIds: [tmplId],
+            complete: (res) => {
+                console.log(res);
+                if (res.errMsg === 'requestSubscribeMessage:ok') {
+                    wx.showLoading({
+                        title: '提交中...',
+                        mask: true
+                    });
+                    wx.cloud.callFunction({
+                        name: 'addusers',
+                        data: {
+                            usertype: 1,
+                            Disability_Photo_ID: [this.data.cardFont, this.data.cardBack]
                         }
-                    }
-                })
+                    }).then(res => {
+                        console.log(res);
+                        if (res.result.code === 0) {
+                            wx.showModal({
+                                title: '认证成功',
+                                showCancel: false,
+                                success: (res) => {
+                                    console.log(res);
+                                    if (res.confirm) {
+                                        wx.navigateBack()
+                                    }
+                                }
+                            })
+                        }
+                        wx.hideLoading()
+                    }).catch((err) => {
+                        console.log(err);
+                        wx.hideLoading()
+                    })
+                }
             }
-            wx.hideLoading()
-        }).catch((err) => {
-            console.log(err);
-            wx.hideLoading()
         })
     },
 
