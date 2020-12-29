@@ -56,6 +56,7 @@ Page({
     onShow () {
         app.globalData.isCheck = false
         app.globalData.isIndex = true
+        app.globalData.listType = ''
     },
 
     onLoad () {
